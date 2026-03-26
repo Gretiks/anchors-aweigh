@@ -2,15 +2,15 @@ using UnityEngine;
 
 public abstract class BaseShip : MonoBehaviour
 {
-    [SerializerField] protected int hitPoints;
-    [SerializerField] protected string shipType;
-    [SerializerField] protected int maxCrew;
+    [SerializeField] protected int hitPoints;
+    [SerializeField] protected string shipType;
+    [SerializeField] protected int maxCrew;
 
-    public virtual void TakeDamage(int damage Amount)
+    public virtual void TakeDamage(int damage)
     {
         hitPoints -= damage;
         if (hitPoints <= 0)
-            DestroyShip()
+            DestroyShip();
     }
     
     protected abstract void DestroyShip();
