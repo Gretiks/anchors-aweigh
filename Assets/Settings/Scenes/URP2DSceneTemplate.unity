@@ -148,9 +148,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03f50962579fbbc4d8854a8336ba6290, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gridManager
-  _width: 16
-  _height: 9
-  _tilePrefab: {fileID: 3206744497458938649, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}
+  _width: 32
+  _height: 18
+  _shipTile: {fileID: 2814259357897113077, guid: 9e066bfe6107e71499c4f52c36fcf9f2, type: 3}
+  _seaTile: {fileID: -7162524208040843784, guid: de425b59c213ff54ca8bd1145bcb731e, type: 3}
   _camera: {fileID: 519420032}
 --- !u!4 &326744938
 Transform:
@@ -273,7 +274,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
