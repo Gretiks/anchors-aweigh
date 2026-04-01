@@ -77,10 +77,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dbb748bfa4599a46a43b84f5ea38076, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyShipTile
+  tileName: Enemy Ship
   _baseColor: {r: 0.5450981, g: 0.2705882, b: 0.07450981, a: 1}
   _offsetColor: {r: 0.4433962, g: 0.24324048, b: 0.0983001, a: 1}
   _spriteRenderer: {fileID: 6101051956130621970}
   _highlight: {fileID: 2380607679281290723}
+  _isWalkable: 1
+  OccupiedUnit: {fileID: 0}
 --- !u!1 &2380607679281290723 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7545888981002538487, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}

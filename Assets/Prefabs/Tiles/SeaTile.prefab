@@ -89,10 +89,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a76d15efc5b62940a75b2affa6db38f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SeaTile
+  tileName: Sea
   _baseColor: {r: 0.2509804, g: 0.8784314, b: 0.8156863, a: 1}
   _offsetColor: {r: 0.2509804, g: 0.8784314, b: 0.8156863, a: 1}
   _spriteRenderer: {fileID: 6032330952676151659}
   _highlight: {fileID: 2744365036417181338}
+  _isWalkable: 0
+  OccupiedUnit: {fileID: 0}
 --- !u!1 &2744365036417181338 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7545888981002538487, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}

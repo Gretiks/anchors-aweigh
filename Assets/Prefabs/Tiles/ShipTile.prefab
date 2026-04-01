@@ -82,10 +82,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4cd76550fe79ca40936add11a344f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipTile
+  tileName: User Ship
   _baseColor: {r: 0.627451, g: 0.3215686, b: 0.1764706, a: 1}
   _offsetColor: {r: 0.5283019, g: 0.26631787, b: 0.14204343, a: 1}
   _spriteRenderer: {fileID: 9180215633068925238}
   _highlight: {fileID: 775878098514171591}
+  _isWalkable: 1
+  OccupiedUnit: {fileID: 0}
 --- !u!212 &9180215633068925238 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 2097189184942782982, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}
