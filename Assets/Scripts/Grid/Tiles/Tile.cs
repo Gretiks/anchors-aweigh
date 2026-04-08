@@ -14,7 +14,7 @@ public class Tile : MonoBehaviour
     public BaseUnit OccupiedUnit;
     public bool Walkable => _isWalkable && OccupiedUnit == null;
     
-    public void Innit(bool isOffset) { 
+    public void Init(bool isOffset) { 
         _spriteRenderer.color = isOffset ? _offsetColor : _baseColor;
     }
 

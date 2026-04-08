@@ -5,70 +5,64 @@ using System.Linq;
 
 namespace Grid
 {
-    
+
     public class GridManager : MonoBehaviour
     {
         public static GridManager Instance;
-        
+
         [SerializeField] private int _width, _height;
         [SerializeField] private Tile _shipTile, _seaTile, _enemyShipTile;
         [SerializeField] private Transform _camera;
 
-        // private Dictionary<Vector2,Tile> _tiles;
-        private Dictionary<Vector2, Tile> _playerShipTiles;
-        private Dictionary<Vector2, Tile> _enemyShipTiles;
-    
+        private Dictionary<Vector2, Tile> _tiles;
+
         void Awake()
         {
             Instance = this;
         }
-    
+
         public void GenerateGrid()
         {
-            // _tiles = new Dictionary<Vector2, Tile>();
+            _tiles = new Dictionary<Vector2, Tile>();
+
             for (int x = 0; x < _width; x++)
             {
                 for (int y = 0; y < _height; y++)
                 {
-                    bool isShip = IsShipTile(x, y);
-                    Tile GetTile(int x, int y)
-                    {
-                        if (IsShipTile(x, y))
-                        {
-                            _playerShipTiles[new Vector2(x, y)] = GetTile(x, y);
-                            return _shipTile;
-                        }
-                        if (IsEnemyShipTile(x, y)) return _enemyShipTile;
-                        {
-                            _enemyShipTiles[new Vector2(x, y)] = GetTile(x, y);
-                            return _seaTile;
-                        }
-                    }
-                    var spawnedTile = Instantiate(GetTile(x, y), new Vector3(x, y), Quaternion.identity);
+                    Tile prefab;
+                    if (IsShipTile(x, y)) prefab = _shipTile;
+                    else if (IsEnemyShipTile(x, y)) prefab = _enemyShipTile;
+                    else prefab = _seaTile;
+
+                    var spawnedTile = Instantiate(prefab, new Vector3(x, y), Quaternion.identity);
                     spawnedTile.name = $"Tile {x} {y}";
-                    // _tiles[new Vector2(x, y)] = spawnedTile;
-                    
+                    _tiles[new Vector2(x, y)] = spawnedTile;
+
                     var isOffset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0);
-                    spawnedTile.Innit(isOffset);
+                    spawnedTile.Init(isOffset);
                 }
             }
-            _camera.transform.position = new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -10);
 
+            _camera.transform.position = new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -10);
             GameManager.Instance.ChangeState(GameState.SpawnUserCrew);
         }
 
         public Tile GetHeroSpawnTile()
         {
-            // return _playerShipTiles.Where(t => t.Key.x < _width /2 ).OrderBy(t => Random.value).First().Value;
-            return _playerShipTiles.OrderBy(t => Random.value).First().Value;
+            return _tiles
+                .Where(t => IsShipTile((int)t.Key.x, (int)t.Key.y))
+                .OrderBy(_ => Random.value)
+                .First().Value;
         }
-        
+
         public Tile GetEnemySpawnTile()
         {
-            // return _tiles.Where(t => t.Key.x < _width / 2 ).OrderBy(t => Random.value).First().Value;
-            return _enemyShipTiles.OrderBy(t => Random.value).First().Value;
+            return _tiles
+                .Where(t => IsEnemyShipTile((int)t.Key.x, (int)t.Key.y))
+                .OrderBy(_ => Random.value)
+                .First().Value;
         }
-    
+
         bool IsShipTile(int x, int y)
         {
             float centerX = 5f;
