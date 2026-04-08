@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Core;
 using Grid;
+using Random = UnityEngine.Random;
 
 public class UnitManager : MonoBehaviour
 {
@@ -18,6 +20,7 @@ public class UnitManager : MonoBehaviour
         Instance = this;
 
         _units = Resources.LoadAll<ScriptableUnit>("Units").ToList();
+        // Console.WriteLine(_units.Count);
     }
 
     public void SpawnUnits()

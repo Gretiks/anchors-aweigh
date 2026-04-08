@@ -9,10 +9,14 @@ namespace Grid
     public class GridManager : MonoBehaviour
     {
         public static GridManager Instance;
+        
         [SerializeField] private int _width, _height;
         [SerializeField] private Tile _shipTile, _seaTile, _enemyShipTile;
         [SerializeField] private Transform _camera;
-        private Dictionary<Vector2,Tile> _tiles;
+
+        // private Dictionary<Vector2,Tile> _tiles;
+        private Dictionary<Vector2, Tile> _playerShipTiles;
+        private Dictionary<Vector2, Tile> _enemyShipTiles;
     
         void Awake()
         {
@@ -21,7 +25,7 @@ namespace Grid
     
         public void GenerateGrid()
         {
-            _tiles = new Dictionary<Vector2, Tile>();
+            // _tiles = new Dictionary<Vector2, Tile>();
             for (int x = 0; x < _width; x++)
             {
                 for (int y = 0; y < _height; y++)
@@ -29,13 +33,20 @@ namespace Grid
                     bool isShip = IsShipTile(x, y);
                     Tile GetTile(int x, int y)
                     {
-                        if (IsShipTile(x, y)) return _shipTile;
+                        if (IsShipTile(x, y))
+                        {
+                            _playerShipTiles[new Vector2(x, y)] = GetTile(x, y);
+                            return _shipTile;
+                        }
                         if (IsEnemyShipTile(x, y)) return _enemyShipTile;
-                        return _seaTile;
+                        {
+                            _enemyShipTiles[new Vector2(x, y)] = GetTile(x, y);
+                            return _seaTile;
+                        }
                     }
                     var spawnedTile = Instantiate(GetTile(x, y), new Vector3(x, y), Quaternion.identity);
                     spawnedTile.name = $"Tile {x} {y}";
-                    _tiles[new Vector2(x, y)] = spawnedTile;
+                    // _tiles[new Vector2(x, y)] = spawnedTile;
                     
                     var isOffset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0);
                     spawnedTile.Innit(isOffset);
@@ -48,12 +59,14 @@ namespace Grid
 
         public Tile GetHeroSpawnTile()
         {
-            return _tiles.Where(t => t.Key.x < _width / 2 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
+            // return _playerShipTiles.Where(t => t.Key.x < _width /2 ).OrderBy(t => Random.value).First().Value;
+            return _playerShipTiles.OrderBy(t => Random.value).First().Value;
         }
         
         public Tile GetEnemySpawnTile()
         {
-            return _tiles.Where(t => t.Key.x < _width / 2 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
+            // return _tiles.Where(t => t.Key.x < _width / 2 ).OrderBy(t => Random.value).First().Value;
+            return _enemyShipTiles.OrderBy(t => Random.value).First().Value;
         }
     
         bool IsShipTile(int x, int y)
