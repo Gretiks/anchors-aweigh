@@ -25,7 +25,7 @@ public class UnitManager : MonoBehaviour
 
     public void SpawnUnits()
     {
-        var heroCount = 1;
+        var heroCount = 3;
 
         for (int i = 0; i < heroCount; i++)
         {
@@ -45,7 +45,7 @@ public class UnitManager : MonoBehaviour
     
     public void SpawnEnemy()
     {
-        var enemyCount = 1;
+        var enemyCount = 3;
 
         for (int i = 0; i < enemyCount; i++)
         {

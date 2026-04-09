@@ -5,4 +5,5 @@ public class BaseUnit : MonoBehaviour
     public Tile OccupiedTile;
     public Faction Faction;
     public string unitName;
+    private int unitMovement;
 }

@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7345621388717563332}
   - component: {fileID: 3287465405376733333}
-  - component: {fileID: 3481982140209179709}
+  - component: {fileID: -1619822397202273763}
   m_Layer: 0
-  m_Name: hero_0
+  m_Name: hero_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,7 +92,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &3481982140209179709
+--- !u!114 &-1619822397202273763
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,9 +101,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 237266474935092252}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d24527638ff2c6146b2a241aba0892cf, type: 3}
+  m_Script: {fileID: 11500000, guid: 096e13f6a6906ff4fb78e2f7bea284c4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Hero1
+  m_EditorClassIdentifier: Assembly-CSharp::Hero3
   OccupiedTile: {fileID: 0}
   Faction: 0
-  unitName: Hero1
+  unitName: Hero3

@@ -106,4 +106,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   OccupiedTile: {fileID: 0}
   Faction: 1
-  unitName: Enemy
+  unitName: Enemy1

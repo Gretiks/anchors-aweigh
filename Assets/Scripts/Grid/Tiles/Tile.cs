@@ -50,7 +50,7 @@ public class Tile : MonoBehaviour
         }
         else
         {
-            if (UnitManager.Instance.SelectedHero != null)
+            if (UnitManager.Instance.SelectedHero != null && Walkable)
             {
                 SetUnit(UnitManager.Instance.SelectedHero);
                 UnitManager.Instance.SetSelectedHero(null);
