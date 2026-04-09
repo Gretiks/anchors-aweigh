@@ -8,7 +8,7 @@ public class Tile : MonoBehaviour
     [SerializeField] private Color _baseColor, _offsetColor;
     [SerializeField] protected SpriteRenderer _spriteRenderer;
     [SerializeField] private GameObject _highlight;
-
+    [SerializeField] private GameObject _rangeHighlight;
     [SerializeField] private bool _isWalkable;
 
     public BaseUnit OccupiedUnit;
@@ -16,6 +16,11 @@ public class Tile : MonoBehaviour
     
     public void Init(bool isOffset) { 
         _spriteRenderer.color = isOffset ? _offsetColor : _baseColor;
+    }
+
+    public void SetRangeHighlight(bool active)
+    {
+        _rangeHighlight.SetActive(active);
     }
 
     private void OnMouseEnter()
@@ -42,7 +47,7 @@ public class Tile : MonoBehaviour
                 if (UnitManager.Instance.SelectedHero != null)
                 {
                     var enemy = (BaseEnemy)OccupiedUnit;
-                    //atakowanie
+                    //attack
                     Destroy(enemy.gameObject);
                     UnitManager.Instance.SetSelectedHero(null);
                 }
@@ -50,10 +55,16 @@ public class Tile : MonoBehaviour
         }
         else
         {
+            //movement
             if (UnitManager.Instance.SelectedHero != null && Walkable)
             {
-                SetUnit(UnitManager.Instance.SelectedHero);
-                UnitManager.Instance.SetSelectedHero(null);
+                var hero = UnitManager.Instance.SelectedHero;
+                if (IsWithinMoveRange(hero))
+                {
+
+                    SetUnit(UnitManager.Instance.SelectedHero);
+                    UnitManager.Instance.SetSelectedHero(null);
+                }
             }
         }
     }
@@ -64,5 +75,18 @@ public class Tile : MonoBehaviour
         unit.transform.position = transform.position;
         OccupiedUnit = unit;
         unit.OccupiedTile = this;
+    }
+
+    private bool IsWithinMoveRange(BaseUnit unit)
+    {
+        if (unit.OccupiedTile == null) return true;
+
+        var from = unit.OccupiedTile.transform.position;
+        var to = transform.position;
+
+        // Manhattan distance
+        int dist = Mathf.RoundToInt(Mathf.Abs(from.x - to.x) + Mathf.Abs(from.y - to.y));
+
+        return dist <= unit.UnitMovement;
     }
 }

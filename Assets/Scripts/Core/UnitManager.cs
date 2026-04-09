@@ -71,6 +71,10 @@ public class UnitManager : MonoBehaviour
     {
         SelectedHero = hero;
         MenuManager.Instance.ShowSelectedHero(hero);
+        if (hero != null)
+            GridManager.Instance.ShowRangeHighlights(hero);
+        else
+            GridManager.Instance.ClearRangeHighlights();
     }
     
 }

@@ -107,3 +107,4 @@ MonoBehaviour:
   OccupiedTile: {fileID: 0}
   Faction: 0
   unitName: Hero1
+  UnitMovement: 2
