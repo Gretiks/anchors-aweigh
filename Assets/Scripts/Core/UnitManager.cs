@@ -22,7 +22,6 @@ public class UnitManager : MonoBehaviour
         Instance = this;
 
         _units = Resources.LoadAll<ScriptableUnit>("Units").ToList();
-        // Console.WriteLine(_units.Count);
     }
 
     public void SpawnUnits()

@@ -59,11 +59,14 @@ public class Tile : MonoBehaviour
             if (UnitManager.Instance.SelectedHero != null && Walkable)
             {
                 var hero = UnitManager.Instance.SelectedHero;
-                if (IsWithinMoveRange(hero))
+                var dist =  CalculateDistance(hero);
+                
+                if (IsWithinMoveRange(hero, dist))
                 {
-
+                    hero.UnitMovement -= dist;
                     SetUnit(UnitManager.Instance.SelectedHero);
                     UnitManager.Instance.SetSelectedHero(null);
+                    MenuManager.Instance.RefreshHeroList(UnitManager.Instance._heroes);
                 }
             }
         }
@@ -77,15 +80,24 @@ public class Tile : MonoBehaviour
         unit.OccupiedTile = this;
     }
 
-    private bool IsWithinMoveRange(BaseUnit unit)
+    private int CalculateDistance(BaseUnit unit)
     {
-        if (unit.OccupiedTile == null) return true;
 
         var from = unit.OccupiedTile.transform.position;
         var to = transform.position;
 
-        // Manhattan distance
-        int dist = Mathf.RoundToInt(Mathf.Abs(from.x - to.x) + Mathf.Abs(from.y - to.y));
+        return Mathf.RoundToInt(Mathf.Abs(from.x - to.x) + Mathf.Abs(from.y - to.y));
+    }
+    
+    private bool IsWithinMoveRange(BaseUnit unit, int dist)
+    {
+        if (unit.OccupiedTile == null) return true;
+
+        // var from = unit.OccupiedTile.transform.position;
+        // var to = transform.position;
+        //
+        // // Manhattan distance
+        // int dist = Mathf.RoundToInt(Mathf.Abs(from.x - to.x) + Mathf.Abs(from.y - to.y));
 
         return dist <= unit.UnitMovement;
     }
