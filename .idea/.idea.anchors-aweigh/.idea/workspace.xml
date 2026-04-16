@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="050334fe-9e73-4652-a9e3-4724d5bcbb39" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.anchors-aweigh/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.anchors-aweigh/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ships/BaseShip.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ships/BaseShip.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,7 +47,7 @@
 }</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.4.0f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="D:\Unity\6000.4.0f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath D:\anchors-aweigh -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="D:\anchors-aweigh" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -56,7 +57,7 @@
       <method v="2" />
     </configuration>
     <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.4.0f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="D:\Unity\6000.4.0f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath D:\anchors-aweigh -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="D:\anchors-aweigh" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -95,6 +96,7 @@
       <workItem from="1775054457403" duration="650000" />
       <workItem from="1775056263120" duration="235000" />
       <workItem from="1775057129384" duration="82000" />
+      <workItem from="1776325075840" duration="1154000" />
     </task>
     <servers />
   </component>
