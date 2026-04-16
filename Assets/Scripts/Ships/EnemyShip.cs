@@ -4,9 +4,9 @@ public class EnemyShip : BaseShip
 {
 	public EnemyShip()
 	{
-		public void override DestroyShip()
-		{
-			
-		}
+	}
+	protected override void DestroyShip()
+	{
+		
 	}
 }
