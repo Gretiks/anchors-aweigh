@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShipTile
       objectReference: {fileID: 0}
+    - target: {fileID: 8242827799584514892, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}
+      propertyPath: m_Color.a
+      value: 0.30980393
+      objectReference: {fileID: 0}
     - target: {fileID: 8543934741032431021, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -87,8 +91,14 @@ MonoBehaviour:
   _offsetColor: {r: 0.5283019, g: 0.26631787, b: 0.14204343, a: 1}
   _spriteRenderer: {fileID: 9180215633068925238}
   _highlight: {fileID: 775878098514171591}
+  _rangeHighlight: {fileID: 8618978882733625644}
   _isWalkable: 1
   OccupiedUnit: {fileID: 0}
+--- !u!1 &8618978882733625644 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1576498092460460572, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}
+  m_PrefabInstance: {fileID: 7096576840206228272}
+  m_PrefabAsset: {fileID: 0}
 --- !u!212 &9180215633068925238 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 2097189184942782982, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}

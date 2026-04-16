@@ -82,6 +82,7 @@ MonoBehaviour:
   _offsetColor: {r: 0.4433962, g: 0.24324048, b: 0.0983001, a: 1}
   _spriteRenderer: {fileID: 6101051956130621970}
   _highlight: {fileID: 2380607679281290723}
+  _rangeHighlight: {fileID: 6652138496024631816}
   _isWalkable: 1
   OccupiedUnit: {fileID: 0}
 --- !u!1 &2380607679281290723 stripped
@@ -92,5 +93,10 @@ GameObject:
 --- !u!212 &6101051956130621970 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 2097189184942782982, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}
+  m_PrefabInstance: {fileID: 5310302641997221908}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6652138496024631816 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1576498092460460572, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}
   m_PrefabInstance: {fileID: 5310302641997221908}
   m_PrefabAsset: {fileID: 0}

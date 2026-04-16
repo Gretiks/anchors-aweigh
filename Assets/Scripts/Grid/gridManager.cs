@@ -130,5 +130,31 @@ namespace Grid
                 return Mathf.Abs(x - centerX) <= sternHalfWidth;
             }
         }
+
+        public void ShowRangeHighlights(BaseUnit unit)
+        {
+            foreach (var tile in _tiles.Values)
+            {
+                bool inRange = unit.OccupiedTile != null
+                    && IsWithinRange(unit.OccupiedTile, tile, unit.UnitMovement)
+                    && tile.Walkable;
+                tile.SetRangeHighlight(inRange);
+            }
+        }
+
+        public void ClearRangeHighlights()
+        {
+            foreach (var tile in _tiles.Values)
+                tile.SetRangeHighlight(false);
+        }
+
+        private bool IsWithinRange(Tile from, Tile to, int range)
+        {
+            var a = from.transform.position;
+            var b = to.transform.position;
+            int dist = Mathf.RoundToInt(Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y));
+            return dist <= range && dist > 0;
+        }
+
     }
 }

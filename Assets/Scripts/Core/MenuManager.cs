@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,6 +6,9 @@ public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance;
     [SerializeField] private GameObject _selectedHeroObject, _tileObject, _tileUnitObject;
+    [SerializeField] private Transform _heroListContainer;
+    [SerializeField] private GameObject _heroPanelPrefab;
+
 
     void Awake()
     {
@@ -39,5 +43,20 @@ public class MenuManager : MonoBehaviour
 
         _selectedHeroObject.GetComponentInChildren<Text>().text = hero.unitName;
         _selectedHeroObject.SetActive(true);
+    }
+
+    public void RefreshHeroList(List<BaseHero> heroes)
+    {
+        // Clear old cards
+        foreach (Transform child in _heroListContainer)
+            Destroy(child.gameObject);
+
+        foreach (var hero in heroes)
+        {
+            var card = Instantiate(_heroPanelPrefab, _heroListContainer);
+            var texts = card.GetComponentsInChildren<Text>();
+            texts[0].text = hero.unitName;
+            texts[1].text = $"Move: {hero.UnitMovement}";
+        }
     }
 }

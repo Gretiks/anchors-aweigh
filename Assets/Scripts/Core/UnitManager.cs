@@ -13,6 +13,8 @@ public class UnitManager : MonoBehaviour
     private List<ScriptableUnit> _units;
 
     public BaseHero SelectedHero;
+
+    public List<BaseHero> _heroes;
     
 
     void Awake()
@@ -20,7 +22,6 @@ public class UnitManager : MonoBehaviour
         Instance = this;
 
         _units = Resources.LoadAll<ScriptableUnit>("Units").ToList();
-        // Console.WriteLine(_units.Count);
     }
 
     public void SpawnUnits()
@@ -38,7 +39,11 @@ public class UnitManager : MonoBehaviour
             spawnedHero.OccupiedTile = randomSpawnTile;
 
             randomSpawnTile.SetUnit(spawnedHero);
+
+            _heroes.Add(spawnedHero);
         }
+
+        MenuManager.Instance.RefreshHeroList(_heroes);
 
         GameManager.Instance.ChangeState(GameState.SpawnEnemyCrew);
     }
@@ -71,6 +76,10 @@ public class UnitManager : MonoBehaviour
     {
         SelectedHero = hero;
         MenuManager.Instance.ShowSelectedHero(hero);
+        if (hero != null)
+            GridManager.Instance.ShowRangeHighlights(hero);
+        else
+            GridManager.Instance.ClearRangeHighlights();
     }
     
 }
