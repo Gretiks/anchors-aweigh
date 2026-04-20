@@ -1079,10 +1079,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuManager
   _selectedHeroObject: {fileID: 676825910}
+  _selectedShipObject: {fileID: 0}
   _tileObject: {fileID: 1645178920}
   _tileUnitObject: {fileID: 99451608}
   _heroListContainer: {fileID: 1366062435}
   _heroPanelPrefab: {fileID: 6421478183315993141, guid: eb2c386f6aca6364eaf9a1541390a241, type: 3}
+  _shipPanelPrefab: {fileID: 2018133755443602499, guid: 6e2a144c52b6d444cb1e9ac39672a534, type: 3}
 --- !u!4 &1824858205
 Transform:
   m_ObjectHideFlags: 0

@@ -30,9 +30,11 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.SpawnUserCrew:
                 UnitManager.Instance.SpawnUnits();
+                ShipManager.Instance.InitiatePlayerShip();
                 break;
             case GameState.SpawnEnemyCrew:
                 UnitManager.Instance.SpawnEnemy();
+                ShipManager.Instance.InitiateEnemyShip();
                 break;
             case GameState.UserTurn:
                 break;
