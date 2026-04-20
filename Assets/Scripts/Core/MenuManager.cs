@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject _selectedHeroObject, _selectedShipObject, _tileObject, _tileUnitObject;
     [SerializeField] private Transform _heroListContainer;
     [SerializeField] private GameObject _heroPanelPrefab, _shipPanelPrefab;
+
+    [SerializeField] private TextMeshProUGUI hpText;
 
 
     void Awake()
@@ -68,7 +71,7 @@ public class MenuManager : MonoBehaviour
             return;
         }
         
-        _selectedShipObject.GetComponentInChildren<Text>().text = ship.hitPoints.ToString();
+        _selectedShipObject.GetComponentInChildren<Text>().text = ship.currentHealth.ToString();
         _selectedShipObject.SetActive(true);
     }
 
@@ -78,6 +81,12 @@ public class MenuManager : MonoBehaviour
 
         var card = Instantiate(_shipPanelPrefab);
         var texts = card.GetComponentsInChildren<Text>();
-        texts[0].text = ship.hitPoints.ToString();
+        texts[0].text = ship.currentHealth.ToString();
+    }
+
+    public void ShowShipStats(string name, float current, float max)
+    {
+        _shipPanelPrefab.SetActive(true);
+        hpText.text = $"{name} HP: {current}/{max}";
     }
 }

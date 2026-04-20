@@ -2,19 +2,16 @@
 
 public class EnemyShip : BaseShip
 {
-	public EnemyShip()
+	// Start is called once before the first execution of Update after the MonoBehaviour is created
+	void Start()
 	{
-		this.hitPoints = 100;
+
 	}
-	
-	public override void TakeDamage(int damage)
+
+	// Update is called once per frame
+	void Update()
 	{
-		this.hitPoints -= damage;
-		MenuManager.Instance.RefreshShipHealth(this);
-	}
-	
-	protected override void DestroyShip()
-	{
-		
+
 	}
 }
+	
