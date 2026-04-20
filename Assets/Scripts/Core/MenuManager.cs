@@ -18,7 +18,7 @@ public class MenuManager : MonoBehaviour
     {
         Instance = this;
     }
-
+    
     public void ShowTileInfo(Tile tile)
     {
         if (tile == null)
