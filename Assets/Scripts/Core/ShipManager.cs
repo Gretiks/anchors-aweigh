@@ -8,7 +8,12 @@ namespace Core
     {
         public static ShipManager Instance;
         private List<BaseShip> _ships;
-        public BaseShip SelectedShip;
+        
+        public PlayerShip playerShip;
+        public EnemyShip enemyShip;
+        
+        [SerializeField] private PlayerShip playerShipPrefab;
+        [SerializeField] private EnemyShip enemyShipPrefab;
         
         
         
@@ -20,16 +25,14 @@ namespace Core
 
         public void InitiatePlayerShip()
         {
-            var playerShip = Instantiate(new PlayerShip());
-            
-            MenuManager.Instance.RefreshShipHealth(playerShip);
+            playerShip = Instantiate(playerShipPrefab);
+            playerShip.ShipName = "Player";
         }
 
         public void InitiateEnemyShip()
         {
-            var enemyShip = Instantiate(new EnemyShip());
-            
-            MenuManager.Instance.RefreshShipHealth(enemyShip);
+            enemyShip = Instantiate(enemyShipPrefab);
+            enemyShip.ShipName = "Enemy";
         }
         
         

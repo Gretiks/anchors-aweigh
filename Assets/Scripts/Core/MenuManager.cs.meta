@@ -9,9 +9,10 @@ MonoImporter:
   - _tileObject: {instanceID: 0}
   - _tileUnitObject: {instanceID: 0}
   - _heroListContainer: {instanceID: 0}
-  - _heroPanelPrefab: {instanceID: 0}
+  - _heroPanelPrefab: {fileID: 6421478183315993141, guid: eb2c386f6aca6364eaf9a1541390a241, type: 3}
   - _shipPanelPrefab: {fileID: 2018133755443602499, guid: 6e2a144c52b6d444cb1e9ac39672a534, type: 3}
-  - hpText: {instanceID: 0}
+  - playerHpText: {instanceID: 0}
+  - enemyHpText: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

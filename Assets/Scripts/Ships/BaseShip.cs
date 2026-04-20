@@ -15,6 +15,11 @@ public abstract class BaseShip : MonoBehaviour
         currentHealth = maxHealth;
     }
 
+    private void Start()
+    {
+        UpdateShipUI();
+    }
+
     public void TakeDamange(float amount)
     {
         currentHealth -= amount;

@@ -10,7 +10,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Transform _heroListContainer;
     [SerializeField] private GameObject _heroPanelPrefab, _shipPanelPrefab;
 
-    [SerializeField] private TextMeshProUGUI hpText;
+    [SerializeField] private Text playerHpText;
+    [SerializeField] private Text enemyHpText;
 
 
     void Awake()
@@ -74,19 +75,12 @@ public class MenuManager : MonoBehaviour
         _selectedShipObject.GetComponentInChildren<Text>().text = ship.currentHealth.ToString();
         _selectedShipObject.SetActive(true);
     }
-
-    public void RefreshShipHealth(BaseShip ship)
-    {
-        Destroy(ship.gameObject);
-
-        var card = Instantiate(_shipPanelPrefab);
-        var texts = card.GetComponentsInChildren<Text>();
-        texts[0].text = ship.currentHealth.ToString();
-    }
-
+    
     public void ShowShipStats(string name, float current, float max)
     {
-        _shipPanelPrefab.SetActive(true);
-        hpText.text = $"{name} HP: {current}/{max}";
+        if (name == "Player")
+            playerHpText.text = $"Player HP: {current}/{max}";
+        else
+            enemyHpText.text = $"Enemy HP: {current}/{max}";
     }
 }
