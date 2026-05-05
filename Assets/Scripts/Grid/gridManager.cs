@@ -13,6 +13,7 @@ namespace Grid
         [SerializeField] private int _width, _height;
         [SerializeField] private Tile _shipTile, _seaTile, _enemyShipTile;
         [SerializeField] private Transform _camera;
+        [SerializeField] private Tile _cannonPlayerTile, _cannonEnemyTile;
 
         private Dictionary<Vector2, Tile> _tiles;
 
@@ -30,7 +31,9 @@ namespace Grid
                 for (int y = 0; y < _height; y++)
                 {
                     Tile prefab;
-                    if (IsShipTile(x, y)) prefab = _shipTile;
+                    if (IsCannonTile(x, y, out bool isEnemy))
+                        prefab = isEnemy ? _cannonEnemyTile : _cannonPlayerTile;
+                    else if (IsShipTile(x, y)) prefab = _shipTile;
                     else if (IsEnemyShipTile(x, y)) prefab = _enemyShipTile;
                     else prefab = _seaTile;
 
@@ -61,6 +64,32 @@ namespace Grid
                 .Where(t => IsEnemyShipTile((int)t.Key.x, (int)t.Key.y))
                 .OrderBy(_ => Random.value)
                 .First().Value;
+        }
+
+        public List<Tile> GetNeighbors(Tile tile)
+        {
+            var neighbors = new List<Tile>();
+            var pos = tile.transform.position;
+
+            Vector2[] directions = {Vector2.up, Vector2.down, Vector2.left, Vector2.right};
+
+            foreach (var dir in directions)
+            {
+                var key = new Vector2(pos.x + dir.x, pos.y + dir.y);
+                if (_tiles.TryGetValue(key, out var neighbor))
+                    neighbors.Add(neighbor);
+            }
+
+            return neighbors;
+        }
+
+        private bool IsCannonTile(int x, int y, out bool isEnemy)
+        {
+            if (x == 8 && y == 7) { isEnemy = false; return true; }
+            if (x == 23 && y == 7) { isEnemy = true; return true; }
+
+            isEnemy = false;
+            return false;
         }
 
         bool IsShipTile(int x, int y)

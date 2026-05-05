@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static CannonTile;
 
 public class MenuManager : MonoBehaviour
 {
@@ -13,6 +14,11 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Text playerHpText;
     [SerializeField] private Text enemyHpText;
 
+    [SerializeField] private GameObject _cannonMenuObject;
+    [SerializeField] private Text _cannonDescText, _cannonCrewText;
+    [SerializeField] private Button _cannonFireButton;
+
+    private CannonTile _currentCannon;
 
     void Awake()
     {
@@ -83,4 +89,29 @@ public class MenuManager : MonoBehaviour
         else
             enemyHpText.text = $"Enemy HP: {current}/{max}";
     }
+
+    public void ShowCannonMenu(CannonTile cannon)
+    {
+        _currentCannon = cannon;
+        _cannonDescText.text = cannon.cannonDescription;
+        _cannonCrewText.text = $"Crew: {cannon.CurrentCrew} / {cannon.requiredCrew}";
+        _cannonFireButton.interactable = cannon.CurrentCrew >= cannon.requiredCrew;
+        _cannonMenuObject.SetActive(true);
+    }
+
+    public void HideCannonMenu()
+    {
+        _currentCannon = null;
+        _cannonMenuObject.SetActive(false);
+    }
+
+    public void OnCannonFirePressed()
+    {
+        if (_currentCannon == null) return;
+        _currentCannon.Fire();
+        HideCannonMenu();
+    }
+
 }
+
+

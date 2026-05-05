@@ -35,8 +35,9 @@ public class Tile : MonoBehaviour
         MenuManager.Instance.ShowTileInfo(null);
     }
 
-    private void OnMouseDown()
+    protected virtual void OnMouseDown()
     {
+        MenuManager.Instance.HideCannonMenu();
         if (GameManager.Instance.GameState != GameState.UserTurn) return;
 
         if (OccupiedUnit != null)
