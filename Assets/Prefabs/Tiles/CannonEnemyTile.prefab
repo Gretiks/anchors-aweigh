@@ -85,6 +85,8 @@ MonoBehaviour:
   tileName: EnemyCannon
   _baseColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
   _offsetColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
+  _baseSprite: {fileID: 6374621316658810360, guid: 1b89a8729d95ae34faf1216cafc4def0, type: 3}
+  _offsetSprite: {fileID: 2349456391490285810, guid: 2eadbff78ec6f1d449cf6459e2223cbb, type: 3}
   _spriteRenderer: {fileID: 8798287990020022857}
   _highlight: {fileID: 1133526327476114872}
   _rangeHighlight: {fileID: 8278639303452217939}

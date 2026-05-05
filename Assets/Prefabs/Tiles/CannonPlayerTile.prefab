@@ -80,11 +80,17 @@ MonoBehaviour:
   tileName: UserCannon
   _baseColor: {r: 0.4, g: 0.4, b: 0.4, a: 1}
   _offsetColor: {r: 0.4, g: 0.4, b: 0.4, a: 1}
+  _baseSprite: {fileID: -664002214083075160, guid: 1d94025011d003d48ba6adcab5ae0eaa, type: 3}
+  _offsetSprite: {fileID: 1493865017386403713, guid: 35d8080fbd50c2f4a9eae338551ab0d3, type: 3}
   _spriteRenderer: {fileID: 6012037902082806939}
   _highlight: {fileID: 2796129407795356522}
   _rangeHighlight: {fileID: 6599288874062931073}
   _isWalkable: 0
   OccupiedUnit: {fileID: 0}
+  owner: 0
+  requiredCrew: 2
+  damage: 20
+  cannonDescription: Standard cannon
 --- !u!1 &2796129407795356522 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7545888981002538487, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}

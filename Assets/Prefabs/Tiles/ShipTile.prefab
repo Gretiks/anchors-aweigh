@@ -89,6 +89,8 @@ MonoBehaviour:
   tileName: User Ship
   _baseColor: {r: 0.627451, g: 0.3215686, b: 0.1764706, a: 1}
   _offsetColor: {r: 0.5283019, g: 0.26631787, b: 0.14204343, a: 1}
+  _baseSprite: {fileID: -1386528824740127295, guid: 58e90890ee4f26f4ba1267e6e7af7583, type: 3}
+  _offsetSprite: {fileID: -6087484592329683930, guid: 09fd9ad7fd80bcb4da4e40ab519ca309, type: 3}
   _spriteRenderer: {fileID: 9180215633068925238}
   _highlight: {fileID: 775878098514171591}
   _rangeHighlight: {fileID: 8618978882733625644}

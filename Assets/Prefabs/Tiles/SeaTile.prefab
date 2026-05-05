@@ -92,6 +92,8 @@ MonoBehaviour:
   tileName: Sea
   _baseColor: {r: 0.2509804, g: 0.8784314, b: 0.8156863, a: 1}
   _offsetColor: {r: 0.2509804, g: 0.8784314, b: 0.8156863, a: 1}
+  _baseSprite: {fileID: 6830443256219181058, guid: af48f616bc2f6a94e966251294eb5bb5, type: 3}
+  _offsetSprite: {fileID: 6830443256219181058, guid: af48f616bc2f6a94e966251294eb5bb5, type: 3}
   _spriteRenderer: {fileID: 6032330952676151659}
   _highlight: {fileID: 2744365036417181338}
   _rangeHighlight: {fileID: 6578997988133888369}

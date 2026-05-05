@@ -6,6 +6,7 @@ public class Tile : MonoBehaviour
     public string tileName;
     
     [SerializeField] private Color _baseColor, _offsetColor;
+    [SerializeField] private Sprite _baseSprite, _offsetSprite;
     [SerializeField] protected SpriteRenderer _spriteRenderer;
     [SerializeField] private GameObject _highlight;
     [SerializeField] private GameObject _rangeHighlight;
@@ -13,9 +14,18 @@ public class Tile : MonoBehaviour
 
     public BaseUnit OccupiedUnit;
     public bool Walkable => _isWalkable && OccupiedUnit == null;
-    
-    public void Init(bool isOffset) { 
-        _spriteRenderer.color = isOffset ? _offsetColor : _baseColor;
+
+    public void Init(bool isOffset)
+    {
+        if (_baseSprite != null)
+        {
+            _spriteRenderer.sprite = isOffset ? _offsetSprite : _baseSprite;
+            _spriteRenderer.color = Color.white;
+        }
+        else
+        {
+            _spriteRenderer.color = isOffset ? _offsetColor : _baseColor;
+        }
     }
 
     public void SetRangeHighlight(bool active)
