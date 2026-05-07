@@ -27,14 +27,18 @@ namespace Core
         {
             playerShip = Instantiate(playerShipPrefab);
             playerShip.ShipName = "Player";
+            playerShip.FindAndSetMast();
+            playerShip.UpdateShipUI();
         }
 
         public void InitiateEnemyShip()
         {
             enemyShip = Instantiate(enemyShipPrefab);
             enemyShip.ShipName = "Enemy";
+            enemyShip.FindAndSetMast();
+            enemyShip.UpdateShipUI();
         }
-        
-        
+
+
     }
 }

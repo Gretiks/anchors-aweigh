@@ -1,5 +1,6 @@
 using Core;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Tile : MonoBehaviour
 {
@@ -47,7 +48,9 @@ public class Tile : MonoBehaviour
 
     protected virtual void OnMouseDown()
     {
+        if (EventSystem.current.IsPointerOverGameObject()) return;
         MenuManager.Instance.HideCannonMenu();
+        MenuManager.Instance.HideMastMenu();
         if (GameManager.Instance.GameState != GameState.UserTurn) return;
 
         if (OccupiedUnit != null)
@@ -89,6 +92,8 @@ public class Tile : MonoBehaviour
         unit.transform.position = transform.position;
         OccupiedUnit = unit;
         unit.OccupiedTile = this;
+        if (ShipManager.Instance.playerShip != null) ShipManager.Instance.playerShip.UpdateShipUI();
+        if (ShipManager.Instance.enemyShip != null) ShipManager.Instance.enemyShip.UpdateShipUI();
     }
 
     private int CalculateDistance(BaseUnit unit)

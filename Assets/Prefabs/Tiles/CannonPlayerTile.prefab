@@ -74,12 +74,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1580641194486164438}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 841fa90badc3f844eadef9a8dcb49238, type: 3}
+  m_Script: {fileID: 11500000, guid: 8498e272ab587c34a9c79ec30321bfb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CanonTile
-  tileName: UserCannon
-  _baseColor: {r: 0.4, g: 0.4, b: 0.4, a: 1}
-  _offsetColor: {r: 0.4, g: 0.4, b: 0.4, a: 1}
+  tileName: Cannon
+  _baseColor: {r: 0, g: 0, b: 0, a: 0}
+  _offsetColor: {r: 0, g: 0, b: 0, a: 0}
   _baseSprite: {fileID: -664002214083075160, guid: 1d94025011d003d48ba6adcab5ae0eaa, type: 3}
   _offsetSprite: {fileID: 1493865017386403713, guid: 35d8080fbd50c2f4a9eae338551ab0d3, type: 3}
   _spriteRenderer: {fileID: 6012037902082806939}
@@ -88,6 +88,7 @@ MonoBehaviour:
   _isWalkable: 0
   OccupiedUnit: {fileID: 0}
   owner: 0
+  maxCrew: 3
   requiredCrew: 2
   damage: 20
   cannonDescription: Standard cannon

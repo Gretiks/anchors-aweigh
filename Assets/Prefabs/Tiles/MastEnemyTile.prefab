@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &7422911009221023823
+--- !u!1001 &1498635744284789850
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6600634551128081739, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}
       propertyPath: m_Name
-      value: CannonEnemyTile
+      value: MastEnemyTile
       objectReference: {fileID: 0}
     - target: {fileID: 8543934741032431021, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}
       propertyPath: m_LocalPosition.x
@@ -58,52 +58,50 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6600634551128081739, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -5970803219589511224}
+      addedObject: {fileID: 2318497607508908527}
   m_SourcePrefab: {fileID: 100100000, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}
---- !u!1 &1133526327476114872 stripped
+--- !u!1 &84690902779659846 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 7545888981002538487, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}
-  m_PrefabInstance: {fileID: 7422911009221023823}
+  m_CorrespondingSourceObject: {fileID: 1576498092460460572, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}
+  m_PrefabInstance: {fileID: 1498635744284789850}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4366609391141281028 stripped
+--- !u!212 &708911458725033564 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2097189184942782982, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}
+  m_PrefabInstance: {fileID: 1498635744284789850}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5716778096705964305 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6600634551128081739, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}
-  m_PrefabInstance: {fileID: 7422911009221023823}
+  m_PrefabInstance: {fileID: 1498635744284789850}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-5970803219589511224
+--- !u!114 &2318497607508908527
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4366609391141281028}
+  m_GameObject: {fileID: 5716778096705964305}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8498e272ab587c34a9c79ec30321bfb7, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e990a5673784d842976155882efa17c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CanonTile
+  m_EditorClassIdentifier: Assembly-CSharp::MastTile
   tileName: 
   _baseColor: {r: 0, g: 0, b: 0, a: 0}
   _offsetColor: {r: 0, g: 0, b: 0, a: 0}
-  _baseSprite: {fileID: 6374621316658810360, guid: 1b89a8729d95ae34faf1216cafc4def0, type: 3}
-  _offsetSprite: {fileID: 2349456391490285810, guid: 2eadbff78ec6f1d449cf6459e2223cbb, type: 3}
-  _spriteRenderer: {fileID: 8798287990020022857}
-  _highlight: {fileID: 1133526327476114872}
-  _rangeHighlight: {fileID: 8278639303452217939}
+  _baseSprite: {fileID: -2259682690587954291, guid: 8f562e92de23c724794f5a2922e91081, type: 3}
+  _offsetSprite: {fileID: 6160565147172160047, guid: a8f22993e5575684a86b74692f898e44, type: 3}
+  _spriteRenderer: {fileID: 708911458725033564}
+  _highlight: {fileID: 8967893125263294893}
+  _rangeHighlight: {fileID: 84690902779659846}
   _isWalkable: 0
   OccupiedUnit: {fileID: 0}
   owner: 1
   maxCrew: 3
-  requiredCrew: 2
-  damage: 20
-  cannonDescription: Standard cannon
---- !u!1 &8278639303452217939 stripped
+  evasionPerCrew: 0.1
+--- !u!1 &8967893125263294893 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 1576498092460460572, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}
-  m_PrefabInstance: {fileID: 7422911009221023823}
-  m_PrefabAsset: {fileID: 0}
---- !u!212 &8798287990020022857 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 2097189184942782982, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}
-  m_PrefabInstance: {fileID: 7422911009221023823}
+  m_CorrespondingSourceObject: {fileID: 7545888981002538487, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}
+  m_PrefabInstance: {fileID: 1498635744284789850}
   m_PrefabAsset: {fileID: 0}

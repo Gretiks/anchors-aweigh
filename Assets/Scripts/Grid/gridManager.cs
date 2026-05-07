@@ -14,6 +14,7 @@ namespace Grid
         [SerializeField] private Tile _shipTile, _seaTile, _enemyShipTile;
         [SerializeField] private Transform _camera;
         [SerializeField] private Tile _cannonPlayerTile, _cannonEnemyTile;
+        [SerializeField] private Tile _mastPlayerTile, _mastEnemyTile;
 
         private Dictionary<Vector2, Tile> _tiles;
 
@@ -31,7 +32,9 @@ namespace Grid
                 for (int y = 0; y < _height; y++)
                 {
                     Tile prefab;
-                    if (IsCannonTile(x, y, out bool isEnemy))
+                    if (IsMastTile(x, y, out bool isMastEnemy))
+                        prefab = isMastEnemy ? _mastEnemyTile : _mastPlayerTile;
+                    else if (IsCannonTile(x, y, out bool isEnemy))
                         prefab = isEnemy ? _cannonEnemyTile : _cannonPlayerTile;
                     else if (IsShipTile(x, y)) prefab = _shipTile;
                     else if (IsEnemyShipTile(x, y)) prefab = _enemyShipTile;
@@ -53,7 +56,7 @@ namespace Grid
         public Tile GetHeroSpawnTile()
         {
             return _tiles
-                .Where(t => IsShipTile((int)t.Key.x, (int)t.Key.y))
+                .Where(t => IsShipTile((int)t.Key.x, (int)t.Key.y) && t.Value.Walkable)
                 .OrderBy(_ => Random.value)
                 .First().Value;
         }
@@ -61,7 +64,7 @@ namespace Grid
         public Tile GetEnemySpawnTile()
         {
             return _tiles
-                .Where(t => IsEnemyShipTile((int)t.Key.x, (int)t.Key.y))
+                .Where(t => IsEnemyShipTile((int)t.Key.x, (int)t.Key.y) && t.Value.Walkable)
                 .OrderBy(_ => Random.value)
                 .First().Value;
         }
@@ -81,6 +84,15 @@ namespace Grid
             }
 
             return neighbors;
+        }
+
+        private bool IsMastTile(int x, int y, out bool isEnemy)
+        {
+            if (x == 5 && y == 7) { isEnemy = false; return true; }
+            if (x == 26 && y == 7) { isEnemy = true; return true; }
+
+            isEnemy = false;
+            return false;
         }
 
         private bool IsCannonTile(int x, int y, out bool isEnemy)

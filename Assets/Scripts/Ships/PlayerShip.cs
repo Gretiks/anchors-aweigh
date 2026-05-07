@@ -2,8 +2,9 @@
 
 public class PlayerShip : BaseShip
 {
-	// Start is called once before the first execution of Update after the MonoBehaviour is created
-	void Start()
+    protected override Faction GetFaction() => Faction.User;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
 	{
 
 	}
