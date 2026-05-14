@@ -15,6 +15,7 @@ namespace Grid
         [SerializeField] private Transform _camera;
         [SerializeField] private Tile _cannonPlayerTile, _cannonEnemyTile;
         [SerializeField] private Tile _mastPlayerTile, _mastEnemyTile;
+        [SerializeField] private Tile _helmPlayerTile, _helmEnemyTile;
 
         private Dictionary<Vector2, Tile> _tiles;
 
@@ -32,7 +33,9 @@ namespace Grid
                 for (int y = 0; y < _height; y++)
                 {
                     Tile prefab;
-                    if (IsMastTile(x, y, out bool isMastEnemy))
+                    if (IsHelmTile(x, y, out bool isHelmEnemy))
+                        prefab = isHelmEnemy ? _helmEnemyTile : _helmPlayerTile;
+                    else if (IsMastTile(x, y, out bool isMastEnemy))
                         prefab = isMastEnemy ? _mastEnemyTile : _mastPlayerTile;
                     else if (IsCannonTile(x, y, out bool isEnemy))
                         prefab = isEnemy ? _cannonEnemyTile : _cannonPlayerTile;
@@ -84,6 +87,15 @@ namespace Grid
             }
 
             return neighbors;
+        }
+
+        private bool IsHelmTile(int x, int y, out bool isEnemy)
+        {
+            if (x == 5 && y == 4) { isEnemy = false; return true; }
+            if (x == 26 && y == 4) { isEnemy = true; return true; }
+
+            isEnemy = false;
+            return false;
         }
 
         private bool IsMastTile(int x, int y, out bool isEnemy)

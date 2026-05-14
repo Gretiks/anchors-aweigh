@@ -1,3 +1,4 @@
+using Assets.Scripts.Grid.Tiles.Modules;
 using Core;
 using System.Collections.Generic;
 using TMPro;
@@ -28,6 +29,19 @@ public class MenuManager : MonoBehaviour
     // Hit/miss popup
     [SerializeField] private GameObject _hitPopupObject;
     [SerializeField] private Text _hitPopupText;
+
+    // Helm menu
+    [SerializeField] private GameObject _helmMenuObject;
+    [SerializeField] private Text _helmDescText, _helmCrewText;
+    [SerializeField] private Button _approachButton, _stopButton, _fleeButton;
+    [SerializeField] private Text _helmOrderText;
+    private HelmTile _currentHelm;
+
+    //Position bar
+    [SerializeField] private RectTransform _playerPositionMarker;
+    [SerializeField] private RectTransform _enemyPositionMarker;
+    [SerializeField] private float _barMinX = -200f; // lewa krawêdŸ paska w px
+    [SerializeField] private float _barMaxX = 200f;  // prawa krawêdŸ paska w px
 
     void Awake() { Instance = this; }
 
@@ -139,4 +153,53 @@ public class MenuManager : MonoBehaviour
     }
 
     private void HideHitPopup() { _hitPopupObject.SetActive(false); }
+
+
+    //Helm
+    public void ShowHelmMenu(HelmTile helm)
+    {
+        HideCannonMenu();
+        HideMastMenu();
+        _currentHelm = helm;
+        _helmDescText.text = helm.helmDescription;
+        _helmCrewText.text = $"Crew: {helm.CurrentCrew}";
+        _helmOrderText.text = $"Order: {helm.CurrentOrder}";
+        _helmMenuObject.SetActive(true);
+    }
+
+    public void OnApproachPressed()
+    {
+        _currentHelm?.SetOrder(HelmTile.HelmOrder.Approach);
+        _helmOrderText.text = "Order: Approach";
+    }
+
+    public void OnStopPressed()
+    {
+        _currentHelm?.SetOrder(HelmTile.HelmOrder.Stop);
+        _helmOrderText.text = "Order: Stop";
+    }
+
+    public void OnFleePressed()
+    {
+        _currentHelm?.SetOrder(HelmTile.HelmOrder.Flee);
+        _helmOrderText.text = "Order: Flee";
+    }
+
+    public void HideHelmMenu()
+    {
+        _currentHelm = null;
+        _helmMenuObject.SetActive(false);
+    }
+
+    //Position bar
+    public void UpdatePositionBar()
+    {
+        if (ShipManager.Instance.playerShip == null || ShipManager.Instance.enemyShip == null) return;
+
+        _playerPositionMarker.anchoredPosition = new Vector2(
+            Mathf.Lerp(_barMinX, _barMaxX, (ShipManager.Instance.playerShip.Position + 10f) / 20f), 0);
+        _enemyPositionMarker.anchoredPosition = new Vector2(
+            Mathf.Lerp(_barMinX, _barMaxX, (ShipManager.Instance.enemyShip.Position + 10f) / 20f), 0);
+    }
+
 }

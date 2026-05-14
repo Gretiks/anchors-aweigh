@@ -51,6 +51,7 @@ public class Tile : MonoBehaviour
         if (EventSystem.current.IsPointerOverGameObject()) return;
         MenuManager.Instance.HideCannonMenu();
         MenuManager.Instance.HideMastMenu();
+        MenuManager.Instance.HideHelmMenu();
         if (GameManager.Instance.GameState != GameState.UserTurn) return;
 
         if (OccupiedUnit != null)

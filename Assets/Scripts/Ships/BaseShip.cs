@@ -11,7 +11,12 @@ public abstract class BaseShip : MonoBehaviour
     // [SerializeField] protected int maxCrew;
 
     [SerializeField] public float baseEvasion = 0.3f;
+    [SerializeField] public float startPosition;
+    [SerializeField] public float speed = 1f;
+    
     private MastTile _mast;
+    public float Position { get; private set; }
+
 
     public float evasion => baseEvasion + (_mast != null ? _mast.EvasionBonus : 0f);
 
@@ -20,6 +25,7 @@ public abstract class BaseShip : MonoBehaviour
     private void Awake()
     {
         currentHealth = maxHealth;
+        Position = startPosition;
     }
 
     public void FindAndSetMast()
@@ -33,6 +39,11 @@ public abstract class BaseShip : MonoBehaviour
                 break;
             }
         }
+    }
+    public void MoveShip(int direction)
+    {
+        Position += direction * speed;
+        UpdateShipUI();
     }
 
     protected abstract Faction GetFaction();
@@ -48,5 +59,6 @@ public abstract class BaseShip : MonoBehaviour
     public void UpdateShipUI()
     {
         MenuManager.Instance.ShowShipStats(ShipName, currentHealth, maxHealth, evasion);
+        MenuManager.Instance.UpdatePositionBar();
     }
 }

@@ -37,6 +37,7 @@ namespace Core
             enemyShip.ShipName = "Enemy";
             enemyShip.FindAndSetMast();
             enemyShip.UpdateShipUI();
+            MenuManager.Instance.UpdatePositionBar();
         }
 
 

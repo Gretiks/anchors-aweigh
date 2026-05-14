@@ -47,3 +47,6 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   ShipName: Statek Gracza
+  baseEvasion: 0.3
+  startPosition: -5
+  speed: 1

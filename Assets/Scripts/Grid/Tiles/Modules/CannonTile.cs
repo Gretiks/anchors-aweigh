@@ -28,4 +28,6 @@ public class CannonTile : ShipModuleTile
         MenuManager.Instance.ShowHitPopup(hit);
         MenuManager.Instance.HideCannonMenu();
     }
+
+    public void ResetFired() { HasFired = false; }
 }
