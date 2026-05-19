@@ -14,7 +14,8 @@ public class UnitManager : MonoBehaviour
 
     public BaseHero SelectedHero;
 
-    public List<BaseHero> _heroes;
+    public List<BaseHero> _heroes = new List<BaseHero>();
+    public List<BaseEnemy> _enemies = new List<BaseEnemy>();
     
 
     void Awake()
@@ -26,6 +27,8 @@ public class UnitManager : MonoBehaviour
 
     public void SpawnUnits()
     {
+        _heroes.Clear();
+        
         var heroCount = 3;
         for (int i = 0; i < heroCount; i++)
         {
@@ -41,6 +44,8 @@ public class UnitManager : MonoBehaviour
 
     public void SpawnEnemy()
     {
+        _enemies.Clear();
+        
         var enemyCount = 3;
         for (int i = 0; i < enemyCount; i++)
         {
@@ -48,6 +53,7 @@ public class UnitManager : MonoBehaviour
             var spawnedEnemy = Instantiate(randomPrefab);
             var randomSpawnTile = GridManager.Instance.GetEnemySpawnTile();
             randomSpawnTile.SetUnit(spawnedEnemy);
+            _enemies.Add(spawnedEnemy);
         }
         GameManager.Instance.ChangeState(GameState.UserTurn);
     }

@@ -3,6 +3,9 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="CMakeProjectFlavorService">
+    <option name="flavorId" value="CMakePlainProjectFlavor" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="050334fe-9e73-4652-a9e3-4724d5bcbb39" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.anchors-aweigh/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.anchors-aweigh/.idea/workspace.xml" afterDir="false" />
@@ -43,7 +46,7 @@
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;fast&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -109,6 +112,10 @@
       <workItem from="1776640970450" duration="4576000" />
       <workItem from="1776648392590" duration="739000" />
       <workItem from="1776701083459" duration="4822000" />
+      <workItem from="1779111321080" duration="208000" />
+      <workItem from="1779111591203" duration="2172000" />
+      <workItem from="1779140513918" duration="12757000" />
+      <workItem from="1779185620947" duration="4039000" />
     </task>
     <servers />
   </component>

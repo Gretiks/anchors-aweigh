@@ -2,6 +2,7 @@
 using Core;
 using Grid;
 using UnityEngine;
+using System.Collections;
 
 public class CannonTile : ShipModuleTile
 {
@@ -29,5 +30,29 @@ public class CannonTile : ShipModuleTile
         MenuManager.Instance.HideCannonMenu();
     }
 
+    
+    //AI Shooting
+    
+    public bool IsFiringCompleted { get; private set; } = true;
+
+    public void EnemyExecuteFire()
+    {
+        if (HasFired) return;
+        
+        if (CurrentCrew >= requiredCrew) 
+        {
+            
+            BaseShip targetShip = (BaseShip)ShipManager.Instance.playerShip;
+
+            bool hit = Random.value > targetShip.evasion;
+            if (hit) targetShip.TakeDamange(damage);
+        
+            HasFired = true;
+            
+            MenuManager.Instance.ShowHitPopup(hit);
+        }
+    }
+    
+    
     public void ResetFired() { HasFired = false; }
 }

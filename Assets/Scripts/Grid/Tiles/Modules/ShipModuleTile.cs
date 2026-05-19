@@ -14,6 +14,8 @@ namespace Assets.Scripts.Grid.Tiles.Modules
         [SerializeField] public Faction owner;
         [SerializeField] public int maxCrew = 3;
 
+        [HideInInspector] public int currentOccupants = 0;
+
         public int CurrentCrew => CountAdjacentCrew();
 
         protected int CountAdjacentCrew()
