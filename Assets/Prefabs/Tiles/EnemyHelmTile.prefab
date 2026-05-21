@@ -95,8 +95,8 @@ MonoBehaviour:
   tileName: 
   _baseColor: {r: 0, g: 0, b: 0, a: 0}
   _offsetColor: {r: 0, g: 0, b: 0, a: 0}
-  _baseSprite: {fileID: 0}
-  _offsetSprite: {fileID: 0}
+  _baseSprite: {fileID: 5839643362178093164, guid: 5ddccb11176190346bd34d7e6ce6616d, type: 3}
+  _offsetSprite: {fileID: -3905218700186760275, guid: 66b2405d2af860441992922baa484172, type: 3}
   _spriteRenderer: {fileID: 2604146213821499489}
   _highlight: {fileID: 5873007620825857936}
   _rangeHighlight: {fileID: 3231798880461109371}
@@ -104,4 +104,5 @@ MonoBehaviour:
   OccupiedUnit: {fileID: 0}
   owner: 1
   maxCrew: 1
+  currentOccupants: 0
   helmDescription: Ship's helm
