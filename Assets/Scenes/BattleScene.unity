@@ -2813,6 +2813,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitManager
   SelectedHero: {fileID: 0}
   _heroes: []
+  _enemies: []
 --- !u!4 &1228883159
 Transform:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Grid;
 using System.Collections;
 using Assets.Scripts.Grid.Tiles.Modules;
@@ -133,10 +134,48 @@ namespace Core
             float playerPos = ShipManager.Instance.playerShip.Position;
             float enemyPos = ShipManager.Instance.enemyShip.Position;
 
-            if (playerPos <= -10f || enemyPos >= 10f)
-                Debug.Log("Ucieczka!");
-            else if (Mathf.Abs(playerPos - enemyPos) < 1f)
-                Debug.Log("Abordaz!");
+            // ZA?O?ENIE LOGICZNE:
+            // Je?li statek wroga dop?yn?? do granicy (zbieg?) lub nasz zaton?? -> PRZEGRANA
+            // Je?li statek wroga zaton?? lub my osi?gn?li?my cel -> ZWYCI?STWO
+            // Dostosuj te warunki do dok?adnych regu? Twojego projektu (np. HP statku, pozycja)
+
+            // Pobieramy instancje statków z ShipManagera
+            var playerShip = ShipManager.Instance.playerShip;
+            var enemyShip = ShipManager.Instance.enemyShip;
+
+            // Upewniamy si?, ?e statki istniej?, aby unikn?? b??dów NullReferenceException
+            if (playerShip == null || enemyShip == null) return;
+
+            // WARUNKI KO?CA GRY OPARTY O HP STATKÓW:
+            // 1. Je?li nasz statek ma 0 lub mniej HP -> PRZEGRANA
+            if (playerShip.currentHealth <= 0)
+            {
+                Debug.Log("Twój statek zaton??! Przegrana.");
+                TriggerEndGame(false); // false = przegrana
+            }
+            // 2. Je?li statek wroga ma 0 lub mniej HP -> ZWYCI?STWO
+            else if (enemyShip.currentHealth <= 0)
+            {
+                Debug.Log("Statek wroga zaton??! Zwyci?stwo!");
+                TriggerEndGame(true); // true = zwyci?stwo
+            }
+            
+            else if (Mathf.Abs(playerPos - enemyPos) < 1f) 
+            {
+                Debug.Log("Aborda?!");
+                // Przyk?adowo: Aborda? wygrywa gracz
+                TriggerEndGame(true); // Gracz wygra?
+            }
+        }
+
+        // NOWA METODA POMOCNICZA:
+        private void TriggerEndGame(bool victory)
+        {
+            // 1. Ustawiamy statyczn? flag? w skrypcie ekranu ko?cowego
+            EndGameManager.IsVictory = victory;
+
+            // 2. ?adujemy scen? ko?cow? po nazwie wpisanej w Build Settings
+            SceneManager.LoadScene("EndGameScene");
         }
     }
 

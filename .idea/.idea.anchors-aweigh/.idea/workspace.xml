@@ -9,8 +9,8 @@
   <component name="ChangeListManager">
     <list default="true" id="050334fe-9e73-4652-a9e3-4724d5bcbb39" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.anchors-aweigh/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.anchors-aweigh/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ships/EnemyShip.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ships/EnemyShip.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ships/PlayerShip.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ships/PlayerShip.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BattleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BattleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/GameManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +46,7 @@
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;fast&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -58,7 +58,7 @@
 }</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.4.0f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="D:\Unity\6000.4.0f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath D:\anchors-aweigh -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="D:\anchors-aweigh" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -68,7 +68,7 @@
       <method v="2" />
     </configuration>
     <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.4.0f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="D:\Unity\6000.4.0f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath D:\anchors-aweigh -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="D:\anchors-aweigh" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -116,6 +116,11 @@
       <workItem from="1779111591203" duration="2172000" />
       <workItem from="1779140513918" duration="12757000" />
       <workItem from="1779185620947" duration="4039000" />
+      <workItem from="1779352601454" duration="1374000" />
+      <workItem from="1779354392345" duration="579000" />
+      <workItem from="1779355762640" duration="93000" />
+      <workItem from="1779356982389" duration="133000" />
+      <workItem from="1779357347557" duration="1009000" />
     </task>
     <servers />
   </component>
