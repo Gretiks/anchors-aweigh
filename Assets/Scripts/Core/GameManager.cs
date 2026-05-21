@@ -129,7 +129,7 @@ namespace Core
             }
         }
 
-        private void CheckBattleConditions()
+        public void CheckBattleConditions()
         {
             float playerPos = ShipManager.Instance.playerShip.Position;
             float enemyPos = ShipManager.Instance.enemyShip.Position;

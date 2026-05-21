@@ -24,7 +24,11 @@ public class CannonTile : ShipModuleTile
         BaseShip targetShip = owner == Faction.User ? (BaseShip)ShipManager.Instance.enemyShip : (BaseShip)ShipManager.Instance.playerShip;
 
         bool hit = Random.value > targetShip.evasion;
-        if (hit) targetShip.TakeDamange(damage);
+        if (hit)
+        {
+            targetShip.TakeDamange(damage);
+            GameManager.Instance.CheckBattleConditions();
+        }
         HasFired = true;
         MenuManager.Instance.ShowHitPopup(hit);
         MenuManager.Instance.HideCannonMenu();
