@@ -21,12 +21,12 @@ namespace Core
             // Dynamicznie zmieniamy napis w zależności od wyniku bitwy
             if (IsVictory)
             {
-                _resultText.text = "ZWYCIĘSTWO!";
+                _resultText.text = "YOU WIN!";
                 _resultText.color = Color.green; // Zielony napis dla wygranej
             }
             else
             {
-                _resultText.text = "PRZEGRANA";
+                _resultText.text = "YOU LOSE";
                 _resultText.color = Color.red; // Czerwony napis dla przegranej
             }
         }
