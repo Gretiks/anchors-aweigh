@@ -12,7 +12,7 @@ namespace Grid
 
         [SerializeField] private int _width, _height;
         [SerializeField] private Tile _shipTile, _seaTile, _enemyShipTile;
-        [SerializeField] private Transform _camera;
+        //[SerializeField] private Transform _camera;
         [SerializeField] private Tile _cannonPlayerTile, _cannonEnemyTile;
         [SerializeField] private Tile _mastPlayerTile, _mastEnemyTile;
         [SerializeField] private Tile _helmPlayerTile, _helmEnemyTile;
@@ -52,7 +52,7 @@ namespace Grid
                 }
             }
 
-            _camera.transform.position = new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -10);
+            //_camera.transform.position = new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -10);
             GameManager.Instance.ChangeState(GameState.SpawnUserCrew);
         }
 
