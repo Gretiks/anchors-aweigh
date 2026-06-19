@@ -45,6 +45,7 @@ namespace Grid
 
                     var spawnedTile = Instantiate(prefab, new Vector3(x, y), Quaternion.identity);
                     spawnedTile.name = $"Tile {x} {y}";
+      
                     _tiles[new Vector2(x, y)] = spawnedTile;
 
                     var isOffset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0);

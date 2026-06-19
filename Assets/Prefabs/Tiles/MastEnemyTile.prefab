@@ -90,8 +90,8 @@ MonoBehaviour:
   tileName: 
   _baseColor: {r: 0, g: 0, b: 0, a: 0}
   _offsetColor: {r: 0, g: 0, b: 0, a: 0}
-  _baseSprite: {fileID: -2259682690587954291, guid: 8f562e92de23c724794f5a2922e91081, type: 3}
-  _offsetSprite: {fileID: 6160565147172160047, guid: a8f22993e5575684a86b74692f898e44, type: 3}
+  _baseSprite: {fileID: 21300000, guid: c5ce4427ca245244e8ab3cac80e4d425, type: 3}
+  _offsetSprite: {fileID: 21300000, guid: c5ce4427ca245244e8ab3cac80e4d425, type: 3}
   _spriteRenderer: {fileID: 708911458725033564}
   _highlight: {fileID: 8967893125263294893}
   _rangeHighlight: {fileID: 84690902779659846}
@@ -99,7 +99,9 @@ MonoBehaviour:
   OccupiedUnit: {fileID: 0}
   owner: 1
   maxCrew: 3
+  currentOccupants: 0
   evasionPerCrew: 0.1
+  mastDescription: Main mast
 --- !u!1 &8967893125263294893 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7545888981002538487, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}

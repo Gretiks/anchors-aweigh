@@ -85,8 +85,8 @@ MonoBehaviour:
   tileName: 
   _baseColor: {r: 0, g: 0, b: 0, a: 0}
   _offsetColor: {r: 0, g: 0, b: 0, a: 0}
-  _baseSprite: {fileID: 6374621316658810360, guid: 1b89a8729d95ae34faf1216cafc4def0, type: 3}
-  _offsetSprite: {fileID: 2349456391490285810, guid: 2eadbff78ec6f1d449cf6459e2223cbb, type: 3}
+  _baseSprite: {fileID: 21300000, guid: c5ce4427ca245244e8ab3cac80e4d425, type: 3}
+  _offsetSprite: {fileID: 21300000, guid: c5ce4427ca245244e8ab3cac80e4d425, type: 3}
   _spriteRenderer: {fileID: 8798287990020022857}
   _highlight: {fileID: 1133526327476114872}
   _rangeHighlight: {fileID: 8278639303452217939}
@@ -94,6 +94,7 @@ MonoBehaviour:
   OccupiedUnit: {fileID: 0}
   owner: 1
   maxCrew: 3
+  currentOccupants: 0
   requiredCrew: 2
   damage: 20
   cannonDescription: Standard cannon

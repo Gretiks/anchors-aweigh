@@ -80,8 +80,8 @@ MonoBehaviour:
   tileName: Enemy Ship
   _baseColor: {r: 0.5450981, g: 0.2705882, b: 0.07450981, a: 1}
   _offsetColor: {r: 0.4433962, g: 0.24324048, b: 0.0983001, a: 1}
-  _baseSprite: {fileID: 8091583410350204830, guid: 197a455f1ffa154488a26e0b3c9f0d43, type: 3}
-  _offsetSprite: {fileID: -8280347367581602951, guid: 86dd6b758f4f8954f9d93d248176a681, type: 3}
+  _baseSprite: {fileID: -2708083420707561013, guid: 8b8e37b21e37c034ea3e8b7a775342b4, type: 3}
+  _offsetSprite: {fileID: 1005040095820259566, guid: 8b8e37b21e37c034ea3e8b7a775342b4, type: 3}
   _spriteRenderer: {fileID: 6101051956130621970}
   _highlight: {fileID: 2380607679281290723}
   _rangeHighlight: {fileID: 6652138496024631816}

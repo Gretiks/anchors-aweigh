@@ -90,10 +90,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SeaTile
   tileName: Sea
-  _baseColor: {r: 0.2509804, g: 0.8784314, b: 0.8156863, a: 1}
-  _offsetColor: {r: 0.2509804, g: 0.8784314, b: 0.8156863, a: 1}
-  _baseSprite: {fileID: 6830443256219181058, guid: af48f616bc2f6a94e966251294eb5bb5, type: 3}
-  _offsetSprite: {fileID: 6830443256219181058, guid: af48f616bc2f6a94e966251294eb5bb5, type: 3}
+  _baseColor: {r: 0.2509804, g: 0.8784314, b: 0.8156863, a: 0}
+  _offsetColor: {r: 0.2509804, g: 0.8784314, b: 0.8156863, a: 0}
+  _baseSprite: {fileID: 21300000, guid: c5ce4427ca245244e8ab3cac80e4d425, type: 3}
+  _offsetSprite: {fileID: 21300000, guid: c5ce4427ca245244e8ab3cac80e4d425, type: 3}
   _spriteRenderer: {fileID: 6032330952676151659}
   _highlight: {fileID: 2744365036417181338}
   _rangeHighlight: {fileID: 6578997988133888369}
