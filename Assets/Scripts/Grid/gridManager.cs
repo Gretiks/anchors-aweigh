@@ -1,7 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Core;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.SceneManagement;
+using UnityEngine.XR;
+using Random = UnityEngine.Random;
 
 namespace Grid
 {
@@ -9,6 +13,7 @@ namespace Grid
     public class GridManager : MonoBehaviour
     {
         public static GridManager Instance;
+        public static GameManager gameManager;
 
         [SerializeField] private int _width, _height;
         [SerializeField] private Tile _shipTile, _seaTile, _enemyShipTile;
@@ -16,6 +21,7 @@ namespace Grid
         [SerializeField] private Tile _cannonPlayerTile, _cannonEnemyTile;
         [SerializeField] private Tile _mastPlayerTile, _mastEnemyTile;
         [SerializeField] private Tile _helmPlayerTile, _helmEnemyTile;
+        [SerializeField] private Tile _bridgeTile;
 
         private Dictionary<Vector2, Tile> _tiles;
 
@@ -23,6 +29,22 @@ namespace Grid
         {
             Instance = this;
         }
+
+        private void Start()
+        {
+            if (SceneManager.GetActiveScene().name == "BattleScene")
+            {
+                ClearOldGrid();
+                gameManager.ChangeState(GameState.GenerateGrid);
+            }
+            else if (SceneManager.GetActiveScene().name == "BoardingScene")
+            {
+                ClearOldGrid();
+                GenerateBoardingGrid();
+            }
+
+
+        }   
 
         public void GenerateGrid()
         {
@@ -56,6 +78,86 @@ namespace Grid
             //_camera.transform.position = new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -10);
             GameManager.Instance.ChangeState(GameState.SpawnUserCrew);
         }
+        
+        public void GenerateBoardingGrid()
+        {
+            // 1. Usuwamy stary grid z poprzedniej sceny
+            ClearOldGrid();
+        
+            // Obliczamy wymiary oryginalnych statków (na podstawie standardowej szerokości _width)
+            // Zakładamy domyślny podział oryginalnej mapy (np. lewa połowa to gracz, prawa to wróg)
+            int originalHalfWidth = _width / 2; 
+        
+            // Nowe parametry po przybliżeniu statków
+            int bridgeLength = 4; // Długość mostów wskazana w zadaniu
+            
+            // Nowa całkowita szerokość mapy abordażu: 
+            // Szerokość statku gracza + szerokość mostów + szerokość statku wroga
+            int boardingWidth = originalHalfWidth + bridgeLength + originalHalfWidth;
+        
+            // Wyznaczamy rzędy, w których powstaną mosty łączące statki (nie mogą być obok siebie)
+            int bridge1Row = 2;
+            int bridge2Row = _height - 3;
+        
+            for (int x = 0; x < boardingWidth; x++)
+            {
+                for (int y = 0; y < _height; y++)
+                {
+                    Tile prefab = null;
+        
+                    // --- STREFA STATKU GRACZA (Lewa strona) ---
+                    if (x < originalHalfWidth)
+                    {
+                        // Sprawdzamy oryginalny kształt statku gracza dla tej pozycji (x, y)
+                        if (IsHelmTile(x, y, out bool isHelmEnemy) && !isHelmEnemy) prefab = _helmPlayerTile;
+                        else if (IsMastTile(x, y, out bool isMastEnemy) && !isMastEnemy) prefab = _mastPlayerTile;
+                        else if (IsCannonTile(x, y, out bool isEnemy) && !isEnemy) prefab = _cannonPlayerTile;
+                        else if (IsShipTile(x, y)) prefab = _shipTile;
+                        else prefab = _seaTile;
+                    }
+                    // --- STREFA MOSTÓW I MORZA POMIĘDZY STATKAMI ---
+                    else if (x >= originalHalfWidth && x < originalHalfWidth + bridgeLength)
+                    {
+                        // Jeśli trafimy na rząd wyznaczony dla mostu, tworzymy przejście
+                        if (y == bridge1Row || y == bridge2Row)
+                        {
+                            prefab = _shipTile; // Most tworzony z kafelków po których można chodzić
+                        }
+                        else
+                        {
+                            prefab = _seaTile;
+                        }
+                    }
+                    // --- STREFA STATKU WROGA (Prawa strona) ---
+                    else
+                    {
+                        // Aby statek wroga zachował identyczny kształt, musimy "cofnąć" jego pozycję X 
+                        // do miejsca, w którym znajdowałby się na oryginalnej szerokiej mapie.
+                        int originalX = x - bridgeLength; 
+        
+                        if (IsHelmTile(originalX, y, out bool isHelmEnemy) && isHelmEnemy) prefab = _helmEnemyTile;
+                        else if (IsMastTile(originalX, y, out bool isMastEnemy) && isMastEnemy) prefab = _mastEnemyTile;
+                        else if (IsCannonTile(originalX, y, out bool isEnemy) && isEnemy) prefab = _cannonEnemyTile;
+                        else if (IsEnemyShipTile(originalX, y)) prefab = _enemyShipTile;
+                        else prefab = _seaTile;
+                    }
+        
+                    // Tworzenie kafelka na scenie
+                    var spawnedTile = Instantiate(prefab, new Vector3(x, y), Quaternion.identity);
+                    spawnedTile.name = $"BoardingTile {x} {y}";
+        
+                    _tiles[new Vector2(x, y)] = spawnedTile;
+        
+                    // Inicjalizacja koloru szachownicy (offset)
+                    var isOffset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0);
+                    spawnedTile.Init(isOffset);
+                }
+            }
+        
+            // Przekazanie stanu gry do rozstawienia załogi na nowym gridzie
+            GameManager.Instance.ChangeState(GameState.SpawnUserCrew);
+        }
+        
 
         public Tile GetHeroSpawnTile()
         {
@@ -208,6 +310,25 @@ namespace Grid
             var b = to.transform.position;
             int dist = Mathf.RoundToInt(Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y));
             return dist <= range && dist > 0;
+        }
+        
+        private void ClearOldGrid()
+        {
+            if (_tiles != null)
+            {
+                foreach (var tile in _tiles.Values)
+                {
+                    if (tile != null)
+                    {
+                        Destroy(tile.gameObject); // Fizyczne usunięcie obiektu ze sceny
+                    }
+                }
+                _tiles.Clear(); // Wyczyszczenie słownika
+            }
+            else
+            {
+                _tiles = new Dictionary<Vector2, Tile>();
+            }
         }
 
     }

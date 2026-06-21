@@ -169,8 +169,7 @@ namespace Core
             else if (Mathf.Abs(playerPos - enemyPos) < 1f) 
             {
                 Debug.Log("Boarding phase");
-                // Przyk?adowo: Aborda? wygrywa gracz
-                TriggerEndGame(true); // Gracz wygra?
+                SceneManager.LoadScene("BoardingScene");
             }
         }
 
