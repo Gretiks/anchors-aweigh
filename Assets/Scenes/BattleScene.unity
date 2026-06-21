@@ -704,7 +704,7 @@ GameObject:
   - component: {fileID: 313812359}
   - component: {fileID: 313812358}
   m_Layer: 0
-  m_Name: Background (1)
+  m_Name: PlayerShipBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -759,12 +759,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -9
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 31a354e3a390a344280b73473212d62d, type: 3}
-  m_Color: {r: 0.2, g: 0.2, b: 0.2, a: 0.3764706}
+  m_Sprite: {fileID: 21300000, guid: 9f42af9c11436a74ba18e555bd308237, type: 3}
+  m_Color: {r: 0.2, g: 0.2, b: 0.2, a: 0.68235296}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 15.375014, y: 10.24}
+  m_Size: {x: 9, y: 16}
   m_AdaptiveModeThreshold: 0.955
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -777,13 +777,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 313812357}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00000026481985, y: 0.0000002648131, z: 0.70710576, w: -0.70710784}
-  m_LocalPosition: {x: 3.375, y: 8.0939, z: 0}
-  m_LocalScale: {x: 1.0488759, y: 2.150822, z: 1}
+  m_LocalRotation: {x: 0.00000037450704, y: 4.607869e-12, z: 0.0000009834765, w: 1}
+  m_LocalPosition: {x: 5, y: 8.7, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &326744936
 GameObject:
   m_ObjectHideFlags: 0
@@ -1524,7 +1524,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 13
+  orthographic size: 12.96875
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2277,7 +2277,7 @@ GameObject:
   - component: {fileID: 813401920}
   - component: {fileID: 813401919}
   m_Layer: 0
-  m_Name: Background (2)
+  m_Name: EnemyShipBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2332,12 +2332,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -9
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 31a354e3a390a344280b73473212d62d, type: 3}
-  m_Color: {r: 0.2, g: 0.2, b: 0.2, a: 0.3764706}
+  m_Sprite: {fileID: 21300000, guid: 9f42af9c11436a74ba18e555bd308237, type: 3}
+  m_Color: {r: 0.2, g: 0.2, b: 0.2, a: 0.6392157}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 15.375014, y: 10.24}
+  m_Size: {x: 9, y: 16}
   m_AdaptiveModeThreshold: 0.955
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -2350,13 +2350,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 813401918}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00000026481985, y: 0.0000002648131, z: 0.70710576, w: -0.70710784}
-  m_LocalPosition: {x: 24.44, y: 8.09, z: -0}
-  m_LocalScale: {x: 1.0488759, y: 2.150822, z: 1}
+  m_LocalRotation: {x: 0.00000037450704, y: 4.4337867e-12, z: 0.0000005066395, w: 1}
+  m_LocalPosition: {x: 26, y: 8.7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &818108926
 GameObject:
   m_ObjectHideFlags: 0
