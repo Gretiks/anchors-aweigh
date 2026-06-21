@@ -1,13 +1,13 @@
 fileFormatVersion: 2
-guid: 8b8e37b21e37c034ea3e8b7a775342b4
+guid: 3fd206d0a2546614fa368e06468c9b31
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2708083420707561013
-    second: Tile_border_0
+      213: -7939537884837914384
+    second: Tile_border 1_0
   - first:
-      213: 1005040095820259566
-    second: Tile_border_1
+      213: 3812144499635925910
+    second: Tile_border 1_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 32
@@ -116,7 +116,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Tile_border_norm
+      name: Tile_border_0
       rect:
         serializedVersion: 2
         x: 0
@@ -129,16 +129,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: bc1e9961a74fa6ad0800000000000000
-      internalID: -2708083420707561013
+      spriteID: 445e81757c4dd584e8f3e8837ee3fa00
+      internalID: 1209566242
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tile_border_offfset
+      name: Tile_border_1
       rect:
         serializedVersion: 2
         x: 0
@@ -151,10 +151,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ee0246864ae92fd00800000000000000
-      internalID: 1005040095820259566
+      spriteID: f5c4a4f83963a5b40bca4d08835cd0cc
+      internalID: -144014712
       vertices: []
       indices: 
       edges: []
@@ -163,7 +163,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 1fe0c3a1ec249114b811794dd67441f1
+    spriteID: 04f5b4a284e2e5c4682e63c7cbe109af
     internalID: 0
     vertices: []
     indices: 
@@ -173,10 +173,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Tile_border_norm: -2708083420707561013
-      Tile_border_offfset: 1005040095820259566
+      Tile_border_0: 1209566242
+      Tile_border_1: -144014712
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
