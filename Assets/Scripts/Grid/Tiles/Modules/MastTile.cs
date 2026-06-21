@@ -6,6 +6,9 @@ public class MastTile : ShipModuleTile
 {
     [SerializeField] public float evasionPerCrew = 0.1f;
     [SerializeField] public string mastDescription = "Main mast";
+    
+    [SerializeField] public int requiredCrew = 2;
+    public override int RequiredCrew => requiredCrew;
 
     public float EvasionBonus => CurrentCrew * evasionPerCrew;
 

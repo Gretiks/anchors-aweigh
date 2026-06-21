@@ -12,9 +12,11 @@ namespace Assets.Scripts.Grid.Tiles.Modules
     public abstract class ShipModuleTile : Tile
     {
         [SerializeField] public Faction owner;
-        [SerializeField] public int maxCrew = 3;
+        [SerializeField] public int maxCrew = 4;
 
         [HideInInspector] public int currentOccupants = 0;
+
+        public virtual int RequiredCrew => maxCrew;
 
         public int CurrentCrew => CountAdjacentCrew();
 

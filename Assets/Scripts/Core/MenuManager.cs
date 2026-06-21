@@ -40,8 +40,8 @@ public class MenuManager : MonoBehaviour
     //Position bar
     [SerializeField] private RectTransform _playerPositionMarker;
     [SerializeField] private RectTransform _enemyPositionMarker;
-    [SerializeField] private float _barMinX = -200f; // lewa krawêdŸ paska w px
-    [SerializeField] private float _barMaxX = 200f;  // prawa krawêdŸ paska w px
+    [SerializeField] private float _barMinX = -200f; // lewa krawï¿½dï¿½ paska w px
+    [SerializeField] private float _barMaxX = 200f;  // prawa krawï¿½dï¿½ paska w px
 
     void Awake() { Instance = this; }
 

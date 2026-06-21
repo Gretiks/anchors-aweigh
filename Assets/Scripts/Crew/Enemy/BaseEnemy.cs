@@ -161,7 +161,16 @@ public class BaseEnemy : BaseUnit
     public static void AssignEnemiesToModules()
     {
         var allModules = FindObjectsByType<ShipModuleTile>().Where(m => m.owner == Faction.Enemy).ToList();
-        var sortedModules = allModules.OrderBy(m => GetModulePriority(m)).ToList();
+
+        EnemyShip enemyShip = FindFirstObjectByType<EnemyShip>();
+        EnemyStrategy currentStrategy = EnemyStrategy.Shooting; //domyslna wartosc awaryjna
+
+        if (enemyShip != null)
+            currentStrategy = enemyShip.ShipStrategy;
+        else
+            Debug.LogWarning("Nie znaleziony EnemyShip, wartosc domyslna");
+        
+        var sortedModules = allModules.OrderBy(m => GetModulePriority(m, currentStrategy)).ToList();
 
         HashSet<BaseEnemy> lockedEnemies = new HashSet<BaseEnemy>();
 
@@ -184,28 +193,43 @@ public class BaseEnemy : BaseUnit
         foreach (var module in sortedModules)
         {
             int currentLockedCrew = UnitManager.Instance._enemies.Count(e => e != null && e.assignedModule == module && lockedEnemies.Contains(e));
-            int neededCrew = module.maxCrew - currentLockedCrew;
+            int neededCrew = module.RequiredCrew - currentLockedCrew;
 
             for (int i = 0; i < neededCrew; i++)
             {
                 BaseEnemy closestFreeEnemy = FindClosestEnemy(module, lockedEnemies);
 
                 if (closestFreeEnemy != null)
+                {
                     closestFreeEnemy.assignedModule = module;
+                    lockedEnemies.Add(closestFreeEnemy);
+                }
                 else
                     break;
             }
         }
     }
 
-    private static int GetModulePriority(ShipModuleTile module)
+    private static int GetModulePriority(ShipModuleTile module, EnemyStrategy strategy)
     {
         //lower value higher priority
         
-        if (module is HelmTile) return 1;
-        if (module is CannonTile) return 2;
-        if (module is MastTile) return 3;
-        return 4;
+        if (strategy == EnemyStrategy.Shooting)
+        {
+            // shooting: armaty > maszt
+            if (module is CannonTile) return 1;
+            if (module is MastTile) return 2;
+            // if (module is HelmTile) return 3; // Ster na końcu
+        }
+        else if (strategy == EnemyStrategy.Meele)
+        {
+            // meele: ster > maszt
+            if (module is HelmTile) return 1;
+            if (module is MastTile) return 2;
+            // if (module is CannonTile) return 3; // Armaty na końcu
+        }
+
+        return 4; // Dla pozostałych, nieokreślonych modułów
     }
 
     private static BaseEnemy FindClosestEnemy(Tile startTile, HashSet<BaseEnemy> lockedEnemies)

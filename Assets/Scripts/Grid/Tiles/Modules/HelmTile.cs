@@ -14,6 +14,9 @@ namespace Assets.Scripts.Grid.Tiles.Modules
 
         [SerializeField] public string helmDescription = "Ship's helm";
         public HelmOrder CurrentOrder { get; private set; } = HelmOrder.Stop;
+        
+        [SerializeField] public int requiredCrew = 1;
+        public override int RequiredCrew => requiredCrew;
 
         public void SetOrder(HelmOrder order)
         {

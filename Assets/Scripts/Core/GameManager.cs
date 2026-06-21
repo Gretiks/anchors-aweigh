@@ -78,6 +78,12 @@ namespace Core
             
             ProcessEnemyCannons();
             
+            var enemyShip = ShipManager.Instance.enemyShip;
+            if (enemyShip != null)
+                enemyShip.ExecuteShipTurnMovement();
+            
+            
+            
             ProcessHelmMovement();
             CheckBattleConditions();
             

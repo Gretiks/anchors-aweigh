@@ -22,7 +22,7 @@ public abstract class BaseShip : MonoBehaviour
 
     public void SetMast(MastTile mast) { _mast = mast; }
 
-    private void Awake()
+    protected void Awake()
     {
         currentHealth = maxHealth;
         Position = startPosition;

@@ -11,6 +11,8 @@ public class CannonTile : ShipModuleTile
     [SerializeField] public string cannonDescription = "Standard cannon";
     public bool HasFired { get; private set; } = false;
 
+    public override int RequiredCrew => requiredCrew;
+    
     protected override void OnMouseDown()
     {
         if (GameManager.Instance.GameState != GameState.UserTurn) return;
