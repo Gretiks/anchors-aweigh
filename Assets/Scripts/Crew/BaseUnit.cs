@@ -2,15 +2,55 @@ using UnityEngine;
 
 public class BaseUnit : MonoBehaviour
 {
-    public Tile OccupiedTile;
-    public Faction Faction;
-    public string unitName;
+    [Header("Identyfikacja Zapisu")]
+    [Tooltip("Wpisz unikalne ID (np. 'Warrior_1'). Dla wrogów zostaw puste.")]
+    public string uniqueID;
+
+    [Header("Statystyki")]
+    public float maxHealth = 100f;
+    public float currentHealth;
     public int UnitMovement = 5;
     public int baseMovement = 5;
 
+    public bool hasAttacked;
+
+    public Tile OccupiedTile;
+    public Faction Faction;
+    public string unitName;
+
+    protected virtual void Awake()
+    {
+        currentHealth = maxHealth;
+    }
+    
+    protected virtual void Start()
+    {
+        if(PlayerDataManager.Instance != null && PlayerDataManager.Instance.TryLoadUnitState(this))
+            if (currentHealth <= 0)
+                gameObject.SetActive(false);
+    }
+
+    public void TakeDamage(float amount)
+    {
+        currentHealth -= amount;
+        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+
+        if (currentHealth <= 0)
+            Die();
+    }
+
+    protected virtual void Die()
+    {
+        gameObject.SetActive(false);
+        
+        if(Core.GameManager.Instance != null)
+            Core.GameManager.Instance.CheckBattleConditions();
+    }
+    
     public void ResetMovement()
     {
         UnitMovement = baseMovement;
+        hasAttacked = false;
     }
     
     

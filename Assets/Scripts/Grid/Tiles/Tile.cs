@@ -1,6 +1,7 @@
 using Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class Tile : MonoBehaviour
 {
@@ -52,18 +53,23 @@ public class Tile : MonoBehaviour
         MenuManager.Instance.HideCannonMenu();
         MenuManager.Instance.HideMastMenu();
         MenuManager.Instance.HideHelmMenu();
+        
         if (GameManager.Instance.GameState != GameState.UserTurn) return;
 
         if (OccupiedUnit != null)
         {
-            if(OccupiedUnit.Faction == Faction.User) UnitManager.Instance.SetSelectedHero((BaseHero)OccupiedUnit);
+            if(OccupiedUnit.Faction == Faction.User) 
+                UnitManager.Instance.SetSelectedHero((BaseHero)OccupiedUnit);
             else
             {
                 if (UnitManager.Instance.SelectedHero != null)
                 {
                     var enemy = (BaseEnemy)OccupiedUnit;
                     //attack
-                    Destroy(enemy.gameObject);
+                    if (SceneManager.GetActiveScene().name == "BoardingScene")
+                        UnitManager.Instance.AttackEnemyWithSelectedHero(enemy);
+                    
+                        
                     UnitManager.Instance.SetSelectedHero(null);
                 }
             }

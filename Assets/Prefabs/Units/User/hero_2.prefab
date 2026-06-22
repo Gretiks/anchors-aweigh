@@ -104,7 +104,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 096e13f6a6906ff4fb78e2f7bea284c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hero3
+  uniqueID: Antoni
+  maxHealth: 100
+  currentHealth: 0
+  UnitMovement: 10
+  baseMovement: 5
   OccupiedTile: {fileID: 0}
   Faction: 0
-  unitName: Hero3
-  UnitMovement: 10
+  unitName: Antoni

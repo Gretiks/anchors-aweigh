@@ -104,7 +104,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 223fb26cedae4044cbb43b41b74a3c87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  uniqueID: 
+  maxHealth: 100
+  currentHealth: 0
+  UnitMovement: 2
+  baseMovement: 5
   OccupiedTile: {fileID: 0}
   Faction: 1
   unitName: Enemy1
-  UnitMovement: 2
+  assignedModule: {fileID: 0}
+  tileStepDelay: 0.4
+  boardingAttackDamage: 20

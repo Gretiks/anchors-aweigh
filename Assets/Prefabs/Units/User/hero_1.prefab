@@ -104,7 +104,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ded4b9160d30ad44080daab1764e377b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hero2
+  uniqueID: Martyna
+  maxHealth: 100
+  currentHealth: 0
+  UnitMovement: 10
+  baseMovement: 5
   OccupiedTile: {fileID: 0}
   Faction: 0
-  unitName: Hero2
-  UnitMovement: 10
+  unitName: Martyna

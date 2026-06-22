@@ -4,12 +4,10 @@ using Core;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.SceneManagement;
-using UnityEngine.XR;
 using Random = UnityEngine.Random;
 
 namespace Grid
 {
-
     public class GridManager : MonoBehaviour
     {
         public static GridManager Instance;
@@ -17,7 +15,6 @@ namespace Grid
 
         [SerializeField] private int _width, _height;
         [SerializeField] private Tile _shipTile, _seaTile, _enemyShipTile;
-        //[SerializeField] private Transform _camera;
         [SerializeField] private Tile _cannonPlayerTile, _cannonEnemyTile;
         [SerializeField] private Tile _mastPlayerTile, _mastEnemyTile;
         [SerializeField] private Tile _helmPlayerTile, _helmEnemyTile;
@@ -42,8 +39,6 @@ namespace Grid
                 ClearOldGrid();
                 GenerateBoardingGrid();
             }
-
-
         }   
 
         public void GenerateGrid()
@@ -120,22 +115,51 @@ namespace Grid
             GameManager.Instance.ChangeState(GameState.SpawnUserCrew);
         }
 
+        // =========================================================================
+        // ZMODYFIKOWANE METODY SPAWNUJĄCE (ZALEŻNE OD SCENY)
+        // =========================================================================
 
         public Tile GetHeroSpawnTile()
         {
-            return _tiles
-                .Where(t => IsShipTile((int)t.Key.x, (int)t.Key.y) && t.Value.Walkable)
+            bool isBoarding = SceneManager.GetActiveScene().name == "BoardingScene";
+            
+            // W bitwie morskiej środek to 5f, w abordażu przesuwa się na 9f
+            float currentCenterX = isBoarding ? 9f : 5f; 
+
+            var availableTiles = _tiles.AsEnumerable();
+
+            if (isBoarding)
+            {
+                availableTiles = availableTiles.Where(t => (int)t.Key.x == 11 || (int)t.Key.x == 12);
+            }
+
+            return availableTiles
+                .Where(t => IsShipTile((int)t.Key.x, (int)t.Key.y, currentCenterX) && t.Value.Walkable)
                 .OrderBy(_ => Random.value)
                 .First().Value;
         }
 
         public Tile GetEnemySpawnTile()
         {
-            return _tiles
-                .Where(t => IsEnemyShipTile((int)t.Key.x, (int)t.Key.y) && t.Value.Walkable)
+            bool isBoarding = SceneManager.GetActiveScene().name == "BoardingScene";
+            
+            // W bitwie morskiej wróg stoi na 26f, w abordażu cumuje na 22f
+            float currentCenterX = isBoarding ? 22f : 26f; 
+
+            var availableTiles = _tiles.AsEnumerable();
+
+            if (isBoarding)
+            {
+                availableTiles = availableTiles.Where(t => (int)t.Key.x == 19 || (int)t.Key.x == 20);
+            }
+
+            return availableTiles
+                .Where(t => IsEnemyShipTile((int)t.Key.x, (int)t.Key.y, currentCenterX) && t.Value.Walkable)
                 .OrderBy(_ => Random.value)
                 .First().Value;
         }
+
+        // =========================================================================
 
         public List<Tile> GetNeighbors(Tile tile)
         {
@@ -301,16 +325,15 @@ namespace Grid
                 {
                     if (tile != null)
                     {
-                        Destroy(tile.gameObject); // Fizyczne usunięcie obiektu ze sceny
+                        Destroy(tile.gameObject);
                     }
                 }
-                _tiles.Clear(); // Wyczyszczenie słownika
+                _tiles.Clear();
             }
             else
             {
                 _tiles = new Dictionary<Vector2, Tile>();
             }
         }
-
     }
 }

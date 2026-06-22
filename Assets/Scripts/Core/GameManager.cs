@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Grid;
 using System.Collections;
+using System.Linq;
 using Assets.Scripts.Grid.Tiles.Modules;
 
 namespace Core
@@ -143,6 +144,30 @@ namespace Core
 
         public void CheckBattleConditions()
         {
+            if (SceneManager.GetActiveScene().name == "BoardingScene")
+            {
+                if (UnitManager.Instance == null) return;
+
+                // Liczymy ile jednostek ma HP wy?sze od 0 i s? w??czone na scenie
+                int aliveHeroes = UnitManager.Instance._heroes.Count(h => h != null && h.gameObject.activeInHierarchy && h.currentHealth > 0);
+                int aliveEnemies = UnitManager.Instance._enemies.Count(e => e != null && e.gameObject.activeInHierarchy && e.currentHealth > 0);
+
+                if (aliveHeroes == 0)
+                {
+                    Debug.Log("Wszyscy Twoi piraci polegli! Przegrana bitwa aborda?owa.");
+                    TriggerEndGame(false); // false = ekran przegranej
+                    return;
+                }
+                else if (aliveEnemies == 0)
+                {
+                    Debug.Log("Wroga za?oga zosta?a wyci?ta w pie?! Zwyci?stwo w aborda?u!");
+                    TriggerEndGame(true); // true = ekran wygranej
+                    return;
+                }
+
+                return; // Je?li walka trwa, przerywamy wykonywanie metody, aby nie sprawdza? logiki morskiej poni?ej
+            }
+            
             float playerPos = ShipManager.Instance.playerShip.Position;
             float enemyPos = ShipManager.Instance.enemyShip.Position;
 
@@ -175,6 +200,16 @@ namespace Core
             else if (Mathf.Abs(playerPos - enemyPos) < 1f) 
             {
                 Debug.Log("Boarding phase");
+                PlayerDataManager.Instance.SaveShipState(playerShip);
+                
+                foreach(var hero in UnitManager.Instance._heroes)
+                    if(hero != null)
+                        PlayerDataManager.Instance.SaveUnitState(hero);
+                
+                foreach(var enemy in UnitManager.Instance._enemies)
+                    if(enemy != null)
+                        PlayerDataManager.Instance.SaveUnitState(enemy);
+                
                 SceneManager.LoadScene("BoardingScene");
             }
         }

@@ -2,13 +2,17 @@ using UnityEngine;
 
 public abstract class BaseShip : MonoBehaviour
 {
-    [SerializeField] public float maxHealth = 100f;
-
-    public float currentHealth;
-
-    public string ShipName;
     //[SerializeField] protected string shipType;
     // [SerializeField] protected int maxCrew;
+    
+    [Header("Ustawienia zapisu")] [SerializeField]
+    public bool isPlayerShip = false;
+    
+    [SerializeField] public float maxHealth = 100f;
+    public float currentHealth;
+    public string ShipName;
+
+
 
     [SerializeField] public float baseEvasion = 0.3f;
     [SerializeField] public float startPosition;
@@ -22,10 +26,18 @@ public abstract class BaseShip : MonoBehaviour
 
     public void SetMast(MastTile mast) { _mast = mast; }
 
-    protected void Awake()
+    protected virtual void Awake()
     {
         currentHealth = maxHealth;
         Position = startPosition;
+    }
+
+    protected virtual void Start()
+    {
+        if (isPlayerShip && PlayerDataManager.Instance != null)
+            PlayerDataManager.Instance.TryLoadingShipState(this);
+        
+        UpdateShipUI();
     }
 
     public void FindAndSetMast()

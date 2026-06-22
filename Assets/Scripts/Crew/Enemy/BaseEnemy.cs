@@ -5,14 +5,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Grid;
+using UnityEngine.SceneManagement; 
 
 public class BaseEnemy : BaseUnit
 {
     public ShipModuleTile assignedModule;
     public bool isActionCompleted { get; private set; } = true;
 
-    // Prędkość przeskakiwania między pojedynczymi kafelkami ścieżki
     [SerializeField] private float tileStepDelay = 0.4f;
+
+    [Header("Boarding AI (Walka wręcz)")]
+    [Tooltip("Ile obrażeń zada wróg, gdy podejdzie do jednostki gracza")]
+    [SerializeField] private float boardingAttackDamage = 25f;
 
     public void SetTargetModule(ShipModuleTile module)
     {
@@ -25,27 +29,139 @@ public class BaseEnemy : BaseUnit
         StartCoroutine(MoveAndActRoutine());
     }
 
+    // --- GŁÓWNY ROUTER LOGIKI AI ---
     private IEnumerator MoveAndActRoutine()
     {
-        // Krótkie opóźnienie przed rozpoczęciem akcji przez tę jednostkę
         yield return new WaitForSeconds(0.2f);
 
+        if (SceneManager.GetActiveScene().name == "BoardingScene")
+        {
+            yield return StartCoroutine(ExecuteBoardingAI());
+        }
+        else
+        {
+            yield return StartCoroutine(ExecuteShipModulesAI());
+        }
+
+        yield return new WaitForSeconds(0.2f);
+        isActionCompleted = true;
+    }
+
+    // =========================================================================
+    // 1. NOWE AI: FAZA ABORDAŻU (Pościg i atak)
+    // =========================================================================
+    private IEnumerator ExecuteBoardingAI()
+    {
+        // 1. Pobieramy listę żywych bohaterów gracza
+        var aliveHeroes = UnitManager.Instance._heroes
+            .Where(h => h != null && h.gameObject.activeInHierarchy && h.currentHealth > 0)
+            .ToList();
+
+        if (aliveHeroes.Count == 0)
+        {
+            Debug.Log($"{unitName}: Brak celów do ataku na pokładzie.");
+            yield break;
+        }
+
+        // Sortujemy cele od najbliższego do najdalszego
+        var sortedHeroes = aliveHeroes
+            .OrderBy(h => GetManhattanDistance(OccupiedTile, h.OccupiedTile))
+            .ToList();
+
+        List<Tile> bestPath = null;
+
+        foreach (var targetHero in sortedHeroes)
+        {
+            if (targetHero.OccupiedTile == null) continue;
+
+            var heroNeighbors = GridManager.Instance.GetNeighbors(targetHero.OccupiedTile);
+
+            // A. Jeśli wróg JUŻ stoi na polu obok tego herosa -> nie ruszamy się, przechodzimy do bicia
+            if (OccupiedTile != null && heroNeighbors.Contains(OccupiedTile))
+            {
+                bestPath = new List<Tile>(); 
+                break;
+            }
+
+            // B. Szukamy drogi do wolnych kafelków wokół tego herosa
+            var walkableTargetTiles = heroNeighbors
+                .Where(t => t.Walkable && t.OccupiedUnit == null)
+                .ToList();
+
+            foreach (var targetTile in walkableTargetTiles)
+            {
+                var path = FindPathToTileBFS(targetTile);
+                if (path != null && (bestPath == null || path.Count < bestPath.Count))
+                {
+                    bestPath = path;
+                }
+            }
+
+            // Jeśli znaleźliśmy choć jedną poprawną drogę do tego herosa, nie sprawdzamy dalszych
+            if (bestPath != null) break;
+        }
+
+        // 2. Realizacja ruchu (jeśli trasa istnieje i wymaga przejścia)
+        if (bestPath != null && bestPath.Count > 0)
+        {
+            int stepsToTake = Mathf.Min(bestPath.Count, UnitMovement);
+            Debug.Log($"{unitName} szarżuje na wroga. Pokona {stepsToTake} pól.");
+
+            for (int i = 0; i < stepsToTake; i++)
+            {
+                Tile nextTile = bestPath[i];
+                nextTile.SetUnit(this);
+                UnitMovement -= 1;
+                yield return new WaitForSeconds(tileStepDelay);
+            }
+        }
+
+        // 3. FAZA ATAKU: Po zakończeniu ruchu sprawdzamy, kogo mamy obok siebie
+        if (OccupiedTile != null)
+        {
+            var myNeighbors = GridManager.Instance.GetNeighbors(OccupiedTile);
+            BaseHero victim = aliveHeroes.FirstOrDefault(h => h.OccupiedTile != null && myNeighbors.Contains(h.OccupiedTile));
+
+            if (victim != null)
+            {
+                Debug.Log($"{unitName} wyprowadza cios wręcz w {victim.unitName} zadając {boardingAttackDamage} obrażeń!");
+                
+                // Wywołanie Twojej natywnej metody odejmowania HP
+                victim.TakeDamage(boardingAttackDamage);
+                
+                if(Core.GameManager.Instance !=null)
+                    Core.GameManager.Instance.CheckBattleConditions();
+                
+                yield return new WaitForSeconds(0.3f); // Krótki "hit-stop" dla lepszego feelingu
+            }
+        }
+    }
+
+    private int GetManhattanDistance(Tile a, Tile b)
+    {
+        if (a == null || b == null) return 9999;
+        return Mathf.RoundToInt(Mathf.Abs(a.transform.position.x - b.transform.position.x) + 
+                                Mathf.Abs(a.transform.position.y - b.transform.position.y));
+    }
+
+    // =========================================================================
+    // 2. STARE AI: FAZA BITWY MORSKIEJ (Bieganie do modułów)
+    // =========================================================================
+    private IEnumerator ExecuteShipModulesAI()
+    {
         if (assignedModule != null)
         {
             var neighbors = GridManager.Instance.GetNeighbors(assignedModule);
 
-            // 1. Sprawdzamy, czy stoimy już obok przydzielonego modułu
             if (OccupiedTile != null && neighbors.Contains(OccupiedTile))
             {
                 Debug.Log($"{unitName} stoi już na stanowisku przy module: {assignedModule.GetType().Name}");
             }
             else
             {
-                // 2. Znajdujemy wolne kafelki wokół modułu docelowego
                 var walkableTargets = neighbors.Where(t => t.Walkable && t.OccupiedUnit == null).ToList();
                 List<Tile> bestPath = null;
 
-                // 3. Szukamy najkrótszej poprawnej drogi do któregokolwiek z wolnych stanowisk przy module
                 foreach (var targetTile in walkableTargets)
                 {
                     var path = FindPathToTileBFS(targetTile);
@@ -55,26 +171,16 @@ public class BaseEnemy : BaseUnit
                     }
                 }
 
-                // 4. Jeśli znaleźliśmy drogę, ruszamy w trasę z uwzględnieniem ograniczenia zasięgu
                 if (bestPath != null && bestPath.Count > 0)
                 {
-                    // Ustalamy ile kratek realnie możemy przejść w tej turze (limit ruchu)
                     int stepsToTake = Mathf.Min(bestPath.Count, UnitMovement);
-                    
                     Debug.Log($"{unitName} planuje podróż do {assignedModule.GetType().Name}. Droga: {bestPath.Count} kratek. Wykona: {stepsToTake} kroków (Zasięg: {UnitMovement})");
 
-                    // Animacja ruchu: Przechodzimy kafelek po kafelku
                     for (int i = 0; i < stepsToTake; i++)
                     {
                         Tile nextTile = bestPath[i];
-                        
-                        // Używamy natywnej metody ustawiania jednostki z Tile.cs
                         nextTile.SetUnit(this);
-                        
-                        // Odejmujemy 1 punkt ruchu za każdą pokonaną kratkę (zgodnie z logikę Manhattan)
                         UnitMovement -= 1;
-
-                        // Odczekujemy chwilę przed kolejnym krokiem, aby ruch był płynny dla oka
                         yield return new WaitForSeconds(tileStepDelay);
                     }
                 }
@@ -88,20 +194,15 @@ public class BaseEnemy : BaseUnit
         {
             Debug.Log("No target module found");
         }
-
-        yield return new WaitForSeconds(0.2f);
-        isActionCompleted = true;
     }
 
-    // Algorytm BFS generujący pełną listę kafelków (ścieżkę) od pozycji wroga do celu
+    // Współdzielony algorytm szukania najkrótszej ścieżki
     private List<Tile> FindPathToTileBFS(Tile targetTile)
     {
         if (OccupiedTile == null || targetTile == null) return null;
 
         Queue<Tile> queue = new Queue<Tile>();
         HashSet<Tile> visited = new HashSet<Tile>();
-        
-        // Słownik do rekonstrukcji ścieżki: klucz = kafelek, wartość = skąd na niego przyszliśmy
         Dictionary<Tile, Tile> cameFrom = new Dictionary<Tile, Tile>();
 
         queue.Enqueue(OccupiedTile);
@@ -127,8 +228,6 @@ public class BaseEnemy : BaseUnit
                 {
                     if (neighbor.name.Contains("Sea")) continue;
 
-                    // Do budowania ścieżki ruchu dopuszczamy tylko kafelki Walkable (czyli wolne i przejezdne)
-                    // Wyjątek robimy dla kafelka docelowego (gdyby zawierał jakieś specyficzne parametry)
                     if (neighbor.Walkable || neighbor == targetTile)
                     {
                         visited.Add(neighbor);
@@ -139,7 +238,6 @@ public class BaseEnemy : BaseUnit
             }
         }
 
-        // Odtwarzanie ścieżki od tyłu (od celu do startu)
         if (pathFound)
         {
             List<Tile> path = new List<Tile>();
@@ -151,19 +249,23 @@ public class BaseEnemy : BaseUnit
                 current = cameFrom[current];
             }
 
-            path.Reverse(); // Odwracamy listę, aby szła od Startu do Celu
+            path.Reverse(); 
             return path;
         }
 
-        return null; // Brak wolnej ścieżki
+        return null; 
     }
 
     public static void AssignEnemiesToModules()
     {
+        // [KLUCZOWY BEZPIECZNIK]: W scenie abordażu całkowicie blokujemy tę metodę
+        if (SceneManager.GetActiveScene().name == "BoardingScene") 
+            return;
+
         var allModules = FindObjectsByType<ShipModuleTile>().Where(m => m.owner == Faction.Enemy).ToList();
 
         EnemyShip enemyShip = FindFirstObjectByType<EnemyShip>();
-        EnemyStrategy currentStrategy = EnemyStrategy.Shooting; //domyslna wartosc awaryjna
+        EnemyStrategy currentStrategy = EnemyStrategy.Shooting; 
 
         if (enemyShip != null)
             currentStrategy = enemyShip.ShipStrategy;
@@ -212,24 +314,18 @@ public class BaseEnemy : BaseUnit
 
     private static int GetModulePriority(ShipModuleTile module, EnemyStrategy strategy)
     {
-        //lower value higher priority
-        
         if (strategy == EnemyStrategy.Shooting)
         {
-            // shooting: armaty > maszt
             if (module is CannonTile) return 1;
             if (module is MastTile) return 2;
-            // if (module is HelmTile) return 3; // Ster na końcu
         }
         else if (strategy == EnemyStrategy.Meele)
         {
-            // meele: ster > maszt
             if (module is HelmTile) return 1;
             if (module is MastTile) return 2;
-            // if (module is CannonTile) return 3; // Armaty na końcu
         }
 
-        return 4; // Dla pozostałych, nieokreślonych modułów
+        return 4; 
     }
 
     private static BaseEnemy FindClosestEnemy(Tile startTile, HashSet<BaseEnemy> lockedEnemies)

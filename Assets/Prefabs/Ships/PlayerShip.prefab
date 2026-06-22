@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1a58875e4c620b49a68b32c5814c7fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerShip
+  isPlayerShip: 1
   maxHealth: 100
   currentHealth: 0
   ShipName: Statek Gracza
