@@ -19,7 +19,10 @@ namespace Core
 
         void Start()
         {
-            ChangeState(GameState.GenerateGrid);
+            if (SceneManager.GetActiveScene().name == "BoardingScene")
+                ChangeState(GameState.GenerateBoardingGrid);
+            else
+                ChangeState(GameState.GenerateGrid);
         }
 
         public void ChangeState(GameState newState)
@@ -29,6 +32,9 @@ namespace Core
             {
                 case GameState.GenerateGrid:
                     GridManager.Instance.GenerateGrid();
+                    break;
+                case GameState.GenerateBoardingGrid:
+                    GridManager.Instance.GenerateBoardingGrid();
                     break;
                 case GameState.SpawnUserCrew:
                     UnitManager.Instance.SpawnUnits();
@@ -187,9 +193,10 @@ namespace Core
     public enum GameState
     {
         GenerateGrid = 0,
-        SpawnUserCrew = 1,
-        SpawnEnemyCrew = 2,
-        UserTurn = 3,
-        EnemyTurn = 4
+        GenerateBoardingGrid = 1,
+        SpawnUserCrew = 2,
+        SpawnEnemyCrew = 3,
+        UserTurn = 4,
+        EnemyTurn = 5
     }
 }

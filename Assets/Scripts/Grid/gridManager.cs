@@ -75,89 +75,51 @@ namespace Grid
                 }
             }
 
-            //_camera.transform.position = new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -10);
             GameManager.Instance.ChangeState(GameState.SpawnUserCrew);
         }
-        
+
         public void GenerateBoardingGrid()
         {
-            // 1. Usuwamy stary grid z poprzedniej sceny
             ClearOldGrid();
-        
-            // Obliczamy wymiary oryginalnych statków (na podstawie standardowej szerokości _width)
-            // Zakładamy domyślny podział oryginalnej mapy (np. lewa połowa to gracz, prawa to wróg)
-            int originalHalfWidth = _width / 2; 
-        
-            // Nowe parametry po przybliżeniu statków
-            int bridgeLength = 4; // Długość mostów wskazana w zadaniu
-            
-            // Nowa całkowita szerokość mapy abordażu: 
-            // Szerokość statku gracza + szerokość mostów + szerokość statku wroga
-            int boardingWidth = originalHalfWidth + bridgeLength + originalHalfWidth;
-        
-            // Wyznaczamy rzędy, w których powstaną mosty łączące statki (nie mogą być obok siebie)
-            int bridge1Row = 2;
-            int bridge2Row = _height - 3;
-        
-            for (int x = 0; x < boardingWidth; x++)
+            _tiles = new Dictionary<Vector2, Tile>();
+
+            int bridge1Y = 5;
+            int bridge2Y = 10;
+            int bridgeStartX = 13;
+            int bridgeEndX = 18;
+
+            for (int x = 0; x < _width; x++)
             {
                 for (int y = 0; y < _height; y++)
                 {
-                    Tile prefab = null;
-        
-                    // --- STREFA STATKU GRACZA (Lewa strona) ---
-                    if (x < originalHalfWidth)
-                    {
-                        // Sprawdzamy oryginalny kształt statku gracza dla tej pozycji (x, y)
-                        if (IsHelmTile(x, y, out bool isHelmEnemy) && !isHelmEnemy) prefab = _helmPlayerTile;
-                        else if (IsMastTile(x, y, out bool isMastEnemy) && !isMastEnemy) prefab = _mastPlayerTile;
-                        else if (IsCannonTile(x, y, out bool isEnemy) && !isEnemy) prefab = _cannonPlayerTile;
-                        else if (IsShipTile(x, y)) prefab = _shipTile;
-                        else prefab = _seaTile;
-                    }
-                    // --- STREFA MOSTÓW I MORZA POMIĘDZY STATKAMI ---
-                    else if (x >= originalHalfWidth && x < originalHalfWidth + bridgeLength)
-                    {
-                        // Jeśli trafimy na rząd wyznaczony dla mostu, tworzymy przejście
-                        if (y == bridge1Row || y == bridge2Row)
-                        {
-                            prefab = _shipTile; // Most tworzony z kafelków po których można chodzić
-                        }
-                        else
-                        {
-                            prefab = _seaTile;
-                        }
-                    }
-                    // --- STREFA STATKU WROGA (Prawa strona) ---
-                    else
-                    {
-                        // Aby statek wroga zachował identyczny kształt, musimy "cofnąć" jego pozycję X 
-                        // do miejsca, w którym znajdowałby się na oryginalnej szerokiej mapie.
-                        int originalX = x - bridgeLength; 
-        
-                        if (IsHelmTile(originalX, y, out bool isHelmEnemy) && isHelmEnemy) prefab = _helmEnemyTile;
-                        else if (IsMastTile(originalX, y, out bool isMastEnemy) && isMastEnemy) prefab = _mastEnemyTile;
-                        else if (IsCannonTile(originalX, y, out bool isEnemy) && isEnemy) prefab = _cannonEnemyTile;
-                        else if (IsEnemyShipTile(originalX, y)) prefab = _enemyShipTile;
-                        else prefab = _seaTile;
-                    }
-        
-                    // Tworzenie kafelka na scenie
+                    Tile prefab;
+
+                    bool isBridge = x >= bridgeStartX && x <= bridgeEndX
+                                    && (y == bridge1Y || y == bridge2Y);
+
+                    if (isBridge)
+                        prefab = _shipTile;
+                    else if (IsHelmTile(x, y, out bool isHelmEnemy, boarding: true))
+                        prefab = isHelmEnemy ? _helmEnemyTile : _helmPlayerTile;
+                    else if (IsMastTile(x, y, out bool isMastEnemy, boarding: true))
+                        prefab = isMastEnemy ? _mastEnemyTile : _mastPlayerTile;
+                    else if (IsCannonTile(x, y, out bool isEnemy, boarding: true))
+                        prefab = isEnemy ? _cannonEnemyTile : _cannonPlayerTile;
+                    else if (IsShipTile(x, y, centerX: 9f)) prefab = _shipTile;
+                    else if (IsEnemyShipTile(x, y, centerX: 22f)) prefab = _enemyShipTile;
+                    else prefab = _seaTile;
+
                     var spawnedTile = Instantiate(prefab, new Vector3(x, y), Quaternion.identity);
                     spawnedTile.name = $"BoardingTile {x} {y}";
-        
                     _tiles[new Vector2(x, y)] = spawnedTile;
-        
-                    // Inicjalizacja koloru szachownicy (offset)
                     var isOffset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0);
                     spawnedTile.Init(isOffset);
                 }
             }
-        
-            // Przekazanie stanu gry do rozstawienia załogi na nowym gridzie
+
             GameManager.Instance.ChangeState(GameState.SpawnUserCrew);
         }
-        
+
 
         public Tile GetHeroSpawnTile()
         {
@@ -192,36 +154,56 @@ namespace Grid
             return neighbors;
         }
 
-        private bool IsHelmTile(int x, int y, out bool isEnemy)
+        private bool IsCannonTile(int x, int y, out bool isEnemy, bool boarding = false)
         {
-            if (x == 5 && y == 4) { isEnemy = false; return true; }
-            if (x == 26 && y == 4) { isEnemy = true; return true; }
-
+            if (!boarding)
+            {
+                if (x == 8 && y == 7) { isEnemy = false; return true; }
+                if (x == 23 && y == 7) { isEnemy = true; return true; }
+            }
+            else
+            {
+                if (x == 12 && y == 7) { isEnemy = false; return true; }
+                if (x == 19 && y == 7) { isEnemy = true; return true; }
+            }
             isEnemy = false;
             return false;
         }
 
-        private bool IsMastTile(int x, int y, out bool isEnemy)
+        private bool IsMastTile(int x, int y, out bool isEnemy, bool boarding = false)
         {
-            if (x == 5 && y == 7) { isEnemy = false; return true; }
-            if (x == 26 && y == 7) { isEnemy = true; return true; }
-
+            if (!boarding)
+            {
+                if (x == 5 && y == 7) { isEnemy = false; return true; }
+                if (x == 26 && y == 7) { isEnemy = true; return true; }
+            }
+            else
+            {
+                if (x == 9 && y == 7) { isEnemy = false; return true; }
+                if (x == 22 && y == 7) { isEnemy = true; return true; }
+            }
             isEnemy = false;
             return false;
         }
 
-        private bool IsCannonTile(int x, int y, out bool isEnemy)
+        private bool IsHelmTile(int x, int y, out bool isEnemy, bool boarding = false)
         {
-            if (x == 8 && y == 7) { isEnemy = false; return true; }
-            if (x == 23 && y == 7) { isEnemy = true; return true; }
-
+            if (!boarding)
+            {
+                if (x == 5 && y == 4) { isEnemy = false; return true; }
+                if (x == 26 && y == 4) { isEnemy = true; return true; }
+            }
+            else
+            {
+                if (x == 9 && y == 4) { isEnemy = false; return true; }
+                if (x == 22 && y == 4) { isEnemy = true; return true; }
+            }
             isEnemy = false;
             return false;
         }
 
-        bool IsShipTile(int x, int y)
+        bool IsShipTile(int x, int y, float centerX = 5f)
         {
-            float centerX = 5f;
             float centerY = (_height - 1) / 2f;
     
             int hullHalfWidth = 3;
@@ -252,10 +234,9 @@ namespace Grid
                 return Mathf.Abs(x - centerX) <= sternHalfWidth;
             }
         }
-    
-        bool IsEnemyShipTile(int x, int y)
+
+        bool IsEnemyShipTile(int x, int y, float centerX = 26f)
         {
-            float centerX = _width - 6f;
             float centerY = (_height - 1) / 2f;
     
             int hullHalfWidth = 3;
