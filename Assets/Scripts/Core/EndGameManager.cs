@@ -11,6 +11,7 @@ namespace Core
         
         [SerializeField] private TextMeshProUGUI _resultText;
         [SerializeField] private GameObject _quitButton;
+        [SerializeField] private GameObject _endButton;
     
         void Start()
         {
@@ -36,6 +37,19 @@ namespace Core
         public void End()
         {
             SceneManager.LoadScene("MainMenuScene");
+        }
+        
+        public void Quit()
+        {
+            Debug.Log("Zamykanie programu...");
+        
+            #if UNITY_EDITOR
+                    // Jeśli testujemy w edytorze Unity, zatrzymaj tryb Play
+                    UnityEditor.EditorApplication.isPlaying = false;
+            #else
+                    // Jeśli to gotowa kompilacja, zamknij program
+                    Application.Quit();
+            #endif
         }
         
     }

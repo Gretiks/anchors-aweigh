@@ -24,31 +24,56 @@ namespace Core
         [SerializeField] private GameObject _DamageButton;
         [SerializeField] private GameObject _ArmorButton;
         [SerializeField] private GameObject _nextButton;
+        [SerializeField] private GameObject _quitButton;
         
-        PlayerShip playerShip = ShipManager.Instance.playerShip;
+        [SerializeField] private float basePlayerMaxHealth = 100f;
 
         void Start() => UpdateUI();
 
+        private float GetCurrentMaxHealth()
+        {
+            float bonus = 0f;
+            if (PlayerDataManager.Instance != null)
+                bonus = PlayerDataManager.Instance.BonusHp;
+
+            return basePlayerMaxHealth + bonus;
+        }
+        
+        private float GetCurrentHealthFromSave()
+        {
+            if (PlayerDataManager.Instance != null && PlayerDataManager.Instance.HasExistingSave)
+                return PlayerDataManager.Instance.GetSavedShipHealth();
+            
+            return GetCurrentMaxHealth();
+        }
+        
         public void BuyHeal()
         {
-            if (playerShip.currentHealth < playerShip.maxHealth)
+            if (PlayerDataManager.Instance == null) return;
+
+            // Pobieramy aktualne zdrowie z pamięci podręcznej managera danych
+            float currentHp = PlayerDataManager.Instance.GetSavedShipHealth();
+            float maxHp = GetCurrentMaxHealth();
+
+            if (currentHp < maxHp)
             {
                 if (PlayerDataManager.Instance.TrySpendGold(_healCost))
                 {
-                    playerShip.currentHealth += _healfAmount;
-                    playerShip.currentHealth = Mathf.Clamp(playerShip.currentHealth, 0f, playerShip.maxHealth);
+                    currentHp += _healfAmount;
+                    currentHp = Mathf.Clamp(currentHp, 0f, maxHp);
+                    
+                    // Zapisujemy zmodyfikowaną wartość bezpośrednio w PlayerDataManager
+                    PlayerDataManager.Instance.UpdateSavedShipHealth(currentHp);
+                    
                     UpdateUI();
                 }
-                
-            }
-            else
-            {
-                //za malo zlota jakis popup
             }
         }
 
         public void UpgradeGuns()
         {
+            if (PlayerDataManager.Instance == null) return;
+            
             if (PlayerDataManager.Instance.TrySpendGold(_DamageCost))
             {
                 PlayerDataManager.Instance.BonusDamage += _DamageAmount;
@@ -58,10 +83,17 @@ namespace Core
 
         public void UpgradeArmor()
         {
+            if (PlayerDataManager.Instance == null) return;
+            
             if (PlayerDataManager.Instance.TrySpendGold(_ArmorCost))
             {
                 PlayerDataManager.Instance.BonusHp += _ArmorAmount;
-                playerShip.currentHealth += _ArmorAmount;
+                
+                float currentHp = PlayerDataManager.Instance.GetSavedShipHealth();
+                currentHp += _ArmorAmount;
+                
+                PlayerDataManager.Instance.UpdateSavedShipHealth(currentHp);
+                
                 UpdateUI();
             }
         }
@@ -71,9 +103,25 @@ namespace Core
             SceneManager.LoadScene("BattleScene");
         }
 
+        public void Quit()
+        {
+            Debug.Log("Zamykanie programu...");
+        
+            #if UNITY_EDITOR
+                    // Jeśli testujemy w edytorze Unity, zatrzymaj tryb Play
+                    UnityEditor.EditorApplication.isPlaying = false;
+            #else
+                    // Jeśli to gotowa kompilacja, zamknij program
+                    Application.Quit();
+            #endif
+        }
+        
         private void UpdateUI()
         {
-            _ShipHP.text = $"Ship HP: {playerShip.currentHealth}";
+            float currentHp = PlayerDataManager.Instance.GetSavedShipHealth();
+            float maxHp = GetCurrentMaxHealth();
+            
+            _ShipHP.text = $"Ship HP: {currentHp} /  {maxHp}";
             _goldText.text = $"Gold: {PlayerDataManager.Instance.Gold}";
             _ShipDMG.text = $"Cannon damage: {20 + PlayerDataManager.Instance.BonusDamage}";
         }

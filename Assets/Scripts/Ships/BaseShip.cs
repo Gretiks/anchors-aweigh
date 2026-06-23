@@ -36,10 +36,8 @@ public abstract class BaseShip : MonoBehaviour
 
     protected virtual void Start()
     {
-        if (isPlayerShip && PlayerDataManager.Instance != null)
-            PlayerDataManager.Instance.TryLoadingShipState(this);
-        
-        // currentHealth = maxHealth;
+        // if (isPlayerShip && PlayerDataManager.Instance != null)
+        //     PlayerDataManager.Instance.TryLoadingShipState(this);
         
         UpdateShipUI();
     }

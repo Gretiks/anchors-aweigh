@@ -113,5 +113,19 @@ public class PlayerDataManager : MonoBehaviour
         }
         return false;
     }
+    
+    public float GetSavedShipHealth()
+    {
+        if (HasExistingSave)
+            return _shipData.currentHealth;
+        
+        return 100f; 
+    }
+    
+    public void UpdateSavedShipHealth(float newHealth)
+    {
+        _shipData.currentHealth = newHealth;
+        HasExistingSave = true; //
+    }
 
 }

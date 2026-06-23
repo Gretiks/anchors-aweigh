@@ -40,6 +40,11 @@ namespace Core
                 case GameState.SpawnUserCrew:
                     UnitManager.Instance.SpawnUnits();
                     ShipManager.Instance.InitiatePlayerShip();
+                    
+                    if(ShipManager.Instance.playerShip != null &&
+                       PlayerDataManager.Instance != null)
+                        PlayerDataManager.Instance.TryLoadingShipState(ShipManager.Instance.playerShip);
+                    
                     ShipManager.Instance.playerShip.UpdateShipUI();
                     break;
                 case GameState.SpawnEnemyCrew:
@@ -223,10 +228,12 @@ namespace Core
         // NOWA METODA POMOCNICZA:
         private void TriggerEndGame(bool victory)
         {
-            // 1. Ustawiamy statyczn? flag? w skrypcie ekranu ko?cowego
+            if (ShipManager.Instance != null && ShipManager.Instance.playerShip != null && PlayerDataManager.Instance != null)
+            {
+                PlayerDataManager.Instance.SaveShipState(ShipManager.Instance.playerShip);
+            }
+            
             EndGameManager.IsVictory = victory;
-
-            // 2. ?adujemy scen? ko?cow? po nazwie wpisanej w Build Settings
             SceneManager.LoadScene("EndGameScene");
         }
     }
