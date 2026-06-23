@@ -9,6 +9,9 @@ public class CannonTile : ShipModuleTile
     [SerializeField] public int requiredCrew = 2;
     [SerializeField] public int damage = 20;
     [SerializeField] public string cannonDescription = "Standard cannon";
+
+    private int bonusDamege = 0;
+    
     public bool HasFired { get; private set; } = false;
 
     public override int RequiredCrew => requiredCrew;
@@ -22,13 +25,15 @@ public class CannonTile : ShipModuleTile
 
     public void Fire()
     {
+        bonusDamege = PlayerDataManager.Instance.BonusDamage;
+        
         if (HasFired) return;
         BaseShip targetShip = owner == Faction.User ? (BaseShip)ShipManager.Instance.enemyShip : (BaseShip)ShipManager.Instance.playerShip;
 
         bool hit = Random.value > targetShip.evasion;
         if (hit)
         {
-            targetShip.TakeDamange(damage);
+            targetShip.TakeDamange(damage + bonusDamege);
             GameManager.Instance.CheckBattleConditions();
         }
         HasFired = true;

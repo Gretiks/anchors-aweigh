@@ -20,5 +20,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BoardingScene.unity
     guid: 458e10259482d9e499f463168a42605e
+  - enabled: 1
+    path: Assets/Scenes/ShopScene.unity
+    guid: 814065ffcd9e2324cb234be2dd53c658
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

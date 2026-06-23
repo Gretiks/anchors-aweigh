@@ -22,6 +22,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Core/ShipManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Core/ShopManager.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="McpProjectServerCommands">
     <commands />
@@ -125,7 +126,8 @@
       <workItem from="1782049796023" duration="16803000" />
       <workItem from="1782073869045" duration="2574000" />
       <workItem from="1782148522949" duration="9865000" />
-      <workItem from="1782234246433" duration="7758000" />
+      <workItem from="1782234246433" duration="13696000" />
+      <workItem from="1782249083437" duration="1700000" />
     </task>
     <servers />
   </component>

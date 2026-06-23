@@ -11,6 +11,10 @@ public enum EnemyStrategy
 public class EnemyShip : BaseShip
 {
     protected override Faction GetFaction() => Faction.Enemy;
+
+    [SerializeField] private float enemyMaxHealth = 100f;
+    public override float maxHealth => enemyMaxHealth;
+
     public EnemyStrategy ShipStrategy { get; private set; }
 
     private Assets.Scripts.Grid.Tiles.Modules.HelmTile _enemyHelm;

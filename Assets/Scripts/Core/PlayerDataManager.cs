@@ -5,6 +5,10 @@ public class PlayerDataManager : MonoBehaviour
 {
     public static PlayerDataManager Instance { get; private set; }
 
+    public int Gold { get; private set; } = 50;
+    public int BonusDamage { get;  set; } = 0;
+    public float BonusHp { get;  set; } = 0;
+
     [System.Serializable]
     public class ShipSaveData
     {
@@ -92,6 +96,22 @@ public class PlayerDataManager : MonoBehaviour
     {
         HasExistingSave = false;
         _unitsData.Clear();
+    }
+    
+    public void AddGold(int amount)
+    {
+        Gold += amount;
+        Debug.Log($"Zdobyto {amount} złota. Aktualny stan: {Gold}");
+    }
+
+    public bool TrySpendGold(int amount)
+    {
+        if (Gold >= amount)
+        {
+            Gold -= amount;
+            return true;
+        }
+        return false;
     }
 
 }

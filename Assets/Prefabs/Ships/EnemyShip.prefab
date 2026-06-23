@@ -44,9 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1875dc217d2c0774abfa4ae92320a0cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyShip
-  maxHealth: 100
+  isPlayerShip: 0
   currentHealth: 0
   ShipName: Wrogi Statek
   baseEvasion: 0.3
   startPosition: 5
   speed: 1
+  enemyMaxHealth: 30

@@ -8,7 +8,9 @@ public abstract class BaseShip : MonoBehaviour
     [Header("Ustawienia zapisu")] [SerializeField]
     public bool isPlayerShip = false;
     
-    [SerializeField] public float maxHealth = 100f;
+    // [SerializeField] public float maxHealth = 100f;
+    
+    public abstract float maxHealth { get; }
     public float currentHealth;
     public string ShipName;
 
@@ -36,6 +38,8 @@ public abstract class BaseShip : MonoBehaviour
     {
         if (isPlayerShip && PlayerDataManager.Instance != null)
             PlayerDataManager.Instance.TryLoadingShipState(this);
+        
+        // currentHealth = maxHealth;
         
         UpdateShipUI();
     }
