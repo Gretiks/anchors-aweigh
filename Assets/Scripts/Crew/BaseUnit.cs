@@ -41,6 +41,12 @@ public class BaseUnit : MonoBehaviour
 
     protected virtual void Die()
     {
+        if (OccupiedTile != null)
+        {
+            OccupiedTile.SetUnit(null);
+            OccupiedTile = null;
+        }
+        
         gameObject.SetActive(false);
         
         if(Core.GameManager.Instance != null)

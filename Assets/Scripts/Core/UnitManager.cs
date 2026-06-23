@@ -159,7 +159,7 @@ public class UnitManager : MonoBehaviour
     {
         if (SelectedHero == null)
         {
-            Debug.LogWarning("Nie zaznaczono żadnego bohatera, który mógłby zaatakować!");
+            // Debug.LogWarning("Nie zaznaczono żadnego bohatera, który mógłby zaatakować!");
             return;
         }
 
@@ -178,7 +178,7 @@ public class UnitManager : MonoBehaviour
         {
             float playerAttackDamage = 35f; 
 
-            Debug.Log($"{SelectedHero.unitName} potężnym ciosem atakuje {enemy.unitName} i zadaje {playerAttackDamage} obrażeń!");
+            // Debug.Log($"{SelectedHero.unitName} potężnym ciosem atakuje {enemy.unitName} i zadaje {playerAttackDamage} obrażeń!");
             
             enemy.TakeDamage(playerAttackDamage);
 
@@ -187,8 +187,8 @@ public class UnitManager : MonoBehaviour
             if (Core.GameManager.Instance != null)
                 Core.GameManager.Instance.CheckBattleConditions();
         }
-        else
-            Debug.Log("Przeciwnik stoi za daleko! Podejdź bliżej, aby zaatakować wręcz.");
+        
+            // Debug.Log("Przeciwnik stoi za daleko! Podejdź bliżej, aby zaatakować wręcz.");
     }
 
 }

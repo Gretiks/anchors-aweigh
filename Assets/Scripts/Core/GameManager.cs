@@ -62,25 +62,28 @@ namespace Core
 
         public void EndTurn()
         {
-            ChangeState(GameState.EnemyTurn);
+            if(GameState == GameState.UserTurn)
+                ChangeState(GameState.EnemyTurn);
         }
 
         private IEnumerator EnemyTurnRoutine()
         {
             Debug.Log("-----TURA AI-----");
             
+            ProcessHelmMovement(Faction.User);
+            CheckBattleConditions();
+            
             BaseEnemy.AssignEnemiesToModules();
             
             foreach (var enemy in UnitManager.Instance._enemies)
             {
-                if (enemy == null) continue;
+                if (enemy == null || !enemy.gameObject.activeInHierarchy || enemy.currentHealth <= 0) 
+                    continue;
 
                 enemy.StartTurnAction();
                 
                 while (!enemy.isActionCompleted)
-                {
                     yield return null;
-                }
             }
             
             ProcessEnemyCannons();
@@ -89,9 +92,7 @@ namespace Core
             if (enemyShip != null)
                 enemyShip.ExecuteShipTurnMovement();
             
-            
-            
-            ProcessHelmMovement();
+            ProcessHelmMovement(Faction.Enemy);
             CheckBattleConditions();
             
             ChangeState(GameState.UserTurn);
@@ -129,16 +130,21 @@ namespace Core
                 cannon.ResetFired();
         }
 
-        private void ProcessHelmMovement()
+        private void ProcessHelmMovement(Faction targetFaction)
         {
             var helms = FindObjectsByType<HelmTile>();
             foreach (var helm in helms)
             {
                 if (!helm.HasCrew) continue;
-                if (helm.owner == Faction.User)
-                    ShipManager.Instance.playerShip.MoveShip(helm.GetDirectionForShip());
-                else
-                    ShipManager.Instance.enemyShip.MoveShip(helm.GetDirectionForShip());
+
+                if (helm.owner == targetFaction)
+                {
+                    if (helm.owner == Faction.User)
+                        ShipManager.Instance.playerShip.MoveShip(helm.GetDirectionForShip());
+                    else
+                        ShipManager.Instance.enemyShip.MoveShip(helm.GetDirectionForShip());
+                }
+                
             }
         }
 

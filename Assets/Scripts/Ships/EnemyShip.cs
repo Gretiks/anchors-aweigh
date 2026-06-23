@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum EnemyStrategy
 {
@@ -24,6 +25,9 @@ public class EnemyShip : BaseShip
 
     private void InitializeShipStrategy()
     {
+        if(SceneManager.GetActiveScene().name == "BoardingScene")
+            return;
+        
         int randomValue = UnityEngine.Random.Range(0, 2);
 
         if (randomValue == 0)
@@ -61,19 +65,7 @@ public class EnemyShip : BaseShip
             _enemyHelm.SetOrder(Assets.Scripts.Grid.Tiles.Modules.HelmTile.HelmOrder.Approach);
         else if(ShipStrategy == EnemyStrategy.Shooting)
             _enemyHelm.SetOrder(Assets.Scripts.Grid.Tiles.Modules.HelmTile.HelmOrder.Stop);
-
-        if (_enemyHelm.HasCrew)
-        {
-            int direction = _enemyHelm.GetDirectionForShip();
-            
-            if(direction != 0)
-                MoveShip(direction);
-            
-        }
-        else
-        {
-            Debug.Log($"[STATEK] {gameObject.name} chce wykonać ruch, ale ster nie ma zalogi!");
-        }
+        
             
     }
     

@@ -1,4 +1,5 @@
 using Core;
+using Grid;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -67,10 +68,13 @@ public class Tile : MonoBehaviour
                     var enemy = (BaseEnemy)OccupiedUnit;
                     //attack
                     if (SceneManager.GetActiveScene().name == "BoardingScene")
+                    {
                         UnitManager.Instance.AttackEnemyWithSelectedHero(enemy);
+                        UnitManager.Instance.SelectedHero.UnitMovement = 0;
+                    }
                     
-                        
                     UnitManager.Instance.SetSelectedHero(null);
+                    MenuManager.Instance.RefreshHeroList(UnitManager.Instance._heroes);
                 }
             }
         }
@@ -80,12 +84,14 @@ public class Tile : MonoBehaviour
             if (UnitManager.Instance.SelectedHero != null && Walkable)
             {
                 var hero = UnitManager.Instance.SelectedHero;
-                var dist =  CalculateDistance(hero);
+                var path = GridManager.Instance.FindPath(hero.OccupiedTile, this);
                 
-                if (IsWithinMoveRange(hero, dist))
+                if (path != null && path.Count <= hero.UnitMovement)
                 {
-                    hero.UnitMovement -= dist;
-                    SetUnit(UnitManager.Instance.SelectedHero);
+                    int realCost = path.Count;
+                    hero.UnitMovement -= realCost;
+                    
+                    SetUnit(hero);
                     UnitManager.Instance.SetSelectedHero(null);
                     MenuManager.Instance.RefreshHeroList(UnitManager.Instance._heroes);
                 }
@@ -95,10 +101,17 @@ public class Tile : MonoBehaviour
     
     public void SetUnit(BaseUnit unit)
     {
-        if(unit.OccupiedTile != null) unit.OccupiedTile.OccupiedUnit = null;
-        unit.transform.position = transform.position;
         OccupiedUnit = unit;
-        unit.OccupiedTile = this;
+
+        if (unit != null)
+        {
+            if (unit.OccupiedTile != null)
+                unit.OccupiedTile.OccupiedUnit = null;
+            
+            unit.transform.position = transform.position;
+            unit.OccupiedTile = this;
+        }
+        
         if (ShipManager.Instance.playerShip != null) ShipManager.Instance.playerShip.UpdateShipUI();
         if (ShipManager.Instance.enemyShip != null) ShipManager.Instance.enemyShip.UpdateShipUI();
     }

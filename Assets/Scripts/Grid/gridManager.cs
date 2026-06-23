@@ -11,7 +11,6 @@ namespace Grid
     public class GridManager : MonoBehaviour
     {
         public static GridManager Instance;
-        public static GameManager gameManager;
 
         [SerializeField] private int _width, _height;
         [SerializeField] private Tile _shipTile, _seaTile, _enemyShipTile;
@@ -27,22 +26,24 @@ namespace Grid
             Instance = this;
         }
 
-        private void Start()
-        {
-            if (SceneManager.GetActiveScene().name == "BattleScene")
-            {
-                ClearOldGrid();
-                gameManager.ChangeState(GameState.GenerateGrid);
-            }
-            else if (SceneManager.GetActiveScene().name == "BoardingScene")
-            {
-                ClearOldGrid();
-                GenerateBoardingGrid();
-            }
-        }   
+        // private void Start()
+        // {
+        //     if (SceneManager.GetActiveScene().name == "BattleScene")
+        //     {
+        //         ClearOldGrid();
+        //         GameManager.Instance.ChangeState(GameState.GenerateGrid);
+        //     }
+        //     else if (SceneManager.GetActiveScene().name == "BoardingScene")
+        //     {
+        //         ClearOldGrid();
+        //         GenerateBoardingGrid();
+        //     }
+        // }   
 
         public void GenerateGrid()
         {
+            ClearOldGrid();
+            
             _tiles = new Dictionary<Vector2, Tile>();
 
             for (int x = 0; x < _width; x++)
@@ -294,13 +295,15 @@ namespace Grid
 
         public void ShowRangeHighlights(BaseUnit unit)
         {
-            foreach (var tile in _tiles.Values)
-            {
-                bool inRange = unit.OccupiedTile != null
-                    && IsWithinRange(unit.OccupiedTile, tile, unit.UnitMovement)
-                    && tile.Walkable;
-                tile.SetRangeHighlight(inRange);
-            }
+            ClearRangeHighlights();
+
+            if (unit == null || unit.OccupiedTile == null || unit.UnitMovement <= 0)
+                return;
+            
+            HashSet<Tile> reachableTiles = GetReachableTiles(unit.OccupiedTile, unit.UnitMovement);
+
+            foreach (var tile in reachableTiles)
+                tile.SetRangeHighlight(true);
         }
 
         public void ClearRangeHighlights()
@@ -334,6 +337,110 @@ namespace Grid
             {
                 _tiles = new Dictionary<Vector2, Tile>();
             }
+        }
+        
+        public List<Tile> FindPath(Tile startTile, Tile targetTile)
+        {
+            if (startTile == null || targetTile == null) return null;
+
+            Queue<Tile> queue = new Queue<Tile>();
+            HashSet<Tile> visited = new HashSet<Tile>();
+            Dictionary<Tile, Tile> cameFrom = new Dictionary<Tile, Tile>();
+
+            queue.Enqueue(startTile);
+            visited.Add(startTile);
+
+            bool pathFound = false;
+
+            while (queue.Count > 0)
+            {
+                Tile current = queue.Dequeue();
+
+                if (current == targetTile)
+                {
+                    pathFound = true;
+                    break;
+                }
+
+                List<Tile> neighbors = GetNeighbors(current);
+
+                foreach (Tile neighbor in neighbors)
+                {
+                    if (neighbor != null && !visited.Contains(neighbor))
+                    {
+                        // Ignorujemy kafelki morza
+                        if (neighbor.name.Contains("Sea")) continue;
+
+                        // Kafelek jest przejezdny jeśli: jest Walkable ORAZ stoi na nim ewentualny trup (HP <= 0)
+                        bool isPassable = neighbor.Walkable || (neighbor.OccupiedUnit != null && neighbor.OccupiedUnit.currentHealth <= 0);
+
+                        if (isPassable)
+                        {
+                            visited.Add(neighbor);
+                            cameFrom[neighbor] = current;
+                            queue.Enqueue(neighbor);
+                        }
+                    }
+                }
+            }
+
+            if (pathFound)
+            {
+                List<Tile> path = new List<Tile>();
+                Tile current = targetTile;
+
+                while (current != startTile)
+                {
+                    path.Add(current);
+                    current = cameFrom[current];
+                }
+
+                path.Reverse();
+                return path;
+            }
+
+            return null; // Droga całkowicie zablokowana
+        }
+        
+        public HashSet<Tile> GetReachableTiles(Tile startTile, int maxMovement)
+        {
+            var reachable = new HashSet<Tile>();
+            var queue = new Queue<(Tile tile, int cost)>();
+            var visitedCosts = new Dictionary<Tile, int>(); // Zapisujemy najtańszy koszt dotarcia do kafelka
+
+            queue.Enqueue((startTile, 0));
+            visitedCosts[startTile] = 0;
+
+            while (queue.Count > 0)
+            {
+                var current = queue.Dequeue();
+
+                foreach (var neighbor in GetNeighbors(current.tile))
+                {
+                    // Ignorujemy kafelki puste oraz kafelki morza
+                    if (neighbor == null || neighbor.name.Contains("Sea")) continue;
+
+                    // Pole jest przejezdne TYLKO gdy jest Walkable LUB stoi na nim martwa jednostka
+                    bool isPassable = neighbor.Walkable || (neighbor.OccupiedUnit != null && neighbor.OccupiedUnit.currentHealth <= 0);
+
+                    if (!isPassable) continue;
+
+                    int newCost = current.cost + 1; // Zakładamy, że krok na sąsiednie pole kosztuje 1
+
+                    if (newCost <= maxMovement)
+                    {
+                        // Jeśli jeszcze tu nie byliśmy LUB nowa trasa do tego pola jest tańsza:
+                        if (!visitedCosts.ContainsKey(neighbor) || newCost < visitedCosts[neighbor])
+                        {
+                            visitedCosts[neighbor] = newCost;
+                            reachable.Add(neighbor);
+                            queue.Enqueue((neighbor, newCost));
+                        }
+                    }
+                }
+            }
+
+            return reachable;
         }
     }
 }

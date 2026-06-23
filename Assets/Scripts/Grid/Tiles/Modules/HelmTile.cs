@@ -27,7 +27,26 @@ namespace Assets.Scripts.Grid.Tiles.Modules
         {
             if (CurrentOrder == HelmOrder.Stop) return 0;
             bool isApproach = CurrentOrder == HelmOrder.Approach;
-            return owner == Faction.User ? (isApproach ? 1 : -1) : (isApproach ? -1 : 1);
+            
+            if(owner == Faction.User)
+                return isApproach ? 1 : -1;
+
+            if (ShipManager.Instance == null ||
+                ShipManager.Instance.playerShip == null ||
+                ShipManager.Instance.enemyShip == null)
+                return 0;
+            
+            float playerPos = ShipManager.Instance.playerShip.Position;
+            float enemyPos = ShipManager.Instance.enemyShip.Position;
+            
+            float positionDifference = playerPos - enemyPos;
+
+            if (Mathf.Abs(positionDifference) < 0.001f)
+                return 0;
+
+            int approachDirection = positionDifference > 0 ? 1 : -1;
+            
+            return isApproach ? approachDirection : -approachDirection;
         }
 
         public bool HasCrew => CurrentCrew > 0;

@@ -155,7 +155,7 @@ public class BaseEnemy : BaseUnit
 
             if (OccupiedTile != null && neighbors.Contains(OccupiedTile))
             {
-                Debug.Log($"{unitName} stoi już na stanowisku przy module: {assignedModule.GetType().Name}");
+                // Debug.Log($"{unitName} stoi już na stanowisku przy module: {assignedModule.GetType().Name}");
             }
             else
             {
@@ -174,7 +174,7 @@ public class BaseEnemy : BaseUnit
                 if (bestPath != null && bestPath.Count > 0)
                 {
                     int stepsToTake = Mathf.Min(bestPath.Count, UnitMovement);
-                    Debug.Log($"{unitName} planuje podróż do {assignedModule.GetType().Name}. Droga: {bestPath.Count} kratek. Wykona: {stepsToTake} kroków (Zasięg: {UnitMovement})");
+                    // Debug.Log($"{unitName} planuje podróż do {assignedModule.GetType().Name}. Droga: {bestPath.Count} kratek. Wykona: {stepsToTake} kroków (Zasięg: {UnitMovement})");
 
                     for (int i = 0; i < stepsToTake; i++)
                     {
@@ -278,7 +278,7 @@ public class BaseEnemy : BaseUnit
 
         foreach (var enemy in UnitManager.Instance._enemies)
         {
-            if (enemy == null)
+            if (enemy == null || !enemy.gameObject.activeInHierarchy || enemy.currentHealth <= 0)
                 continue;
 
             if (enemy.assignedModule != null)
@@ -294,7 +294,8 @@ public class BaseEnemy : BaseUnit
         
         foreach (var module in sortedModules)
         {
-            int currentLockedCrew = UnitManager.Instance._enemies.Count(e => e != null && e.assignedModule == module && lockedEnemies.Contains(e));
+            int currentLockedCrew = UnitManager.Instance._enemies.Count(e => 
+                e != null && e.gameObject.activeInHierarchy && e.currentHealth > 0 && e.assignedModule == module && lockedEnemies.Contains(e));
             int neededCrew = module.RequiredCrew - currentLockedCrew;
 
             for (int i = 0; i < neededCrew; i++)
