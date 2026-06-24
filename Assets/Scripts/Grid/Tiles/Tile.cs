@@ -39,13 +39,11 @@ public class Tile : MonoBehaviour
     private void OnMouseEnter()
     {
         _highlight.SetActive(true);
-        MenuManager.Instance.ShowTileInfo(this);
     }
 
     private void OnMouseExit()
     {
         _highlight.SetActive(false);
-        MenuManager.Instance.ShowTileInfo(null);
     }
 
     protected virtual void OnMouseDown()

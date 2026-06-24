@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance;
-    [SerializeField] private GameObject _selectedHeroObject, _selectedShipObject, _tileObject, _tileUnitObject;
+    [SerializeField] private GameObject _selectedHeroObject, _selectedShipObject;
     [SerializeField] private Transform _heroListContainer;
     [SerializeField] private GameObject _heroPanelPrefab, _shipPanelPrefab;
     
@@ -45,23 +45,6 @@ public class MenuManager : MonoBehaviour
 
     void Awake() { Instance = this; }
 
-    public void ShowTileInfo(Tile tile)
-    {
-        if (tile == null)
-        {
-            _tileObject.SetActive(false);
-            _tileUnitObject.SetActive(false);
-            return;
-        }
-        _tileObject.GetComponentInChildren<Text>().text = tile.tileName;
-        _tileObject.SetActive(true);
-        if (tile.OccupiedUnit)
-        {
-            _tileUnitObject.GetComponentInChildren<Text>().text = tile.OccupiedUnit.unitName;
-            _tileUnitObject.SetActive(true);
-        }
-    }
-
     public void ShowSelectedHero(BaseHero hero)
     {
         if (hero == null) { _selectedHeroObject.SetActive(false); return; }
@@ -78,7 +61,9 @@ public class MenuManager : MonoBehaviour
             var card = Instantiate(_heroPanelPrefab, _heroListContainer);
             var texts = card.GetComponentsInChildren<Text>();
             texts[0].text = hero.unitName;
-            texts[1].text = $"Move: {hero.UnitMovement}";
+            texts[1].text = $"HP: {hero.currentHealth}/{hero.maxHealth}";
+            texts[2].text = $"Move: {hero.UnitMovement}/{hero.baseMovement}";
+            texts[3].text = hero.hasAttacked ? "Attacked" : "Ready";
         }
     }
 
