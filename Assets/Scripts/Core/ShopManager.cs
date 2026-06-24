@@ -12,7 +12,7 @@ namespace Core
         [SerializeField] private int _healCost = 20;
         [SerializeField] private float _healfAmount = 25f;
         
-        [SerializeField] private int _DamageCost = 50;
+        [SerializeField] private int _DamageCost = 100;
         [SerializeField] private int _DamageAmount = 10;
         
         [SerializeField] private int _ArmorCost = 30;

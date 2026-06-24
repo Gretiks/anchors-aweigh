@@ -44,12 +44,14 @@ namespace Core
                 _resultText.text = "YOU LOSE";
                 _resultText.color = Color.red; // Czerwony napis dla przegranej
                 _quitButton.SetActive(true);
+                _endButton.SetActive(true);
             }
         }
 
         public void End()
         {
             SceneManager.LoadScene("MainMenuScene");
+            PlayerDataManager.Instance.ResetAllData();
         }
         
         public void Quit()

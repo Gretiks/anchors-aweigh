@@ -59,7 +59,7 @@
 }</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="$PROJECT_DIR$/../Builds/first\anchors-aweigh-project.exe" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/../Builds/second\anchors-aweigh-project.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="D:\Builds\first" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -140,6 +140,7 @@
       <workItem from="1782249083437" duration="1700000" />
       <workItem from="1782251585786" duration="1995000" />
       <workItem from="1782323490591" duration="13701000" />
+      <workItem from="1782339244194" duration="1099000" />
     </task>
     <servers />
   </component>

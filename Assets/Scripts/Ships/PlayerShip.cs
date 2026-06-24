@@ -27,7 +27,8 @@ public class PlayerShip : BaseShip
         get
         {
             float extraEvasion = PlayerDataManager.Instance != null ? PlayerDataManager.Instance.BonusEvasion : 0f;
-            return base.evasion + extraEvasion;
+            float reduceEvasion = 0; //debuff przez przecwnika
+            return base.evasion + extraEvasion - reduceEvasion;
         }
     }
 

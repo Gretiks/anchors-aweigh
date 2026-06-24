@@ -12,7 +12,7 @@ public class BaseEnemy : BaseUnit
     public ShipModuleTile assignedModule;
     public bool isActionCompleted { get; private set; } = true;
 
-    [SerializeField] private float tileStepDelay = 0.4f;
+    [SerializeField] private float tileStepDelay = 0.2f;
 
     [Header("Boarding AI (Walka wręcz)")]
     [Tooltip("Ile obrażeń zada wróg, gdy podejdzie do jednostki gracza")]

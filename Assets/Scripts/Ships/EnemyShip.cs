@@ -29,6 +29,16 @@ public class EnemyShip : BaseShip
             return enemyMaxHealth + bonus;
         }
     }
+    
+    public override float evasion
+    {
+        get
+        {
+            float extraEvasion = PlayerDataManager.Instance != null ? PlayerDataManager.Instance.BonusEvasion : 0f;
+            float reduceEvasion = PlayerDataManager.Instance.BonusHitChance;
+            return base.evasion + extraEvasion - reduceEvasion - reduceEvasion;
+        }
+    }
 
     public EnemyStrategy ShipStrategy { get; private set; }
 
