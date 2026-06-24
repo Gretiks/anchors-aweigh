@@ -78,7 +78,9 @@ public class MenuManager : MonoBehaviour
             var card = Instantiate(_heroPanelPrefab, _heroListContainer);
             var texts = card.GetComponentsInChildren<Text>();
             texts[0].text = hero.unitName;
-            texts[1].text = $"Move: {hero.UnitMovement}";
+            texts[1].text = $"HP: {hero.currentHealth}/{hero.maxHealth}";
+            texts[2].text = $"Move: {hero.UnitMovement}/{hero.baseMovement}";
+            texts[3].text = hero.hasAttacked ? "Attacked" : "Ready";
         }
     }
 
