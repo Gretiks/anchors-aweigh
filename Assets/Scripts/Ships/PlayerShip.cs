@@ -9,25 +9,44 @@ public class PlayerShip : BaseShip
 
     public override float maxHealth
     {
-	    get
-	    {
-		    float bonus = 0f;
-		    if (PlayerDataManager.Instance != null)
-			    bonus = PlayerDataManager.Instance.BonusHp;
+        get
+        {
+            float bonus = 0f;
+            if (PlayerDataManager.Instance != null)
+                bonus = PlayerDataManager.Instance.BonusHp;
 
-		    return playerMaxHealth + bonus;
-	    }
+            return playerMaxHealth + bonus;
+        }
+    }
+
+    // =====================================================================
+    // Nadpisanie uniku statku gracza (teraz zadziała bezbłędnie)
+    // =====================================================================
+    public override float evasion
+    {
+        get
+        {
+            float extraEvasion = PlayerDataManager.Instance != null ? PlayerDataManager.Instance.BonusEvasion : 0f;
+            return base.evasion + extraEvasion;
+        }
+    }
+
+    // =====================================================================
+    // Nadpisanie dodatkowej prędkości statku gracza
+    // =====================================================================
+    public override float ExtraSpeed
+    {
+        get
+        {
+            return PlayerDataManager.Instance != null ? PlayerDataManager.Instance.BonusShipSpeed : 0f;
+        }
     }
 	
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
-	{
-		// base.Start();
-	}
+    {
+    }
 
-	// Update is called once per frame
-	void Update()
-	{
-
-	}
+    void Update()
+    {
+    }
 }

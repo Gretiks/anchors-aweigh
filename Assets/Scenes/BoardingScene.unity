@@ -1098,9 +1098,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.03180212
-    width: 1
-    height: 0.9366511
+    y: 0.4221453
+    width: 0.26879433
+    height: 0.20972592
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -2545,6 +2545,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7a0d0adeb45d2c4ab594b94c0c27f30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitManager
+  playerSlotsCount: 5
+  enemySlotsCount: 8
   SelectedHero: {fileID: 0}
   _heroes: []
   _enemies: []

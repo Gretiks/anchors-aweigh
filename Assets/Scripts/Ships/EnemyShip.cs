@@ -13,7 +13,22 @@ public class EnemyShip : BaseShip
     protected override Faction GetFaction() => Faction.Enemy;
 
     [SerializeField] private float enemyMaxHealth = 100f;
-    public override float maxHealth => enemyMaxHealth;
+
+    // =====================================================================
+    // [ZMIANA]: Dynamiczne wyliczanie Max HP statku wroga na bazie fali
+    // =====================================================================
+    public override float maxHealth
+    {
+        get
+        {
+            float bonus = 0f;
+            if (PlayerDataManager.Instance != null)
+            {
+                bonus = PlayerDataManager.Instance.GetBonusEnemyShipHp();
+            }
+            return enemyMaxHealth + bonus;
+        }
+    }
 
     public EnemyStrategy ShipStrategy { get; private set; }
 
@@ -23,6 +38,8 @@ public class EnemyShip : BaseShip
     private void Awake()
     {
         base.Awake();
+        // Upewniamy się, że bieżące HP statku od razu przyjmuje nową, powiększoną wartość
+        currentHealth = maxHealth; 
         InitializeShipStrategy();
         FindAndSetEnemyHelp();
     }
@@ -69,10 +86,5 @@ public class EnemyShip : BaseShip
             _enemyHelm.SetOrder(Assets.Scripts.Grid.Tiles.Modules.HelmTile.HelmOrder.Approach);
         else if(ShipStrategy == EnemyStrategy.Shooting)
             _enemyHelm.SetOrder(Assets.Scripts.Grid.Tiles.Modules.HelmTile.HelmOrder.Stop);
-        
-            
     }
-    
-    
 }
-	

@@ -6,6 +6,9 @@ public class BaseUnit : MonoBehaviour
     [Tooltip("Wpisz unikalne ID (np. 'Warrior_1'). Dla wrogów zostaw puste.")]
     public string uniqueID;
 
+    public string prefabName;
+    public string unitName;
+    
     [Header("Statystyki")]
     public float maxHealth = 100f;
     public float currentHealth;
@@ -16,7 +19,6 @@ public class BaseUnit : MonoBehaviour
 
     public Tile OccupiedTile;
     public Faction Faction;
-    public string unitName;
 
     protected virtual void Awake()
     {

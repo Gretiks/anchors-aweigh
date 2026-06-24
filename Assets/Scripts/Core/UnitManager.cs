@@ -16,12 +16,10 @@ public class UnitManager : MonoBehaviour
 
     public List<BaseHero> _heroes = new List<BaseHero>();
     public List<BaseEnemy> _enemies = new List<BaseEnemy>();
-    
 
     void Awake()
     {
         Instance = this;
-
         _units = Resources.LoadAll<ScriptableUnit>("Units").ToList();
     }
 
@@ -32,46 +30,67 @@ public class UnitManager : MonoBehaviour
         
         _heroes.Clear();
         
-        var heroCount = 3;
-        for (int i = 0; i < heroCount; i++)
+        int currentPlayerSlots = PlayerDataManager.Instance != null ? PlayerDataManager.Instance.PlayerSlotsCount : 3;
+
+        for (int i = 0; i < currentPlayerSlots; i++)
         {
             string slotID = "Player_Hero_" + i.ToString();
-            BaseHero prefabToSpawn;
-            bool isDead = false;
-            
-            // 2. Sprawdzamy, czy wracamy z bitwy morskiej i czy ten slot ma historię
-            if (PlayerDataManager.Instance != null && 
-                PlayerDataManager.Instance.HasExistingSave && 
-                PlayerDataManager.Instance.TryGetUnitSaveData(slotID, out var savedData))
-            {
-                // Odtwarzamy DOKŁADNIE ten sam prefab, który walczył wcześniej
-                prefabToSpawn = GetUnitPrefabByName<BaseHero>(savedData.unitName, Faction.User);
-                
-                if (savedData.currentHealth <= 0)
-                    isDead = true;
-            }
-            else
-                // Pierwsza walka w grze - losujemy w ciemno
-                prefabToSpawn = GetRandomUnit<BaseHero>(Faction.User);
-
-            // 3. Tworzymy fizyczny obiekt
-            var spawnedHero = Instantiate(prefabToSpawn);
-            spawnedHero.uniqueID = slotID;
-            
+            BaseHero prefabToSpawn = null;
+            bool shouldSpawn = false;
+            bool isFromSave = false;
 
             if (PlayerDataManager.Instance != null && PlayerDataManager.Instance.HasExistingSave)
-                PlayerDataManager.Instance.TryLoadUnitState(spawnedHero);
-            
-            if (isDead)
-                spawnedHero.gameObject.SetActive(false);
+            {
+                if (PlayerDataManager.Instance.TryGetUnitSaveData(slotID, out var savedData))
+                {
+                    if (savedData.currentHealth > 0)
+                    {
+                        prefabToSpawn = GetUnitPrefabByAssetName<BaseHero>(savedData.prefabName, Faction.User);
+                        shouldSpawn = true;
+                        isFromSave = true;
+                    }
+                    else
+                    {
+                        PlayerDataManager.Instance.RemoveUnitSaveData(slotID);
+                        shouldSpawn = false;
+                    }
+                }
+                else
+                    shouldSpawn = false;
+            }
             else
             {
+                if (i < 3)
+                {
+                    prefabToSpawn = GetRandomUnit<BaseHero>(Faction.User);
+                    shouldSpawn = true;
+                    isFromSave = false;
+                }
+                else
+                    shouldSpawn = false; 
+            }
+
+            if (shouldSpawn && prefabToSpawn != null)
+            {
+                var spawnedHero = Instantiate(prefabToSpawn);
+                spawnedHero.uniqueID = slotID;
+
+                if (isFromSave)
+                {
+                    PlayerDataManager.Instance.TryLoadUnitState(spawnedHero);
+                }
+                else
+                {
+                    spawnedHero.prefabName = prefabToSpawn.name; 
+                    spawnedHero.unitName = PlayerDataManager.Instance != null ? PlayerDataManager.Instance.GetRandomPolishName() : "Pirat"; 
+                }
+
                 var randomSpawnTile = GridManager.Instance.GetHeroSpawnTile();
                 randomSpawnTile.SetUnit(spawnedHero);
                 spawnedHero.OccupiedTile = randomSpawnTile;
-            }
 
-            _heroes.Add(spawnedHero);
+                _heroes.Add(spawnedHero);
+            }
         }
 
         MenuManager.Instance.RefreshHeroList(_heroes);
@@ -80,39 +99,51 @@ public class UnitManager : MonoBehaviour
 
     public void SpawnEnemy()
     {
-        // 1. FIZYCZNE USUNIĘCIE starych wrogów ze sceny
         foreach (var enemy in _enemies)
-        {
             if (enemy != null) Destroy(enemy.gameObject);
-        }
+        
         _enemies.Clear();
         
-        var enemyCount = 3;
-        for (int i = 0; i < enemyCount; i++)
-        {
-            // Nadajemy stały slotID przeciwnikowi, aby dało się go zapisać
-            string slotID = "Enemy_Crew_" + i.ToString();
-            BaseEnemy prefabToSpawn;
-            bool isDead = false;
+        bool isBoardingScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "BoardingScene";
 
-            if (PlayerDataManager.Instance != null && 
-                PlayerDataManager.Instance.HasExistingSave && 
+        int currentEnemyCount = PlayerDataManager.Instance != null ? PlayerDataManager.Instance.EnemySlotsCount : 3;
+
+        for (int i = 0; i < currentEnemyCount; i++)
+        {
+            string slotID = "Enemy_Crew_" + i.ToString();
+            BaseEnemy prefabToSpawn = null;
+            bool isDead = false;
+            bool isFromSave = false;
+
+            if (isBoardingScene && 
+                PlayerDataManager.Instance != null && 
+                PlayerDataManager.Instance.HasExistingSave &&
                 PlayerDataManager.Instance.TryGetUnitSaveData(slotID, out var savedData))
             {
-                prefabToSpawn = GetUnitPrefabByName<BaseEnemy>(savedData.unitName, Faction.Enemy);
-                
+                prefabToSpawn = GetUnitPrefabByAssetName<BaseEnemy>(savedData.prefabName, Faction.Enemy);
+                isFromSave = true;
+
                 if (savedData.currentHealth <= 0)
                     isDead = true;
             }
             else
+            {
                 prefabToSpawn = GetRandomUnit<BaseEnemy>(Faction.Enemy);
+                isFromSave = false;
+            }
 
             var spawnedEnemy = Instantiate(prefabToSpawn);
             spawnedEnemy.uniqueID = slotID; 
 
-            // Wczytanie HP wroga z poprzedniej sceny
-            if (PlayerDataManager.Instance != null && PlayerDataManager.Instance.HasExistingSave)
+            if (isFromSave)
+            {
                 PlayerDataManager.Instance.TryLoadUnitState(spawnedEnemy);
+            }
+            else
+            {
+                spawnedEnemy.prefabName = prefabToSpawn.name;
+                spawnedEnemy.unitName = PlayerDataManager.Instance != null ? PlayerDataManager.Instance.GetRandomPolishName() : "Wrog";
+            }
 
             if (isDead)
                 spawnedEnemy.gameObject.SetActive(false);
@@ -131,18 +162,15 @@ public class UnitManager : MonoBehaviour
 
     private T GetRandomUnit<T>(Faction faction) where T : BaseUnit
     {
-        return (T)_units.Where(u=>u.Faction == faction).OrderBy(o=>Random.value).First().UnitPrefab;
+        var validUnits = _units.Where(u => u.Faction == faction && u.UnitPrefab != null && u.UnitPrefab is T).ToList();
+        if (validUnits.Count == 0) return null;
+        return (T)validUnits[Random.Range(0, validUnits.Count)].UnitPrefab;
     }
 
-    private T GetUnitPrefabByName<T>(string unitName, Faction faction) where T : BaseUnit
+    private T GetUnitPrefabByAssetName<T>(string assetName, Faction faction) where T : BaseUnit
     {
-        var found = _units.FirstOrDefault(u => u.Faction == faction && u.UnitPrefab.unitName == unitName);
-        if (found != null && found.UnitPrefab is T match)
-        {
-            return match;
-        }
-        
-        Debug.LogWarning($"Nie odnaleziono prefabu '{unitName}'. Losowanie zastępstwa.");
+        var found = _units.FirstOrDefault(u => u.Faction == faction && u.UnitPrefab.name == assetName);
+        if (found != null && found.UnitPrefab is T match) return match;
         return GetRandomUnit<T>(faction);
     }
     
@@ -150,46 +178,21 @@ public class UnitManager : MonoBehaviour
     {
         SelectedHero = hero;
         MenuManager.Instance.ShowSelectedHero(hero);
-        if (hero != null)
-            GridManager.Instance.ShowRangeHighlights(hero);
-        else
-            GridManager.Instance.ClearRangeHighlights();
+        if (hero != null) GridManager.Instance.ShowRangeHighlights(hero);
+        else GridManager.Instance.ClearRangeHighlights();
     }
 
     public void AttackEnemyWithSelectedHero(BaseEnemy enemy)
     {
-        if (SelectedHero == null)
-        {
-            // Debug.LogWarning("Nie zaznaczono żadnego bohatera, który mógłby zaatakować!");
-            return;
-        }
-
-        if (SelectedHero.hasAttacked)
-            return;
-        
-        if (enemy == null || enemy.currentHealth <= 0) 
-            return;
-
-        if (SelectedHero.OccupiedTile == null || enemy.OccupiedTile == null) 
-            return;
+        if (SelectedHero == null || SelectedHero.hasAttacked || enemy == null || enemy.currentHealth <= 0) return;
+        if (SelectedHero.OccupiedTile == null || enemy.OccupiedTile == null) return;
 
         var neighbors = Grid.GridManager.Instance.GetNeighbors(SelectedHero.OccupiedTile);
-
         if (neighbors.Contains(enemy.OccupiedTile))
         {
-            float playerAttackDamage = 35f; 
-
-            // Debug.Log($"{SelectedHero.unitName} potężnym ciosem atakuje {enemy.unitName} i zadaje {playerAttackDamage} obrażeń!");
-            
-            enemy.TakeDamage(playerAttackDamage);
-
+            enemy.TakeDamage(35f);
             SelectedHero.hasAttacked = true;
-            
-            if (Core.GameManager.Instance != null)
-                Core.GameManager.Instance.CheckBattleConditions();
+            if (Core.GameManager.Instance != null) Core.GameManager.Instance.CheckBattleConditions();
         }
-        
-            // Debug.Log("Przeciwnik stoi za daleko! Podejdź bliżej, aby zaatakować wręcz.");
     }
-
 }

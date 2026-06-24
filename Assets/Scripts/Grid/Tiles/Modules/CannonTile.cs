@@ -26,11 +26,15 @@ public class CannonTile : ShipModuleTile
     public void Fire()
     {
         bonusDamege = PlayerDataManager.Instance.BonusDamage;
-        
+        float playerHitBonus = PlayerDataManager.Instance != null ? PlayerDataManager.Instance.BonusHitChance : 0f;
+
         if (HasFired) return;
         BaseShip targetShip = owner == Faction.User ? (BaseShip)ShipManager.Instance.enemyShip : (BaseShip)ShipManager.Instance.playerShip;
 
-        bool hit = Random.value > targetShip.evasion;
+        // Bonus do celności dział gracza obniża efektywny unik statku wroga
+        float effectiveTargetEvasion = Mathf.Max(0f, targetShip.evasion - playerHitBonus);
+
+        bool hit = Random.value > effectiveTargetEvasion;
         if (hit)
         {
             targetShip.TakeDamange(damage + bonusDamege);
@@ -41,9 +45,6 @@ public class CannonTile : ShipModuleTile
         MenuManager.Instance.HideCannonMenu();
     }
 
-    
-    //AI Shooting
-    
     public bool IsFiringCompleted { get; private set; } = true;
 
     public void EnemyExecuteFire()
@@ -52,18 +53,24 @@ public class CannonTile : ShipModuleTile
         
         if (CurrentCrew >= requiredCrew) 
         {
-            
             BaseShip targetShip = (BaseShip)ShipManager.Instance.playerShip;
 
             bool hit = Random.value > targetShip.evasion;
-            if (hit) targetShip.TakeDamange(damage);
+            if (hit) 
+            {
+                float enemyBonusDmg = 0f;
+                if (PlayerDataManager.Instance != null)
+                {
+                    enemyBonusDmg = PlayerDataManager.Instance.GetBonusEnemyCannonDamage();
+                }
+
+                targetShip.TakeDamange(damage + enemyBonusDmg);
+            }
         
             HasFired = true;
-            
             MenuManager.Instance.ShowHitPopup(hit);
         }
     }
-    
     
     public void ResetFired() { HasFired = false; }
 }

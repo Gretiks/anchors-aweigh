@@ -15,15 +15,28 @@ namespace Core
     
         void Start()
         {
-            
             // Dynamicznie zmieniamy napis w zależności od wyniku bitwy
             if (IsVictory)
             {
+                _quitButton.SetActive(false);
+                _endButton.SetActive(false);
+                
                 _resultText.text = "YOU WIN!";
                 _resultText.color = Color.green; // Zielony napis dla wygranej
                 
-                //dodanie zlota po wygranej
-                PlayerDataManager.Instance.AddGold(100);
+                // =====================================================================
+                // [ZMIANA]: Dynamiczne wyliczanie nagrody w złocie (bazowe 100 + 50 co 5 wygranych)
+                // =====================================================================
+                int totalReward = 100; // Bazowa wartość z Twojego skryptu
+
+                if (PlayerDataManager.Instance != null)
+                {
+                    int bonusGold = (PlayerDataManager.Instance.BattlesWon / 5) * 50;
+                    totalReward += bonusGold;
+                    
+                    PlayerDataManager.Instance.AddGold(totalReward);
+                }
+
                 SceneManager.LoadScene("ShopScene");
             }
             else
@@ -51,7 +64,5 @@ namespace Core
                     Application.Quit();
             #endif
         }
-        
     }
-
 }

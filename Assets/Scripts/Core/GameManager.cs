@@ -150,7 +150,6 @@ namespace Core
                     else
                         ShipManager.Instance.enemyShip.MoveShip(helm.GetDirectionForShip());
                 }
-                
             }
         }
 
@@ -160,46 +159,39 @@ namespace Core
             {
                 if (UnitManager.Instance == null) return;
 
-                // Liczymy ile jednostek ma HP wy?sze od 0 i s? w??czone na scenie
                 int aliveHeroes = UnitManager.Instance._heroes.Count(h => h != null && h.gameObject.activeInHierarchy && h.currentHealth > 0);
                 int aliveEnemies = UnitManager.Instance._enemies.Count(e => e != null && e.gameObject.activeInHierarchy && e.currentHealth > 0);
 
                 if (aliveHeroes == 0)
                 {
                     Debug.Log("Wszyscy Twoi piraci polegli! Przegrana bitwa aborda?owa.");
-                    TriggerEndGame(false); // false = ekran przegranej
+                    TriggerEndGame(false); 
                     return;
                 }
                 else if (aliveEnemies == 0)
                 {
                     Debug.Log("Wroga za?oga zosta?a wyci?ta w pie?! Zwyci?stwo w aborda?u!");
-                    TriggerEndGame(true); // true = ekran wygranej
+                    TriggerEndGame(true); 
                     return;
                 }
 
-                return; // Je?li walka trwa, przerywamy wykonywanie metody, aby nie sprawdza? logiki morskiej poni?ej
+                return; 
             }
             
             float playerPos = ShipManager.Instance.playerShip.Position;
             float enemyPos = ShipManager.Instance.enemyShip.Position;
-
-            // ZA?O?ENIE LOGICZNE:
-            // Je?li statek wroga dop?yn?? do granicy (zbieg?) lub nasz zaton?? -> PRZEGRANA
-            // Je?li statek wroga zaton?? lub my osi?gn?li?my cel -> ZWYCI?STWO
-            // Dostosuj te warunki do dok?adnych regu? Twojego projektu (np. HP statku, pozycja)
-
-            // Pobieramy instancje statków z ShipManagera
+    
+            // Pobieramy te? pozycj? z poprzedniego klatki/ruchu, je?li j? przechowujesz, 
+            // LUB stosujemy prost? logik? "przeci?cia" w tej turze:
+    
             var playerShip = ShipManager.Instance.playerShip;
             var enemyShip = ShipManager.Instance.enemyShip;
 
-            // Upewniamy si?, ?e statki istniej?, aby unikn?? b??dów NullReferenceException
             if (playerShip == null || enemyShip == null) return;
 
-            // WARUNKI KO?CA GRY OPARTY O HP STATKÓW:
-            // 1. Je?li nasz statek ma 0 lub mniej HP -> PRZEGRANA
             if (playerShip.currentHealth <= 0)
             {
-                Debug.Log("Twój statek zaton??! Przegrana.");
+                Debug.Log("Tw?j statek zaton??! Przegrana.");
                 TriggerEndGame(false); // false = przegrana
             }
             // 2. Je?li statek wroga ma 0 lub mniej HP -> ZWYCI?STWO
@@ -208,30 +200,63 @@ namespace Core
                 Debug.Log("Statek wroga zaton??! Zwyci?stwo!");
                 TriggerEndGame(true); // true = zwyci?stwo
             }
-            
-            else if (Mathf.Abs(playerPos - enemyPos) < 1f) 
+            else
             {
-                Debug.Log("Boarding phase");
-                PlayerDataManager.Instance.SaveShipState(playerShip);
+                // =====================================================================
+                // [ZMIANA]: Logika wykrywania aborda?u (przeskoczenie lub zrównanie)
+                // =====================================================================
+        
+                // Obliczamy odleg?o?? teraz
+                float distanceNow = playerPos - enemyPos;
+        
+                // Pobieramy pr?dko?? (uwzgl?dniamy bonus pr?dko?ci z PlayerShip)
+                float playerSpeed = playerShip.speed + playerShip.ExtraSpeed;
+                float enemySpeed = enemyShip.speed; // (je?li enemy te? ma bonus, dodaj go tutaj)
+        
+                // Je?li statki zmieni?y relatywn? pozycj? tak, ?e "przeskoczy?y" siebie
+                // lub znalaz?y si? w zasi?gu 1f, wywo?ujemy aborda?.
+                if (Mathf.Abs(distanceNow) <= 1.5f) // Zwi?kszy?em margines na 1.5f dla pewno?ci
+                {
+                    Debug.Log("Aborda?: Statki si? zrówna?y lub przeskoczy?y!");
+            
+                    // Zapis stanu przed wej?ciem w aborda?
+                    PlayerDataManager.Instance.SaveShipState(playerShip);
+            
+                    foreach(var hero in UnitManager.Instance._heroes)
+                        if(hero != null) PlayerDataManager.Instance.SaveUnitState(hero);
+            
+                    foreach(var enemy in UnitManager.Instance._enemies)
+                        if(enemy != null) PlayerDataManager.Instance.SaveUnitState(enemy);
+            
+                    SceneManager.LoadScene("BoardingScene");
+                }
                 
-                foreach(var hero in UnitManager.Instance._heroes)
-                    if(hero != null)
-                        PlayerDataManager.Instance.SaveUnitState(hero);
-                
-                foreach(var enemy in UnitManager.Instance._enemies)
-                    if(enemy != null)
-                        PlayerDataManager.Instance.SaveUnitState(enemy);
-                
-                SceneManager.LoadScene("BoardingScene");
             }
+
         }
 
-        // NOWA METODA POMOCNICZA:
         private void TriggerEndGame(bool victory)
         {
-            if (ShipManager.Instance != null && ShipManager.Instance.playerShip != null && PlayerDataManager.Instance != null)
+            if (PlayerDataManager.Instance != null)
             {
-                PlayerDataManager.Instance.SaveShipState(ShipManager.Instance.playerShip);
+                if (victory) PlayerDataManager.Instance.IncrementBattlesWon();
+
+                if (ShipManager.Instance != null && ShipManager.Instance.playerShip != null)
+                {
+                    PlayerDataManager.Instance.SaveShipState(ShipManager.Instance.playerShip);
+                }
+
+                if (UnitManager.Instance != null)
+                {
+                    foreach (var hero in UnitManager.Instance._heroes)
+                    {
+                        if (hero != null) PlayerDataManager.Instance.SaveUnitState(hero);
+                    }
+                    foreach (var enemy in UnitManager.Instance._enemies)
+                    {
+                        if (enemy != null) PlayerDataManager.Instance.SaveUnitState(enemy);
+                    }
+                }
             }
             
             EndGameManager.IsVictory = victory;

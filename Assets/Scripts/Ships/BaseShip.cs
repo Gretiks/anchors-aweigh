@@ -2,19 +2,12 @@ using UnityEngine;
 
 public abstract class BaseShip : MonoBehaviour
 {
-    //[SerializeField] protected string shipType;
-    // [SerializeField] protected int maxCrew;
-    
     [Header("Ustawienia zapisu")] [SerializeField]
     public bool isPlayerShip = false;
-    
-    // [SerializeField] public float maxHealth = 100f;
     
     public abstract float maxHealth { get; }
     public float currentHealth;
     public string ShipName;
-
-
 
     [SerializeField] public float baseEvasion = 0.3f;
     [SerializeField] public float startPosition;
@@ -23,8 +16,15 @@ public abstract class BaseShip : MonoBehaviour
     private MastTile _mast;
     public float Position { get; private set; }
 
+    // =====================================================================
+    // [ZMIANA 1]: Dodanie słowa 'virtual', co zezwala klasom pochodnym na override
+    // =====================================================================
+    public virtual float evasion => baseEvasion + (_mast != null ? _mast.EvasionBonus : 0f);
 
-    public float evasion => baseEvasion + (_mast != null ? _mast.EvasionBonus : 0f);
+    // =====================================================================
+    // [ZMIANA 2]: Wirtualna właściwość z dodatkową prędkością (domyślnie 0 dla AI)
+    // =====================================================================
+    public virtual float ExtraSpeed => 0f;
 
     public void SetMast(MastTile mast) { _mast = mast; }
 
@@ -36,9 +36,6 @@ public abstract class BaseShip : MonoBehaviour
 
     protected virtual void Start()
     {
-        // if (isPlayerShip && PlayerDataManager.Instance != null)
-        //     PlayerDataManager.Instance.TryLoadingShipState(this);
-        
         UpdateShipUI();
     }
 
@@ -54,9 +51,13 @@ public abstract class BaseShip : MonoBehaviour
             }
         }
     }
+
     public void MoveShip(int direction)
     {
-        Position += direction * speed;
+        // =================================================================
+        // [ZMIANA 3]: Bezpieczne, czyste dodanie ExtraSpeed do prędkości statku
+        // =================================================================
+        Position += direction * (speed + ExtraSpeed);
         UpdateShipUI();
     }
 
