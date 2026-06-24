@@ -80,7 +80,9 @@ namespace Grid
             _tiles = new Dictionary<Vector2, Tile>();
 
             int bridge1Y = 5;
+            int bridge11Y = 4;
             int bridge2Y = 10;
+            int bridge22Y = 9;
             int bridgeStartX = 13;
             int bridgeEndX = 18;
 
@@ -91,7 +93,7 @@ namespace Grid
                     Tile prefab;
 
                     bool isBridge = x >= bridgeStartX && x <= bridgeEndX
-                                    && (y == bridge1Y || y == bridge2Y);
+                                    && (y == bridge1Y || y == bridge2Y || y == bridge11Y || y == bridge22Y);
 
                     if (isBridge)
                         prefab = _shipTile;

@@ -131,7 +131,9 @@ public class BaseEnemy : BaseUnit
                 
                 if(Core.GameManager.Instance !=null)
                     Core.GameManager.Instance.CheckBattleConditions();
-                
+
+                MenuManager.Instance.RefreshHeroList(UnitManager.Instance._heroes);
+
                 yield return new WaitForSeconds(0.3f); // Krótki "hit-stop" dla lepszego feelingu
             }
         }

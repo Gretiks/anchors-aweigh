@@ -126,6 +126,7 @@ namespace Core
         {
             foreach (var enemy in UnitManager.Instance._enemies)
                 enemy.ResetMovement();
+            MenuManager.Instance.RefreshEnemyList(UnitManager.Instance._enemies);
         }
 
         private void ResetCannonsFired()

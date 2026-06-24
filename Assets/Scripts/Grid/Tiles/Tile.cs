@@ -73,6 +73,7 @@ public class Tile : MonoBehaviour
                     
                     UnitManager.Instance.SetSelectedHero(null);
                     MenuManager.Instance.RefreshHeroList(UnitManager.Instance._heroes);
+                    MenuManager.Instance.RefreshEnemyList(UnitManager.Instance._enemies);
                 }
             }
         }
@@ -92,6 +93,7 @@ public class Tile : MonoBehaviour
                     SetUnit(hero);
                     UnitManager.Instance.SetSelectedHero(null);
                     MenuManager.Instance.RefreshHeroList(UnitManager.Instance._heroes);
+                    MenuManager.Instance.RefreshEnemyList(UnitManager.Instance._enemies);
                 }
             }
         }

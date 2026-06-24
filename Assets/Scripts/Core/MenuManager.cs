@@ -9,8 +9,8 @@ public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance;
     [SerializeField] private GameObject _selectedHeroObject, _selectedShipObject;
-    [SerializeField] private Transform _heroListContainer;
-    [SerializeField] private GameObject _heroPanelPrefab, _shipPanelPrefab;
+    [SerializeField] private Transform _heroListContainer, _enemyListContainer;
+    [SerializeField] private GameObject _heroPanelPrefab, _shipPanelPrefab, _enemyPanelPrefab;
     
     //Ship stats
     [SerializeField] private Text playerHpText, enemyHpText;
@@ -64,6 +64,19 @@ public class MenuManager : MonoBehaviour
             texts[1].text = $"HP: {hero.currentHealth}/{hero.maxHealth}";
             texts[2].text = $"Move: {hero.UnitMovement}/{hero.baseMovement}";
             texts[3].text = hero.hasAttacked ? "Attacked" : "Ready";
+        }
+    }
+
+    public void RefreshEnemyList(List<BaseEnemy> enemies)
+    {
+        foreach (Transform child in _enemyListContainer)
+            Destroy(child.gameObject);
+        foreach (var enemy in enemies)
+        {
+            var card = Instantiate(_enemyPanelPrefab, _enemyListContainer);
+            var texts = card.GetComponentsInChildren<Text>();
+            texts[0].text = enemy.unitName;
+            texts[1].text = $"HP: {enemy.currentHealth}/{enemy.maxHealth}";
         }
     }
 

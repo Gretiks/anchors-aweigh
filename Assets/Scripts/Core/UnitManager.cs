@@ -125,6 +125,7 @@ public class UnitManager : MonoBehaviour
 
             _enemies.Add(spawnedEnemy);
         }
+        MenuManager.Instance.RefreshEnemyList(_enemies);
         GameManager.Instance.ChangeState(GameState.UserTurn);
     }
 
