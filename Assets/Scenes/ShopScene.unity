@@ -432,9 +432,9 @@ MonoBehaviour:
   _shopCrewUI: {fileID: 2133882854}
   _healCost: 20
   _healfAmount: 25
-  _DamageCost: 50
+  _DamageCost: 100
   _DamageAmount: 10
-  _ArmorCost: 30
+  _ArmorCost: 75
   _ArmorAmount: 20
   _crewCost: 300
   _evasionCost: 150

@@ -26,19 +26,21 @@ namespace Grid
             Instance = this;
         }
 
-        // private void Start()
-        // {
-        //     if (SceneManager.GetActiveScene().name == "BattleScene")
-        //     {
-        //         ClearOldGrid();
-        //         GameManager.Instance.ChangeState(GameState.GenerateGrid);
-        //     }
-        //     else if (SceneManager.GetActiveScene().name == "BoardingScene")
-        //     {
-        //         ClearOldGrid();
-        //         GenerateBoardingGrid();
-        //     }
-        // }   
+        private void Start()
+        {
+            // if (SceneManager.GetActiveScene().name == "BattleScene")
+            // {
+            //     ClearOldGrid();
+            //     GameManager.Instance.ChangeState(GameState.GenerateGrid);
+            // }
+            // else if (SceneManager.GetActiveScene().name == "BoardingScene")
+            // {
+            //     ClearOldGrid();
+            //     GenerateBoardingGrid();
+            // }
+            
+                        
+        }   
 
         public void GenerateGrid()
         {
@@ -117,6 +119,38 @@ namespace Grid
 
             GameManager.Instance.ChangeState(GameState.SpawnUserCrew);
         }
+        
+        public void GenerateBossGrid()
+        {
+            ClearOldGrid();
+            _tiles = new Dictionary<Vector2, Tile>();
+
+            for (int x = 0; x < _width; x++)
+            {
+                for (int y = 0; y < _height; y++)
+                {
+                    Tile prefab;
+
+                    if (IsBossHelmTile(x, y, out bool isHelmEnemy))
+                        prefab = isHelmEnemy ? _helmEnemyTile : _helmPlayerTile;
+                    else if (IsBossMastTile(x, y, out bool isMastEnemy))
+                        prefab = isMastEnemy ? _mastEnemyTile : _mastPlayerTile;
+                    else if (IsBossCannonTile(x, y, out bool isEnemy))
+                        prefab = isEnemy ? _cannonEnemyTile : _cannonPlayerTile;
+                    else if (IsShipTile(x, y)) prefab = _shipTile;
+                    else if (IsBossShipTile(x, y)) prefab = _enemyShipTile;
+                    else prefab = _seaTile;
+
+                    var spawnedTile = Instantiate(prefab, new Vector3(x, y), Quaternion.identity);
+                    spawnedTile.name = $"BossTile {x} {y}";
+                    _tiles[new Vector2(x, y)] = spawnedTile;
+                    var isOffset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0);
+                    spawnedTile.Init(isOffset);
+                }
+            }
+
+            GameManager.Instance.ChangeState(GameState.SpawnUserCrew);
+        }
 
         // =========================================================================
         // ZMODYFIKOWANE METODY SPAWNUJĄCE (ZALEŻNE OD SCENY)
@@ -144,8 +178,10 @@ namespace Grid
 
         public Tile GetEnemySpawnTile()
         {
-            bool isBoarding = SceneManager.GetActiveScene().name == "BoardingScene";
-            
+            string sceneName = SceneManager.GetActiveScene().name;
+            bool isBoarding = sceneName == "BoardingScene";
+            bool isBoss = sceneName == "BossScene"; // Dostosuj nazwę sceny, jeśli jest inna
+
             // W bitwie morskiej wróg stoi na 26f, w abordażu cumuje na 22f
             float currentCenterX = isBoarding ? 22f : 26f; 
 
@@ -157,7 +193,21 @@ namespace Grid
             }
 
             return availableTiles
-                .Where(t => IsEnemyShipTile((int)t.Key.x, (int)t.Key.y, currentCenterX) && t.Value.Walkable)
+                .Where(t => {
+                    int x = (int)t.Key.x;
+                    int y = (int)t.Key.y;
+
+                    if (isBoss)
+                    {
+                        // Sprawdzenie dla statku bossa (używa IsBossShipTile z dłuższego kadłuba)
+                        return IsBossShipTile(x, y) && t.Value.Walkable;
+                    }
+                    else
+                    {
+                        // Sprawdzenie dla standardowej bitwy oraz abordażu
+                        return IsEnemyShipTile(x, y, currentCenterX) && t.Value.Walkable;
+                    }
+                })
                 .OrderBy(_ => Random.value)
                 .First().Value;
         }
@@ -293,6 +343,60 @@ namespace Grid
             {
                 return Mathf.Abs(x - centerX) <= sternHalfWidth;
             }
+        }
+        
+        private bool IsBossCannonTile(int x, int y, out bool isEnemy)
+        {
+            if (x == 8 && y == 7)  { isEnemy = false; return true; } // armata gracza bez zmian
+            if (x == 23 && y == 6) { isEnemy = true;  return true; } // armata bossa 1
+            if (x == 23 && y == 9 ) { isEnemy = true;  return true; } // armata bossa 2
+            isEnemy = false;
+            return false;
+        }
+
+        private bool IsBossMastTile(int x, int y, out bool isEnemy)
+        {
+            if (x == 5  && y == 7) { isEnemy = false; return true; }
+            if (x == 26 && y == 7) { isEnemy = true;  return true; }
+            isEnemy = false;
+            return false;
+        }
+
+        private bool IsBossHelmTile(int x, int y, out bool isEnemy)
+        {
+            if (x == 5  && y == 4) { isEnemy = false; return true; }
+            if (x == 26 && y == 4) { isEnemy = true;  return true; }
+            isEnemy = false;
+            return false;
+        }
+
+        bool IsBossShipTile(int x, int y)
+        {
+            float centerX = 26f;
+            float centerY = (_height - 1) / 2f;
+
+            int hullHalfWidth = 3;
+            int sternHalfWidth = 2;
+            int bowHeight = 3;
+            int hullHeight = 11; // dłuższy kadłub
+            int sternHeight = 1;
+
+            int shipTotalHeight = bowHeight + hullHeight + sternHeight;
+            int shipStartY = Mathf.RoundToInt(centerY - shipTotalHeight / 2f);
+            int bowStartY = shipStartY + sternHeight + hullHeight;
+
+            if (y < shipStartY || y >= shipStartY + shipTotalHeight) return false;
+
+            if (y >= bowStartY)
+            {
+                float t = (float)(y - bowStartY) / bowHeight;
+                float halfWidth = Mathf.Lerp(hullHalfWidth, 0f, t);
+                return Mathf.Abs(x - centerX) < halfWidth + 0.5f;
+            }
+            else if (y >= shipStartY + sternHeight)
+                return Mathf.Abs(x - centerX) <= hullHalfWidth;
+            else
+                return Mathf.Abs(x - centerX) <= sternHalfWidth;
         }
 
         public void ShowRangeHighlights(BaseUnit unit)

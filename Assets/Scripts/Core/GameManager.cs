@@ -22,6 +22,8 @@ namespace Core
         {
             if (SceneManager.GetActiveScene().name == "BoardingScene")
                 ChangeState(GameState.GenerateBoardingGrid);
+            else if (SceneManager.GetActiveScene().name == "BossScene")
+                ChangeState(GameState.GenerateBossGrid);
             else
                 ChangeState(GameState.GenerateGrid);
         }
@@ -36,6 +38,9 @@ namespace Core
                     break;
                 case GameState.GenerateBoardingGrid:
                     GridManager.Instance.GenerateBoardingGrid();
+                    break;
+                case GameState.GenerateBossGrid:
+                    GridManager.Instance.GenerateBossGrid();
                     break;
                 case GameState.SpawnUserCrew:
                     UnitManager.Instance.SpawnUnits();
@@ -268,9 +273,10 @@ namespace Core
     {
         GenerateGrid = 0,
         GenerateBoardingGrid = 1,
-        SpawnUserCrew = 2,
-        SpawnEnemyCrew = 3,
-        UserTurn = 4,
-        EnemyTurn = 5
+        GenerateBossGrid =2,
+        SpawnUserCrew = 3,
+        SpawnEnemyCrew = 4,
+        UserTurn = 5,
+        EnemyTurn = 6
     }
 }

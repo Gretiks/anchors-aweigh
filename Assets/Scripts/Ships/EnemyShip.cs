@@ -11,6 +11,7 @@ public enum EnemyStrategy
 public class EnemyShip : BaseShip
 {
     protected override Faction GetFaction() => Faction.Enemy;
+    private float hitChange = PlayerDataManager.Instance == null ? 0 : PlayerDataManager.Instance.BonusHitChance;
 
     [SerializeField] private float enemyMaxHealth = 100f;
 
@@ -35,7 +36,7 @@ public class EnemyShip : BaseShip
         get
         {
             float extraEvasion = PlayerDataManager.Instance != null ? PlayerDataManager.Instance.BonusEvasion : 0f;
-            float reduceEvasion = PlayerDataManager.Instance.BonusHitChance;
+            float reduceEvasion = hitChange;
             return base.evasion + extraEvasion - reduceEvasion - reduceEvasion;
         }
     }

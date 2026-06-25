@@ -10,9 +10,10 @@ public class CannonTile : ShipModuleTile
     [SerializeField] public int damage = 20;
     [SerializeField] public string cannonDescription = "Standard cannon";
 
-    private int bonusDamege = 0;
+    private int bonusDamege;
     
     public bool HasFired { get; private set; } = false;
+    
 
     public override int RequiredCrew => requiredCrew;
     
@@ -25,7 +26,8 @@ public class CannonTile : ShipModuleTile
 
     public void Fire()
     {
-        bonusDamege = PlayerDataManager.Instance.BonusDamage;
+
+        bonusDamege = PlayerDataManager.Instance == null ? 0 : PlayerDataManager.Instance.BonusDamage;
         float playerHitBonus = PlayerDataManager.Instance != null ? PlayerDataManager.Instance.BonusHitChance : 0f;
 
         if (HasFired) return;
