@@ -82,7 +82,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 20
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 297761703447499198, guid: 34d1a6446d7d96e4c81a5a89c6ade115, type: 3}
+  m_Sprite: {fileID: -3899412316454941700, guid: 7df4f3c97aa7d1a4a9547552552fc8f1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -105,13 +105,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   uniqueID: 
+  prefabName: 
+  unitName: Enemy1
   maxHealth: 100
   currentHealth: 0
   UnitMovement: 2
   baseMovement: 5
+  hasAttacked: 0
   OccupiedTile: {fileID: 0}
   Faction: 1
-  unitName: Enemy1
   assignedModule: {fileID: 0}
   tileStepDelay: 0.4
   boardingAttackDamage: 20

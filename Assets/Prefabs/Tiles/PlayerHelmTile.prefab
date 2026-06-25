@@ -80,8 +80,8 @@ MonoBehaviour:
   tileName: 
   _baseColor: {r: 0, g: 0, b: 0, a: 0}
   _offsetColor: {r: 0, g: 0, b: 0, a: 0}
-  _baseSprite: {fileID: 21300000, guid: c5ce4427ca245244e8ab3cac80e4d425, type: 3}
-  _offsetSprite: {fileID: 21300000, guid: c5ce4427ca245244e8ab3cac80e4d425, type: 3}
+  _baseSprite: {fileID: 21300000, guid: c6928f3bbc8c8db4eaa697e02bf31d39, type: 3}
+  _offsetSprite: {fileID: 21300000, guid: c6928f3bbc8c8db4eaa697e02bf31d39, type: 3}
   _spriteRenderer: {fileID: 5222357801828942551}
   _highlight: {fileID: 4457260434075940134}
   _rangeHighlight: {fileID: 4648810041659421389}
@@ -91,6 +91,7 @@ MonoBehaviour:
   maxCrew: 1
   currentOccupants: 0
   helmDescription: Ship's helm
+  requiredCrew: 1
 --- !u!1 &4457260434075940134 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7545888981002538487, guid: b24759dd73722e14a80d6a98dbe91cae, type: 3}

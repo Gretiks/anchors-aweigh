@@ -43,6 +43,10 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private float _barMinX = -200f; // lewa kraw�d� paska w px
     [SerializeField] private float _barMaxX = 200f;  // prawa kraw�d� paska w px
 
+    //Turn indicator
+    [SerializeField] private GameObject _playerTurnIndicator;
+    [SerializeField] private GameObject _enemyTurnIndicator;
+
     void Awake() { Instance = this; }
 
     public void ShowSelectedHero(BaseHero hero)
@@ -198,6 +202,13 @@ public class MenuManager : MonoBehaviour
             Mathf.Lerp(_barMinX, _barMaxX, (ShipManager.Instance.playerShip.Position + 10f) / 20f), 0);
         _enemyPositionMarker.anchoredPosition = new Vector2(
             Mathf.Lerp(_barMinX, _barMaxX, (ShipManager.Instance.enemyShip.Position + 10f) / 20f), 0);
+    }
+
+    //Turn indicator
+    public void ShowTurnIndicator(bool isPlayerTurn)
+    {
+        _playerTurnIndicator.SetActive(isPlayerTurn);
+        _enemyTurnIndicator.SetActive(!isPlayerTurn);
     }
 
 }
