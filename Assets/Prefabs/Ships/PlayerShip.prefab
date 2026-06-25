@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerShip
   isPlayerShip: 1
-  maxHealth: 100
   currentHealth: 0
   ShipName: Statek Gracza
   baseEvasion: 0.3
   startPosition: -5
   speed: 1
+  playerMaxHealth: 100

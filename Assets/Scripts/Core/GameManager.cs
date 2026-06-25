@@ -13,6 +13,8 @@ namespace Core
         public static GameManager Instance;
         public GameState GameState;
 
+        private float _previousDistance = float.NaN;
+
         void Awake()
         {
             Instance = this;
@@ -159,86 +161,87 @@ namespace Core
         }
 
         public void CheckBattleConditions()
+{
+    if (SceneManager.GetActiveScene().name == "BoardingScene")
+    {
+        if (UnitManager.Instance == null) return;
+
+        int aliveHeroes = UnitManager.Instance._heroes.Count(h => h != null && h.gameObject.activeInHierarchy && h.currentHealth > 0);
+        int aliveEnemies = UnitManager.Instance._enemies.Count(e => e != null && e.gameObject.activeInHierarchy && e.currentHealth > 0);
+
+        if (aliveHeroes == 0)
         {
-            if (SceneManager.GetActiveScene().name == "BoardingScene")
-            {
-                if (UnitManager.Instance == null) return;
-
-                int aliveHeroes = UnitManager.Instance._heroes.Count(h => h != null && h.gameObject.activeInHierarchy && h.currentHealth > 0);
-                int aliveEnemies = UnitManager.Instance._enemies.Count(e => e != null && e.gameObject.activeInHierarchy && e.currentHealth > 0);
-
-                if (aliveHeroes == 0)
-                {
-                    Debug.Log("Wszyscy Twoi piraci polegli! Przegrana bitwa aborda?owa.");
-                    TriggerEndGame(false); 
-                    return;
-                }
-                else if (aliveEnemies == 0)
-                {
-                    Debug.Log("Wroga za?oga zosta?a wyci?ta w pie?! Zwyci?stwo w aborda?u!");
-                    TriggerEndGame(true); 
-                    return;
-                }
-
-                return; 
-            }
-            
-            float playerPos = ShipManager.Instance.playerShip.Position;
-            float enemyPos = ShipManager.Instance.enemyShip.Position;
-    
-            // Pobieramy te? pozycj? z poprzedniego klatki/ruchu, je?li j? przechowujesz, 
-            // LUB stosujemy prost? logik? "przeci?cia" w tej turze:
-    
-            var playerShip = ShipManager.Instance.playerShip;
-            var enemyShip = ShipManager.Instance.enemyShip;
-
-            if (playerShip == null || enemyShip == null) return;
-
-            if (playerShip.currentHealth <= 0)
-            {
-                Debug.Log("Tw?j statek zaton??! Przegrana.");
-                TriggerEndGame(false); // false = przegrana
-            }
-            // 2. Je?li statek wroga ma 0 lub mniej HP -> ZWYCI?STWO
-            else if (enemyShip.currentHealth <= 0)
-            {
-                Debug.Log("Statek wroga zaton??! Zwyci?stwo!");
-                TriggerEndGame(true); // true = zwyci?stwo
-            }
-            else
-            {
-                // =====================================================================
-                // [ZMIANA]: Logika wykrywania aborda?u (przeskoczenie lub zrównanie)
-                // =====================================================================
-        
-                // Obliczamy odleg?o?? teraz
-                float distanceNow = playerPos - enemyPos;
-        
-                // Pobieramy pr?dko?? (uwzgl?dniamy bonus pr?dko?ci z PlayerShip)
-                float playerSpeed = playerShip.speed + playerShip.ExtraSpeed;
-                float enemySpeed = enemyShip.speed; // (je?li enemy te? ma bonus, dodaj go tutaj)
-        
-                // Je?li statki zmieni?y relatywn? pozycj? tak, ?e "przeskoczy?y" siebie
-                // lub znalaz?y si? w zasi?gu 1f, wywo?ujemy aborda?.
-                if (Mathf.Abs(distanceNow) <= 1.5f) // Zwi?kszy?em margines na 1.5f dla pewno?ci
-                {
-                    Debug.Log("Aborda?: Statki si? zrówna?y lub przeskoczy?y!");
-            
-                    // Zapis stanu przed wej?ciem w aborda?
-                    PlayerDataManager.Instance.SaveShipState(playerShip);
-            
-                    foreach(var hero in UnitManager.Instance._heroes)
-                        if(hero != null) PlayerDataManager.Instance.SaveUnitState(hero);
-            
-                    foreach(var enemy in UnitManager.Instance._enemies)
-                        if(enemy != null) PlayerDataManager.Instance.SaveUnitState(enemy);
-            
-                    SceneManager.LoadScene("BoardingScene");
-                }
-                
-            }
-
+            Debug.Log("Wszyscy Twoi piraci polegli! Przegrana bitwa aborda?owa.");
+            TriggerEndGame(false); 
+            return;
         }
+        else if (aliveEnemies == 0)
+        {
+            Debug.Log("Wroga za?oga zosta?a wyci?ta w pie?! Zwyci?stwo w aborda?u!");
+            TriggerEndGame(true); 
+            return;
+        }
+
+        return; 
+    }
+    
+    var playerShip = ShipManager.Instance.playerShip;
+    var enemyShip = ShipManager.Instance.enemyShip;
+
+    if (playerShip == null || enemyShip == null) return;
+
+    if (playerShip.currentHealth <= 0)
+    {
+        Debug.Log("Twój statek zaton??! Przegrana.");
+        TriggerEndGame(false); 
+    }
+    else if (enemyShip.currentHealth <= 0)
+    {
+        Debug.Log("Statek wroga zaton??! Zwyci?stwo!");
+        TriggerEndGame(true); 
+    }
+    else
+    {
+        // =====================================================================
+        // Logika wykrywania aborda?u (przeskoczenie lub zrównanie)
+        // =====================================================================
+
+        float playerPos = playerShip.Position;
+        float enemyPos = enemyShip.Position;
+        float distanceNow = playerPos - enemyPos;
+
+        bool jumpedOver = false;
+
+        // Sprawdzamy zmian? znaku dystansu, która oznacza wymini?cie si? statków
+        if (!float.IsNaN(_previousDistance))
+        {
+            // Je?li znaki si? ró?ni?, statki przeci??y swoje ?cie?ki
+            if (Mathf.Sign(distanceNow) != Mathf.Sign(_previousDistance) && distanceNow != 0 && _previousDistance != 0)
+            {
+                jumpedOver = true;
+            }
+        }
+
+        // Aktualizujemy poprzedni dystans na potrzeby przysz?ych wywo?a?
+        _previousDistance = distanceNow;
+
+        // Wywo?ujemy aborda?, je?li statki s? w zasi?gu 1.5f LUB si? przeskoczy?y
+        if (Mathf.Abs(distanceNow) <= 1.5f || jumpedOver)
+        {
+            Debug.Log("Aborda?: Statki si? zrówna?y lub przeskoczy?y!");
+    
+            PlayerDataManager.Instance.SaveShipState(playerShip);
+    
+            foreach(var hero in UnitManager.Instance._heroes)
+                if(hero != null) PlayerDataManager.Instance.SaveUnitState(hero);
+    
+            foreach(var enemy in UnitManager.Instance._enemies)
+                if(enemy != null) PlayerDataManager.Instance.SaveUnitState(enemy);
+    
+            SceneManager.LoadScene("BoardingScene");
+        }
+    }
+}
 
         private void TriggerEndGame(bool victory)
         {
