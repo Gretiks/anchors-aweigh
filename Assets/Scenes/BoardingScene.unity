@@ -946,7 +946,7 @@ MonoBehaviour:
   enemyShip: {fileID: 0}
   playerShipPrefab: {fileID: -5059408949508066498, guid: e91f27f0214a9884c9d294bff37786ff, type: 3}
   enemyShipPrefab: {fileID: 7448637182288038386, guid: 8ae92dd91bc630a4689b6249c3a3b135, type: 3}
-  bossShipPrefab: {fileID: 0}
+  bossShipPrefab: {fileID: -6908653057798746525, guid: 0c8d1c7e6b291114489c4bbaa90d7143, type: 3}
 --- !u!4 &353942195
 Transform:
   m_ObjectHideFlags: 0
@@ -1356,9 +1356,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.63604856
-    width: 0.49228945
-    height: 0.34506768
+    y: 0.10548977
+    width: 1
+    height: 0.7885974
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -4245,8 +4245,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 670.4, y: 60.03}
-  m_SizeDelta: {x: 125.41, y: 203.111}
+  m_AnchoredPosition: {x: 670.4, y: 71.964}
+  m_SizeDelta: {x: 125.41, y: 328.79}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1876132185
 MonoBehaviour:

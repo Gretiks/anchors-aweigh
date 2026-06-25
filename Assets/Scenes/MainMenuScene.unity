@@ -175,9 +175,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.10790599
+    y: 0.10548977
     width: 1
-    height: 0.78321236
+    height: 0.7885974
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -458,8 +458,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 497, y: 28}
-  m_SizeDelta: {x: 893.3968, y: 180.115}
+  m_AnchoredPosition: {x: 418.6864, y: 28}
+  m_SizeDelta: {x: 616.9157, y: 180.115}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &74040457
 MonoBehaviour:
@@ -518,8 +518,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 16
+  m_fontSizeBase: 16
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1757,7 +1757,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1896443319}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: CloseGame
+        m_MethodName: ShowInstrtuction
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3133,7 +3133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuManager
   mainMenuPanel: {fileID: 1119270783}
   creditsPanel: {fileID: 869960469}
-  instructionPanel: {fileID: 0}
+  instructionPanel: {fileID: 775343406}
   battleSceneName: BattleScene
 --- !u!4 &1896443320
 Transform:
@@ -3301,7 +3301,7 @@ MonoBehaviour:
   enemyShipHpStep: 25
   enemyCannonDmgStep: 5
   maxEnemyCrewCap: 5
-  bossBattleTrigger: 10
+  bossBattleTrigger: 1
 --- !u!1 &2000886187
 GameObject:
   m_ObjectHideFlags: 0

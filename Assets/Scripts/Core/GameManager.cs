@@ -25,12 +25,15 @@ namespace Core
 
         void Start()
         {
-            if (SceneManager.GetActiveScene().name == "BoardingScene")
+            if(SceneManager.GetActiveScene().name == "BoardingScene" && PlayerDataManager.Instance.IsNextBattleBoss() == false)
                 ChangeState(GameState.GenerateBoardingGrid);
+            else if (PlayerDataManager.Instance != null && PlayerDataManager.Instance.IsNextBattleBoss() && SceneManager.GetActiveScene().name == "BoardingScene")
+                ChangeState(GameState.GenerateBossBoardingGrid);
             else if (PlayerDataManager.Instance != null && PlayerDataManager.Instance.IsNextBattleBoss())
                 ChangeState(GameState.GenerateBossGrid);
             else
                 ChangeState(GameState.GenerateGrid);
+            
         }
 
         public void ChangeState(GameState newState)
@@ -46,6 +49,9 @@ namespace Core
                     break;
                 case GameState.GenerateBossGrid:
                     GridManager.Instance.GenerateBossGrid();
+                    break;
+                case GameState.GenerateBossBoardingGrid:
+                    GridManager.Instance.GenerateBossBoardingGrid();
                     break;
                 case GameState.SpawnUserCrew:
                     UnitManager.Instance.SpawnUnits();
@@ -169,87 +175,87 @@ namespace Core
         }
 
         public void CheckBattleConditions()
-{
-    if (SceneManager.GetActiveScene().name == "BoardingScene")
-    {
-        if (UnitManager.Instance == null) return;
-
-        int aliveHeroes = UnitManager.Instance._heroes.Count(h => h != null && h.gameObject.activeInHierarchy && h.currentHealth > 0);
-        int aliveEnemies = UnitManager.Instance._enemies.Count(e => e != null && e.gameObject.activeInHierarchy && e.currentHealth > 0);
-
-        if (aliveHeroes == 0)
         {
-            Debug.Log("Wszyscy Twoi piraci polegli! Przegrana bitwa aborda?owa.");
-            TriggerEndGame(false); 
-            return;
-        }
-        else if (aliveEnemies == 0)
-        {
-            Debug.Log("Wroga za?oga zosta?a wyci?ta w pie?! Zwyci?stwo w aborda?u!");
-            TriggerEndGame(true); 
-            return;
-        }
-
-        return; 
-    }
-    
-    var playerShip = ShipManager.Instance.playerShip;
-    var enemyShip = ShipManager.Instance.enemyShip;
-
-    if (playerShip == null || enemyShip == null) return;
-
-    if (playerShip.currentHealth <= 0)
-    {
-        Debug.Log("Twój statek zaton??! Przegrana.");
-        TriggerEndGame(false); 
-    }
-    else if (enemyShip.currentHealth <= 0)
-    {
-        Debug.Log("Statek wroga zaton??! Zwyci?stwo!");
-        TriggerEndGame(true); 
-    }
-    else
-    {
-        // =====================================================================
-        // Logika wykrywania aborda?u (przeskoczenie lub zrównanie)
-        // =====================================================================
-
-        float playerPos = playerShip.Position;
-        float enemyPos = enemyShip.Position;
-        float distanceNow = playerPos - enemyPos;
-
-        bool jumpedOver = false;
-
-        // Sprawdzamy zmian? znaku dystansu, która oznacza wymini?cie si? statków
-        if (!float.IsNaN(_previousDistance))
-        {
-            // Je?li znaki si? ró?ni?, statki przeci??y swoje ?cie?ki
-            if (Mathf.Sign(distanceNow) != Mathf.Sign(_previousDistance) && distanceNow != 0 && _previousDistance != 0)
+            if (SceneManager.GetActiveScene().name == "BoardingScene")
             {
-                jumpedOver = true;
+                if (UnitManager.Instance == null) return;
+        
+                int aliveHeroes = UnitManager.Instance._heroes.Count(h => h != null && h.gameObject.activeInHierarchy && h.currentHealth > 0);
+                int aliveEnemies = UnitManager.Instance._enemies.Count(e => e != null && e.gameObject.activeInHierarchy && e.currentHealth > 0);
+        
+                if (aliveHeroes == 0)
+                {
+                    Debug.Log("Wszyscy Twoi piraci polegli! Przegrana bitwa aborda?owa.");
+                    TriggerEndGame(false); 
+                    return;
+                }
+                else if (aliveEnemies == 0)
+                {
+                    Debug.Log("Wroga za?oga zosta?a wyci?ta w pie?! Zwyci?stwo w aborda?u!");
+                    TriggerEndGame(true); 
+                    return;
+                }
+        
+                return; 
+            }
+            
+            var playerShip = ShipManager.Instance.playerShip;
+            var enemyShip = ShipManager.Instance.enemyShip;
+        
+            if (playerShip == null || enemyShip == null) return;
+        
+            if (playerShip.currentHealth <= 0)
+            {
+                Debug.Log("Twój statek zaton??! Przegrana.");
+                TriggerEndGame(false); 
+            }
+            else if (enemyShip.currentHealth <= 0)
+            {
+                Debug.Log("Statek wroga zaton??! Zwyci?stwo!");
+                TriggerEndGame(true); 
+            }
+            else
+            {
+                // =====================================================================
+                // Logika wykrywania aborda?u (przeskoczenie lub zrównanie)
+                // =====================================================================
+        
+                float playerPos = playerShip.Position;
+                float enemyPos = enemyShip.Position;
+                float distanceNow = playerPos - enemyPos;
+        
+                bool jumpedOver = false;
+        
+                // Sprawdzamy zmian? znaku dystansu, która oznacza wymini?cie si? statków
+                if (!float.IsNaN(_previousDistance))
+                {
+                    // Je?li znaki si? ró?ni?, statki przeci??y swoje ?cie?ki
+                    if (Mathf.Sign(distanceNow) != Mathf.Sign(_previousDistance) && distanceNow != 0 && _previousDistance != 0)
+                    {
+                        jumpedOver = true;
+                    }
+                }
+        
+                // Aktualizujemy poprzedni dystans na potrzeby przysz?ych wywo?a?
+                _previousDistance = distanceNow;
+        
+                // Wywo?ujemy aborda?, je?li statki s? w zasi?gu 1.5f LUB si? przeskoczy?y
+                if (Mathf.Abs(distanceNow) <= 1.5f || jumpedOver)
+                {
+                    Debug.Log("Aborda?: Statki si? zrówna?y lub przeskoczy?y!");
+            
+                    PlayerDataManager.Instance.SaveShipState(playerShip);
+            
+                    foreach(var hero in UnitManager.Instance._heroes)
+                        if(hero != null) PlayerDataManager.Instance.SaveUnitState(hero);
+            
+                    foreach(var enemy in UnitManager.Instance._enemies)
+                        if(enemy != null) PlayerDataManager.Instance.SaveUnitState(enemy);
+                    
+                    SceneManager.LoadScene("BoardingScene");
+                }
             }
         }
-
-        // Aktualizujemy poprzedni dystans na potrzeby przysz?ych wywo?a?
-        _previousDistance = distanceNow;
-
-        // Wywo?ujemy aborda?, je?li statki s? w zasi?gu 1.5f LUB si? przeskoczy?y
-        if (Mathf.Abs(distanceNow) <= 1.5f || jumpedOver)
-        {
-            Debug.Log("Aborda?: Statki si? zrówna?y lub przeskoczy?y!");
-    
-            PlayerDataManager.Instance.SaveShipState(playerShip);
-    
-            foreach(var hero in UnitManager.Instance._heroes)
-                if(hero != null) PlayerDataManager.Instance.SaveUnitState(hero);
-    
-            foreach(var enemy in UnitManager.Instance._enemies)
-                if(enemy != null) PlayerDataManager.Instance.SaveUnitState(enemy);
-    
-            SceneManager.LoadScene("BoardingScene");
-        }
-    }
-}
 
         private void TriggerEndGame(bool victory)
         {
@@ -294,6 +300,7 @@ namespace Core
         SpawnUserCrew = 3,
         SpawnEnemyCrew = 4,
         UserTurn = 5,
-        EnemyTurn = 6
+        EnemyTurn = 6,
+        GenerateBossBoardingGrid = 7
     }
 }

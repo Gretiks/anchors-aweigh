@@ -157,6 +157,102 @@ namespace Grid
             GameManager.Instance.ChangeState(GameState.SpawnUserCrew);
         }
 
+        public void GenerateBossBoardingGrid()
+        {
+            ClearOldGrid();
+            _tiles = new Dictionary<Vector2, Tile>();
+        
+            int bridge1Y = 5;
+            int bridge11Y = 4;
+            int bridge2Y = 10;
+            int bridge22Y = 9;
+            int bridgeStartX = 13;
+            int bridgeEndX = 18;
+        
+            for (int x = 0; x < _width; x++)
+            {
+                for (int y = 0; y < _height; y++)
+                {
+                    Tile prefab;
+        
+                    bool isBridge = x >= bridgeStartX && x <= bridgeEndX
+                                    && (y == bridge1Y || y == bridge2Y || y == bridge11Y || y == bridge22Y);
+        
+                    if (isBridge)
+                        prefab = _shipTile;
+                    else if (IsBossBoardingHelmTile(x, y, out bool isHelmEnemy))
+                        prefab = isHelmEnemy ? _helmEnemyTile : _helmPlayerTile;
+                    else if (IsBossBoardingMastTile(x, y, out bool isMastEnemy))
+                        prefab = isMastEnemy ? _mastEnemyTile : _mastPlayerTile;
+                    else if (IsBossBoardingCannonTile(x, y, out bool isEnemy))
+                        prefab = isEnemy ? _cannonEnemyTile : _cannonPlayerTile;
+                    else if (IsShipTile(x, y, centerX: 9f)) prefab = _shipTile;
+                    else if (IsBossBoardingShipTile(x, y)) prefab = _enemyShipTile;
+                    else prefab = _seaTile;
+        
+                    var spawnedTile = Instantiate(prefab, new Vector3(x, y), Quaternion.identity);
+                    spawnedTile.name = $"BossBoardingTile {x} {y}";
+                    _tiles[new Vector2(x, y)] = spawnedTile;
+                    var isOffset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0);
+                    spawnedTile.Init(isOffset);
+                }
+            }
+        
+            GameManager.Instance.ChangeState(GameState.SpawnUserCrew);
+        }
+        
+        private bool IsBossBoardingCannonTile(int x, int y, out bool isEnemy)
+        {
+            if (x == 12 && y == 7) { isEnemy = false; return true; } // gracz
+            if (x == 19 && y == 6) { isEnemy = true;  return true; } // boss armata 1
+            if (x == 19 && y == 9) { isEnemy = true;  return true; } // boss armata 2
+            isEnemy = false;
+            return false;
+        }
+        
+        private bool IsBossBoardingMastTile(int x, int y, out bool isEnemy)
+        {
+            if (x == 9  && y == 7) { isEnemy = false; return true; }
+            if (x == 22 && y == 7) { isEnemy = true;  return true; }
+            isEnemy = false;
+            return false;
+        }
+        
+        private bool IsBossBoardingHelmTile(int x, int y, out bool isEnemy)
+        {
+            if (x == 9  && y == 4) { isEnemy = false; return true; }
+            if (x == 22 && y == 4) { isEnemy = true;  return true; }
+            isEnemy = false;
+            return false;
+        }
+        
+        bool IsBossBoardingShipTile(int x, int y)
+        {
+            float centerX = 22f;
+            float centerY = (_height - 1) / 2f;
+            int hullHalfWidth = 3;
+            int sternHalfWidth = 2;
+            int bowHeight = 3;
+            int hullHeight = 11;
+            int sternHeight = 1;
+            int shipTotalHeight = bowHeight + hullHeight + sternHeight;
+            int shipStartY = Mathf.RoundToInt(centerY - shipTotalHeight / 2f);
+            int bowStartY = shipStartY + sternHeight + hullHeight;
+        
+            if (y < shipStartY || y >= shipStartY + shipTotalHeight) return false;
+        
+            if (y >= bowStartY)
+            {
+                float t = (float)(y - bowStartY) / bowHeight;
+                float halfWidth = Mathf.Lerp(hullHalfWidth, 0f, t);
+                return Mathf.Abs(x - centerX) < halfWidth + 0.5f;
+            }
+            else if (y >= shipStartY + sternHeight)
+                return Mathf.Abs(x - centerX) <= hullHalfWidth;
+            else
+                return Mathf.Abs(x - centerX) <= sternHalfWidth;
+        }
+        
         // =========================================================================
         // ZMODYFIKOWANE METODY SPAWNUJĄCE (ZALEŻNE OD SCENY)
         // =========================================================================
