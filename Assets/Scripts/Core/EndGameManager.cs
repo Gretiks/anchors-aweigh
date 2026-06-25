@@ -35,7 +35,7 @@ namespace Core
                     SceneManager.LoadScene("ShopScene");
                 else
                 {
-                    _resultText.text = "YOU WIN!";
+                    _resultText.text = "The enemy has been vanquished, and from their captured vessels, we have seized a fortune!We chart our course for home, wealthy beyond measure and unchallenged upon these waters.";
                     _resultText.color = Color.green; // Zielony napis dla wygranej
                 }
                 
@@ -43,7 +43,7 @@ namespace Core
             }
             else
             {
-                _resultText.text = "YOU LOSE";
+                _resultText.text = "The ship has been lost. Our adversaries have won this battle, but they failed to take my life. I can still return for vengeance.";
                 _resultText.color = Color.red; // Czerwony napis dla przegranej
                 _quitButton.SetActive(true);
                 _endButton.SetActive(true);
