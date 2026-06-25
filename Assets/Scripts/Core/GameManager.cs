@@ -27,7 +27,7 @@ namespace Core
         {
             if (SceneManager.GetActiveScene().name == "BoardingScene")
                 ChangeState(GameState.GenerateBoardingGrid);
-            else if (SceneManager.GetActiveScene().name == "BossScene")
+            else if (PlayerDataManager.Instance != null && PlayerDataManager.Instance.IsNextBattleBoss())
                 ChangeState(GameState.GenerateBossGrid);
             else
                 ChangeState(GameState.GenerateGrid);
@@ -105,7 +105,7 @@ namespace Core
                     yield return null;
             }
             
-            ProcessEnemyCannons();
+            yield return ProcessEnemyCannons();
             
             var enemyShip = ShipManager.Instance.enemyShip;
             if (enemyShip != null)
@@ -117,7 +117,7 @@ namespace Core
             ChangeState(GameState.UserTurn);
         }
 
-        private void ProcessEnemyCannons()
+        private IEnumerator ProcessEnemyCannons()
         {
             var cannons = FindObjectsByType<CannonTile>();
             foreach (var cannon in cannons)
@@ -125,6 +125,7 @@ namespace Core
                 if (cannon.owner == Faction.Enemy)
                 {
                     cannon.EnemyExecuteFire();
+                    yield return new WaitForSeconds(0.25f);
                 }
             }
         }
@@ -254,7 +255,13 @@ namespace Core
         {
             if (PlayerDataManager.Instance != null)
             {
-                if (victory) PlayerDataManager.Instance.IncrementBattlesWon();
+                if (victory)
+                {
+                    if(PlayerDataManager.Instance.IsNextBattleBoss())
+                        PlayerDataManager.Instance.MarkBossAsDefeated();
+                    
+                    PlayerDataManager.Instance.IncrementBattlesWon();
+                }
 
                 if (ShipManager.Instance != null && ShipManager.Instance.playerShip != null)
                 {

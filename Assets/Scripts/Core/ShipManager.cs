@@ -14,6 +14,7 @@ namespace Core
         
         [SerializeField] private PlayerShip playerShipPrefab;
         [SerializeField] private EnemyShip enemyShipPrefab;
+        [SerializeField] private EnemyShip bossShipPrefab;
         
         
         
@@ -33,7 +34,14 @@ namespace Core
 
         public void InitiateEnemyShip()
         {
-            enemyShip = Instantiate(enemyShipPrefab);
+            if (PlayerDataManager.Instance != null && PlayerDataManager.Instance.IsNextBattleBoss())
+            {
+                enemyShip = Instantiate(bossShipPrefab);
+            }
+            else
+            {
+                enemyShip = Instantiate(enemyShipPrefab);
+            }
             enemyShip.ShipName = "Enemy";
             enemyShip.FindAndSetMast();
             enemyShip.UpdateShipUI();

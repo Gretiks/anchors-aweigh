@@ -17,6 +17,8 @@ public class UnitManager : MonoBehaviour
     public List<BaseHero> _heroes = new List<BaseHero>();
     public List<BaseEnemy> _enemies = new List<BaseEnemy>();
 
+    private float meleeBonus = 0;
+    
     void Awake()
     {
         Instance = this;
@@ -108,6 +110,9 @@ public class UnitManager : MonoBehaviour
 
         int currentEnemyCount = PlayerDataManager.Instance != null ? PlayerDataManager.Instance.EnemySlotsCount : 3;
 
+        if (PlayerDataManager.Instance != null && PlayerDataManager.Instance.IsNextBattleBoss())
+            currentEnemyCount = 7; // tylko na walke z bossem
+        
         for (int i = 0; i < currentEnemyCount; i++)
         {
             string slotID = "Enemy_Crew_" + i.ToString();
@@ -187,10 +192,12 @@ public class UnitManager : MonoBehaviour
         if (SelectedHero == null || SelectedHero.hasAttacked || enemy == null || enemy.currentHealth <= 0) return;
         if (SelectedHero.OccupiedTile == null || enemy.OccupiedTile == null) return;
 
+        meleeBonus = PlayerDataManager.Instance == null ? 0 : PlayerDataManager.Instance.BonusMeleeDamage;
+        
         var neighbors = Grid.GridManager.Instance.GetNeighbors(SelectedHero.OccupiedTile);
         if (neighbors.Contains(enemy.OccupiedTile))
         {
-            enemy.TakeDamage(35f);
+            enemy.TakeDamage(35f + meleeBonus);
             SelectedHero.hasAttacked = true;
             if (Core.GameManager.Instance != null) Core.GameManager.Instance.CheckBattleConditions();
         }

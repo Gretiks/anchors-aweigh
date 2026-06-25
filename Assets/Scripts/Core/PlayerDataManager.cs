@@ -12,6 +12,8 @@ public class PlayerDataManager : MonoBehaviour
     public float BonusEvasion { get; set; } = 0f;    
     public float BonusHitChance { get; set; } = 0f;  
     public int BonusShipSpeed { get; set; } = 0;     
+    
+    public float BonusMeleeDamage { get; set; } = 0f;
 
     public int PlayerSlotsCount { get; set; } = 5;
 
@@ -21,6 +23,11 @@ public class PlayerDataManager : MonoBehaviour
     [SerializeField] private float enemyShipHpStep = 25f;
     [SerializeField] private float enemyCannonDmgStep = 5f;
     [SerializeField] private int maxEnemyCrewCap = 5;
+    
+    [Header("Ustawienia Bossa")]
+    [Tooltip("Numer walki, po której wygraniu pojawi się boss (np. 10 oznacza, że 11 walka to boss)")]
+    [SerializeField] private int bossBattleTrigger = 10;
+    public bool IsBossDefeated { get; private set; } = false;
 
     public int BattlesWon { get; private set; } = 0;
     public int ShipProgressionStage => BattlesWon / (battlesPerShipStage > 0 ? battlesPerShipStage : 1);
@@ -271,6 +278,8 @@ public class PlayerDataManager : MonoBehaviour
         BonusEvasion = 0f;
         BonusHitChance = 0f;
         BonusShipSpeed = 0;
+
+        IsBossDefeated = false;
     }
     
     public void AddGold(int amount) => Gold += amount;
@@ -305,5 +314,15 @@ public class PlayerDataManager : MonoBehaviour
             }
         }
         return list;
+    }
+    
+    public bool IsNextBattleBoss()
+    {
+        return !IsBossDefeated && BattlesWon == bossBattleTrigger;
+    }
+
+    public void MarkBossAsDefeated()
+    {
+        IsBossDefeated = true;
     }
 }

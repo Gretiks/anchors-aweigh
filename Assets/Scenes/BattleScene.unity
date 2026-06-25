@@ -1079,6 +1079,7 @@ MonoBehaviour:
   enemyShip: {fileID: 0}
   playerShipPrefab: {fileID: -5059408949508066498, guid: e91f27f0214a9884c9d294bff37786ff, type: 3}
   enemyShipPrefab: {fileID: 7448637182288038386, guid: 8ae92dd91bc630a4689b6249c3a3b135, type: 3}
+  bossShipPrefab: {fileID: -6908653057798746525, guid: 0c8d1c7e6b291114489c4bbaa90d7143, type: 3}
 --- !u!4 &353942195
 Transform:
   m_ObjectHideFlags: 0
@@ -1583,9 +1584,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.09893993
-    width: 0.99999994
-    height: 0.8035704
+    y: 0.4423077
+    width: 0.21138744
+    height: 0.16556126
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34

@@ -64,7 +64,9 @@ namespace Grid
                     else prefab = _seaTile;
 
                     var spawnedTile = Instantiate(prefab, new Vector3(x, y), Quaternion.identity);
-                    spawnedTile.name = $"Tile {x} {y}";
+                    
+                    string tilePrefix = (prefab == _seaTile) ? "SeaTile" : "ShipTile";
+                    spawnedTile.name = $"{tilePrefix} {x} {y}";
       
                     _tiles[new Vector2(x, y)] = spawnedTile;
 
@@ -142,7 +144,10 @@ namespace Grid
                     else prefab = _seaTile;
 
                     var spawnedTile = Instantiate(prefab, new Vector3(x, y), Quaternion.identity);
-                    spawnedTile.name = $"BossTile {x} {y}";
+                    
+                    string tilePrefix = (prefab == _seaTile) ? "SeaTile" : "ShipTile";
+                    spawnedTile.name = $"{tilePrefix} {x} {y}";
+                    
                     _tiles[new Vector2(x, y)] = spawnedTile;
                     var isOffset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0);
                     spawnedTile.Init(isOffset);
@@ -159,8 +164,6 @@ namespace Grid
         public Tile GetHeroSpawnTile()
         {
             bool isBoarding = SceneManager.GetActiveScene().name == "BoardingScene";
-            
-            // W bitwie morskiej środek to 5f, w abordażu przesuwa się na 9f
             float currentCenterX = isBoarding ? 9f : 5f; 
 
             var availableTiles = _tiles.AsEnumerable();
@@ -171,7 +174,9 @@ namespace Grid
             }
 
             return availableTiles
-                .Where(t => IsShipTile((int)t.Key.x, (int)t.Key.y, currentCenterX) && t.Value.Walkable)
+                .Where(t => IsShipTile((int)t.Key.x, (int)t.Key.y, currentCenterX) 
+                            && t.Value.Walkable 
+                            && t.Value.OccupiedUnit == null) // <-- BEZPIECZNIK GRACZA
                 .OrderBy(_ => Random.value)
                 .First().Value;
         }
@@ -180,9 +185,8 @@ namespace Grid
         {
             string sceneName = SceneManager.GetActiveScene().name;
             bool isBoarding = sceneName == "BoardingScene";
-            bool isBoss = sceneName == "BossScene"; // Dostosuj nazwę sceny, jeśli jest inna
+            bool isBoss = !isBoarding && PlayerDataManager.Instance != null && PlayerDataManager.Instance.IsNextBattleBoss();
 
-            // W bitwie morskiej wróg stoi na 26f, w abordażu cumuje na 22f
             float currentCenterX = isBoarding ? 22f : 26f; 
 
             var availableTiles = _tiles.AsEnumerable();
@@ -197,15 +201,16 @@ namespace Grid
                     int x = (int)t.Key.x;
                     int y = (int)t.Key.y;
 
+                    // KLUCZOWY BEZPIECZNIK: Kafelek musi być przejezdny I fizycznie pusty!
+                    bool isFree = t.Value.Walkable && t.Value.OccupiedUnit == null;
+
                     if (isBoss)
                     {
-                        // Sprawdzenie dla statku bossa (używa IsBossShipTile z dłuższego kadłuba)
-                        return IsBossShipTile(x, y) && t.Value.Walkable;
+                        return IsBossShipTile(x, y) && isFree;
                     }
                     else
                     {
-                        // Sprawdzenie dla standardowej bitwy oraz abordażu
-                        return IsEnemyShipTile(x, y, currentCenterX) && t.Value.Walkable;
+                        return IsEnemyShipTile(x, y, currentCenterX) && isFree;
                     }
                 })
                 .OrderBy(_ => Random.value)

@@ -175,9 +175,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.03180212
+    y: 0.10790599
     width: 1
-    height: 0.9366511
+    height: 0.78321236
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -1404,7 +1404,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000091553, y: 0.000030518}
+  m_AnchoredPosition: {x: 0.000030517, y: 0.000030518}
   m_SizeDelta: {x: 1650, y: 869}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &905448122
@@ -2149,6 +2149,7 @@ MonoBehaviour:
   enemyShipHpStep: 25
   enemyCannonDmgStep: 5
   maxEnemyCrewCap: 5
+  bossBattleTrigger: 1
 --- !u!1 &2000886187
 GameObject:
   m_ObjectHideFlags: 0

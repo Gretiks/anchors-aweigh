@@ -1,6 +1,7 @@
 using Grid;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 
 namespace Core
@@ -12,13 +13,16 @@ namespace Core
         [SerializeField] private int _healCost = 20;
         [SerializeField] private float _healfAmount = 25f;
         
-        [SerializeField] private int _DamageCost = 100;
+        [SerializeField] private int _DamageCost = 75;
         [SerializeField] private int _DamageAmount = 10;
         
-        [SerializeField] private int _ArmorCost = 30;
+        [SerializeField] private int _ArmorCost = 75;
         [SerializeField] private float _ArmorAmount = 20f;
 
-        [SerializeField] private int _crewCost = 50;
+        [SerializeField] private int _meleeCost = 50;
+        [SerializeField] private float _meleeStep = 10f; 
+        
+        [SerializeField] private int _crewCost = 300;
 
         // =====================================================================
         // CENY RZADKIECH ULEPSZEŃ
@@ -43,6 +47,7 @@ namespace Core
         [SerializeField] private TextMeshProUGUI _hitChanceText;
         [SerializeField] private TextMeshProUGUI _shipSpeedText;
         [SerializeField] private TextMeshProUGUI _healAllCrewBtnText; // Tekst NA przycisku leczenia
+        [SerializeField] private TextMeshProUGUI _meleeDMGText;
         
         [SerializeField] private GameObject _evasionBtn;
         [SerializeField] private GameObject _hitChanceBtn;
@@ -179,7 +184,20 @@ namespace Core
             }
         }
 
-        public void NextBattle() => SceneManager.LoadScene("BattleScene");
+        public void BuyMeleeUpgrade()
+        {
+            if (PlayerDataManager.Instance == null) return;
+            if (PlayerDataManager.Instance.TrySpendGold(_meleeCost))
+            {
+                PlayerDataManager.Instance.BonusMeleeDamage += _meleeStep;
+                UpdateUI();
+            }
+        }
+
+        public void NextBattle()
+        {
+                SceneManager.LoadScene("BattleScene");
+        }
 
         public void Quit()
         {
@@ -216,6 +234,11 @@ namespace Core
                 _crewText.text = $"Crew: {currentCrew} / {maxCrew}";
             }
 
+            if (_meleeDMGText != null)
+            {
+                _meleeDMGText.text = $"Melee Damage: {35 + PlayerDataManager.Instance.BonusMeleeDamage}";
+            }
+            
             // 3. Aktualizacja tekstów rzadkich ulepszeń
             if (_evasionText != null)
                 _evasionText.text = $"Ship Evasion: +{Mathf.RoundToInt(PlayerDataManager.Instance.BonusEvasion * 100)}%";

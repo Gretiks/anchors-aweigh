@@ -12,23 +12,14 @@ namespace Core
         [SerializeField] private TextMeshProUGUI _resultText;
         [SerializeField] private GameObject _quitButton;
         [SerializeField] private GameObject _endButton;
+
+        private int totalReward = 100;
     
         void Start()
         {
             // Dynamicznie zmieniamy napis w zależności od wyniku bitwy
             if (IsVictory)
             {
-                _quitButton.SetActive(false);
-                _endButton.SetActive(false);
-                
-                _resultText.text = "YOU WIN!";
-                _resultText.color = Color.green; // Zielony napis dla wygranej
-                
-                // =====================================================================
-                // [ZMIANA]: Dynamiczne wyliczanie nagrody w złocie (bazowe 100 + 50 co 5 wygranych)
-                // =====================================================================
-                int totalReward = 100; // Bazowa wartość z Twojego skryptu
-
                 if (PlayerDataManager.Instance != null)
                 {
                     int bonusGold = (PlayerDataManager.Instance.BattlesWon / 5) * 50;
@@ -36,8 +27,19 @@ namespace Core
                     
                     PlayerDataManager.Instance.AddGold(totalReward);
                 }
+                
+                _quitButton.SetActive(PlayerDataManager.Instance.IsBossDefeated);
+                _endButton.SetActive(PlayerDataManager.Instance.IsBossDefeated);
 
-                SceneManager.LoadScene("ShopScene");
+                if (!PlayerDataManager.Instance.IsBossDefeated)
+                    SceneManager.LoadScene("ShopScene");
+                else
+                {
+                    _resultText.text = "YOU WIN!";
+                    _resultText.color = Color.green; // Zielony napis dla wygranej
+                }
+                
+                // SceneManager.LoadScene("ShopScene");
             }
             else
             {

@@ -88,6 +88,7 @@ public class CannonTile : ShipModuleTile
 
             HasFired = true;
             MenuManager.Instance.ShowHitPopup(hit);
+            
         }
     }
     

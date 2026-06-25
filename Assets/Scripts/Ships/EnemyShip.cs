@@ -35,9 +35,9 @@ public class EnemyShip : BaseShip
     {
         get
         {
-            float extraEvasion = PlayerDataManager.Instance != null ? PlayerDataManager.Instance.BonusEvasion : 0f;
+            // float extraEvasion = PlayerDataManager.Instance != null ? PlayerDataManager.Instance.BonusEvasion : 0f;
             float reduceEvasion = hitChange;
-            return base.evasion + extraEvasion - reduceEvasion - reduceEvasion;
+            return base.evasion - reduceEvasion;
         }
     }
 
@@ -46,7 +46,7 @@ public class EnemyShip : BaseShip
     private Assets.Scripts.Grid.Tiles.Modules.HelmTile _enemyHelm;
     
 
-    private void Awake()
+    protected void Awake()
     {
         base.Awake();
         // Upewniamy się, że bieżące HP statku od razu przyjmuje nową, powiększoną wartość
