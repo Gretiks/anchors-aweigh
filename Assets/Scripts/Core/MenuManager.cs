@@ -3,6 +3,7 @@ using Core;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
@@ -224,6 +225,12 @@ public class MenuManager : MonoBehaviour
     {
         _playerTurnIndicator.SetActive(isPlayerTurn);
         _enemyTurnIndicator.SetActive(!isPlayerTurn);
+    }
+
+    public void End()
+    {
+        SceneManager.LoadScene("MainMenuScene");
+        PlayerDataManager.Instance.ResetAllData();
     }
 
 }

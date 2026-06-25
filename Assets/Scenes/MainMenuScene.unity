@@ -175,9 +175,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.13089803
-    width: 0.6419258
-    height: 0.46735469
+    y: 0.63604856
+    width: 0.49228945
+    height: 0.34506768
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -315,7 +315,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 424, y: 35}
+  m_AnchoredPosition: {x: 405, y: 98}
   m_SizeDelta: {x: 423.018, y: 374.1668}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &44073032
@@ -928,7 +928,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -359, y: 35}
+  m_AnchoredPosition: {x: -353, y: 96}
   m_SizeDelta: {x: 200, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &367617279
@@ -1326,7 +1326,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -364, y: -50.400017}
+  m_AnchoredPosition: {x: -358, y: 10.599983}
   m_SizeDelta: {x: 200, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &712509119
@@ -2038,7 +2038,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -364, y: 121}
+  m_AnchoredPosition: {x: -358, y: 182}
   m_SizeDelta: {x: 200, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1608494936
@@ -2169,7 +2169,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 409, y: 10}
+  m_AnchoredPosition: {x: 390, y: 73}
   m_SizeDelta: {x: 398.9994, y: 180.115}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1622212898
@@ -2192,7 +2192,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Authors\nMaciej Sztucki\nMateusz Bagi\u0144ki"
+  m_text: "Authors:\nMaciej Sztucki\nMateusz Bagi\u0144ki\n\nTester:\nMono"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f3dc7efee90d2c742b64a3997a827dfd, type: 2}
   m_sharedMaterial: {fileID: 8429263278181023031, guid: f3dc7efee90d2c742b64a3997a827dfd, type: 2}
@@ -2503,7 +2503,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -364, y: 36.79998}
+  m_AnchoredPosition: {x: -358, y: 97.79998}
   m_SizeDelta: {x: 200, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2000886189

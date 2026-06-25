@@ -319,7 +319,7 @@ namespace Core
             if (_healAllCrewBtnText != null)
             {
                 int cost = PlayerDataManager.Instance.GetCrewHealCost();
-                _healAllCrewBtnText.text = $"Heal All Crew ({cost}G)";
+                _healAllCrewBtnText.text = $"Heal All Crew {cost}G";
             }
 
             // =========================================================
