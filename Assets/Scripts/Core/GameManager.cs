@@ -60,9 +60,11 @@ namespace Core
                 case GameState.UserTurn:
                     ResetHeroMovement();
                     ResetCannonsFired();
+                    MenuManager.Instance.ShowTurnIndicator(true);
                     break;
                 case GameState.EnemyTurn:
                     ResetEnemyMovment();
+                    MenuManager.Instance.ShowTurnIndicator(false);
                     StartCoroutine(EnemyTurnRoutine());
                     break;
                 default:

@@ -80,8 +80,8 @@ MonoBehaviour:
   tileName: Cannon
   _baseColor: {r: 0, g: 0, b: 0, a: 0}
   _offsetColor: {r: 0, g: 0, b: 0, a: 0}
-  _baseSprite: {fileID: 21300000, guid: c5ce4427ca245244e8ab3cac80e4d425, type: 3}
-  _offsetSprite: {fileID: 21300000, guid: c5ce4427ca245244e8ab3cac80e4d425, type: 3}
+  _baseSprite: {fileID: 21300000, guid: 54ac7c3f2ad62d04f851a30bdddcb880, type: 3}
+  _offsetSprite: {fileID: 21300000, guid: 54ac7c3f2ad62d04f851a30bdddcb880, type: 3}
   _spriteRenderer: {fileID: 6012037902082806939}
   _highlight: {fileID: 2796129407795356522}
   _rangeHighlight: {fileID: 6599288874062931073}
