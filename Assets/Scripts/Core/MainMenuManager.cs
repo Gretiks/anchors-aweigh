@@ -6,6 +6,7 @@ public class MainMenuManager : MonoBehaviour
     [Header("UI Panels")]
     [SerializeField] private GameObject mainMenuPanel;
     [SerializeField] private GameObject creditsPanel;
+    [SerializeField] private GameObject instructionPanel;
 
     [Header("Scene Configuration")]
     [SerializeField] private string battleSceneName = "BattleScene";
@@ -36,6 +37,8 @@ public class MainMenuManager : MonoBehaviour
     {
         if (mainMenuPanel != null) mainMenuPanel.SetActive(true);
         if (creditsPanel != null) creditsPanel.SetActive(false);
+        if (instructionPanel != null) instructionPanel.SetActive(false);
+
     }
     
     public void StartGame()
@@ -56,8 +59,18 @@ public class MainMenuManager : MonoBehaviour
         }
         if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
         if (creditsPanel != null) creditsPanel.SetActive(true);
+        if (instructionPanel != null) instructionPanel.SetActive(false);
     }
-    
+
+    public void ShowInstrtuction()
+    {
+        if(AudioManagerInstance != null)
+            AudioManagerInstance.PlaySFX(AudioManagerInstance.button);
+        
+        if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
+        if (creditsPanel != null) creditsPanel.SetActive(false);
+        if (instructionPanel != null) instructionPanel.SetActive(true);
+    }
     public void BackToMainMenu()
     {
         if (AudioManagerInstance != null)
@@ -66,6 +79,8 @@ public class MainMenuManager : MonoBehaviour
         }
         if (mainMenuPanel != null) mainMenuPanel.SetActive(true);
         if (creditsPanel != null) creditsPanel.SetActive(false);
+        if (instructionPanel != null) instructionPanel.SetActive(false);
+
     }
     
     public void CloseGame()
