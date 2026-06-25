@@ -4514,6 +4514,8 @@ MonoBehaviour:
   _enemyPositionMarker: {fileID: 854638500}
   _barMinX: -200
   _barMaxX: 200
+  _playerTurnIndicator: {fileID: 1611547579}
+  _enemyTurnIndicator: {fileID: 4404784}
 --- !u!4 &1824858205
 Transform:
   m_ObjectHideFlags: 0
