@@ -97,5 +97,6 @@ public class EnemyShip : BaseShip
             _enemyHelm.SetOrder(Assets.Scripts.Grid.Tiles.Modules.HelmTile.HelmOrder.Approach);
         else if(ShipStrategy == EnemyStrategy.Shooting)
             _enemyHelm.SetOrder(Assets.Scripts.Grid.Tiles.Modules.HelmTile.HelmOrder.Stop);
+        
     }
 }

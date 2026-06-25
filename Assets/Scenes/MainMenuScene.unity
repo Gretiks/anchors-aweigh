@@ -175,9 +175,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.10806697
-    width: 1
-    height: 0.78281915
+    y: 0.4423077
+    width: 0.21138744
+    height: 0.16556126
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -2465,7 +2465,7 @@ MonoBehaviour:
   enemyShipHpStep: 25
   enemyCannonDmgStep: 5
   maxEnemyCrewCap: 5
-  bossBattleTrigger: 1
+  bossBattleTrigger: 10
 --- !u!1 &2000886187
 GameObject:
   m_ObjectHideFlags: 0

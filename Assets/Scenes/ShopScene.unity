@@ -530,10 +530,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Core.ShopManager
   _shopCrewUI: {fileID: 2133882854}
   _healCost: 20
-  _healfAmount: 1
-  _DamageCost: 1
+  _healfAmount: 25
+  _DamageCost: 75
   _DamageAmount: 10
-  _ArmorCost: 1
+  _ArmorCost: 75
   _ArmorAmount: 20
   _meleeCost: 50
   _meleeStep: 10
@@ -824,8 +824,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 395.17004, y: 89.99899}
-  m_SizeDelta: {x: 174.9723, y: 38.3179}
+  m_AnchoredPosition: {x: 402.00003, y: 89.99899}
+  m_SizeDelta: {x: 206.78, y: 38.3179}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &465735313
 MonoBehaviour:
@@ -1301,7 +1301,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0.000061035, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &585434808
 MonoBehaviour:
@@ -1323,7 +1323,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +10% Hit Chance
+  m_text: +10% Hit Chance 150g
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f3dc7efee90d2c742b64a3997a827dfd, type: 2}
   m_sharedMaterial: {fileID: 8429263278181023031, guid: f3dc7efee90d2c742b64a3997a827dfd, type: 2}
@@ -2616,8 +2616,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 395.17004, y: -71.067}
-  m_SizeDelta: {x: 195.6155, y: 38.3179}
+  m_AnchoredPosition: {x: 402, y: -71.067}
+  m_SizeDelta: {x: 249.1129, y: 38.3179}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &856758519
 MonoBehaviour:
@@ -3553,7 +3553,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2961801951386685656, guid: d12bfdd86302e2a4d86b0a1827f7e816, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 216.7687
+      value: 273.8503
       objectReference: {fileID: 0}
     - target: {fileID: 2961801951386685656, guid: d12bfdd86302e2a4d86b0a1827f7e816, type: 3}
       propertyPath: m_SizeDelta.y
@@ -3589,7 +3589,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2961801951386685656, guid: d12bfdd86302e2a4d86b0a1827f7e816, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.7923
+      value: -1.8761
       objectReference: {fileID: 0}
     - target: {fileID: 2961801951386685656, guid: d12bfdd86302e2a4d86b0a1827f7e816, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -4333,7 +4333,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +10 Melee DMG 75g
+  m_text: +10 Melee DMG 50g
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f3dc7efee90d2c742b64a3997a827dfd, type: 2}
   m_sharedMaterial: {fileID: 8429263278181023031, guid: f3dc7efee90d2c742b64a3997a827dfd, type: 2}
@@ -4869,7 +4869,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +1 Speed
+  m_text: +1 Speed 200g
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f3dc7efee90d2c742b64a3997a827dfd, type: 2}
   m_sharedMaterial: {fileID: 8429263278181023031, guid: f3dc7efee90d2c742b64a3997a827dfd, type: 2}
@@ -5359,7 +5359,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2961801951386685656, guid: d12bfdd86302e2a4d86b0a1827f7e816, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 243.7448
+      value: 326.3819
       objectReference: {fileID: 0}
     - target: {fileID: 2961801951386685656, guid: d12bfdd86302e2a4d86b0a1827f7e816, type: 3}
       propertyPath: m_SizeDelta.y
@@ -5395,7 +5395,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2961801951386685656, guid: d12bfdd86302e2a4d86b0a1827f7e816, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.4300995
+      value: 3.798
       objectReference: {fileID: 0}
     - target: {fileID: 2961801951386685656, guid: d12bfdd86302e2a4d86b0a1827f7e816, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -5847,7 +5847,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +10% Evasion
+  m_text: +10% Evasion 150g
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f3dc7efee90d2c742b64a3997a827dfd, type: 2}
   m_sharedMaterial: {fileID: 8429263278181023031, guid: f3dc7efee90d2c742b64a3997a827dfd, type: 2}
@@ -6120,9 +6120,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.6012177
-    width: 0.2988967
-    height: 0.21761203
+    y: 0.4423077
+    width: 0.21138744
+    height: 0.16556126
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
