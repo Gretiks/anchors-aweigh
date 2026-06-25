@@ -924,6 +924,7 @@ MonoBehaviour:
   enemyShip: {fileID: 0}
   playerShipPrefab: {fileID: -5059408949508066498, guid: e91f27f0214a9884c9d294bff37786ff, type: 3}
   enemyShipPrefab: {fileID: 7448637182288038386, guid: 8ae92dd91bc630a4689b6249c3a3b135, type: 3}
+  bossShipPrefab: {fileID: 0}
 --- !u!4 &353942195
 Transform:
   m_ObjectHideFlags: 0
@@ -1196,9 +1197,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0
-    width: 1
-    height: 1
+    y: 0.6012177
+    width: 0.2988967
+    height: 0.21761203
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -3169,7 +3170,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -4627,11 +4628,15 @@ MonoBehaviour:
   backgroundSource: {fileID: 1469853819}
   sfxSource: {fileID: 1003194199}
   background: {fileID: 8300000, guid: 2e2ad9ab0e1b02e4c92086b40255cb85, type: 3}
+  shopBackground: {fileID: 0}
   fire: {fileID: 8300000, guid: 42bd19bf275d38c43b791539f9bfae77, type: 3}
   miss: {fileID: 8300000, guid: c5a159036bedc214cba9d94ae4bb933d, type: 3}
   coin: {fileID: 8300000, guid: 72ebab3724343594984386558d17fd30, type: 3}
   pawn: {fileID: 8300000, guid: 52c2745f0c3261045be21a552ad69db0, type: 3}
   sword: {fileID: 8300000, guid: 588fac5a667e317439dd8c8cc65050e7, type: 3}
+  buy: {fileID: 0}
+  button: {fileID: 0}
+  popup: {fileID: 0}
 --- !u!4 &1963125082
 Transform:
   m_ObjectHideFlags: 0

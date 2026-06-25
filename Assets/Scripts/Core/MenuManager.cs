@@ -47,7 +47,13 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject _playerTurnIndicator;
     [SerializeField] private GameObject _enemyTurnIndicator;
 
-    void Awake() { Instance = this; }
+    AudioManager audioManager;
+
+    void Awake() 
+    {
+        Instance = this;
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     public void ShowSelectedHero(BaseHero hero)
     {
@@ -109,6 +115,8 @@ public class MenuManager : MonoBehaviour
     // Cannon
     public void ShowCannonMenu(CannonTile cannon)
     {
+        audioManager.PlaySFX(audioManager.popup);
+        HideHelmMenu();
         HideMastMenu();
         _currentCannon = cannon;
         _cannonDescText.text = cannon.cannonDescription;
@@ -134,6 +142,8 @@ public class MenuManager : MonoBehaviour
     // Mast
     public void ShowMastMenu(MastTile mast)
     {
+        audioManager.PlaySFX(audioManager.popup);
+        HideHelmMenu();
         HideCannonMenu();
         _mastDescText.text = mast.mastDescription;
         _mastCrewText.text = $"Crew: {mast.CurrentCrew} / {mast.maxCrew}";
@@ -160,6 +170,7 @@ public class MenuManager : MonoBehaviour
     //Helm
     public void ShowHelmMenu(HelmTile helm)
     {
+        audioManager.PlaySFX(audioManager.popup);
         HideCannonMenu();
         HideMastMenu();
         _currentHelm = helm;
@@ -171,18 +182,21 @@ public class MenuManager : MonoBehaviour
 
     public void OnApproachPressed()
     {
+        audioManager.PlaySFX(audioManager.button);
         _currentHelm?.SetOrder(HelmTile.HelmOrder.Approach);
         _helmOrderText.text = "Order: Approach";
     }
 
     public void OnStopPressed()
     {
+        audioManager.PlaySFX(audioManager.button);
         _currentHelm?.SetOrder(HelmTile.HelmOrder.Stop);
         _helmOrderText.text = "Order: Stop";
     }
 
     public void OnFleePressed()
     {
+        audioManager.PlaySFX(audioManager.button);
         _currentHelm?.SetOrder(HelmTile.HelmOrder.Flee);
         _helmOrderText.text = "Order: Flee";
     }
@@ -196,6 +210,7 @@ public class MenuManager : MonoBehaviour
     //Position bar
     public void UpdatePositionBar()
     {
+        audioManager.PlaySFX(audioManager.pawn);
         if (ShipManager.Instance.playerShip == null || ShipManager.Instance.enemyShip == null) return;
 
         _playerPositionMarker.anchoredPosition = new Vector2(

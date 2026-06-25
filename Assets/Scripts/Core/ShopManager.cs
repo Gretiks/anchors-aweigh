@@ -55,6 +55,28 @@ namespace Core
         
         [SerializeField] private float basePlayerMaxHealth = 100f;
 
+        private AudioManager _audioManager;
+        private AudioManager AudioManagerInstance
+        {
+            get
+            {
+                // Jeśli referencja jest pusta, wyszukaj ją
+                if (_audioManager == null)
+                {
+                    GameObject audioObject = GameObject.FindGameObjectWithTag("Audio");
+                    if (audioObject != null)
+                    {
+                        _audioManager = audioObject.GetComponent<AudioManager>();
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Nie znaleziono obiektu z tagiem 'Audio' w scenie.");
+                    }
+                }
+                return _audioManager;
+            }
+        }
+
         void Start()
         {
             // Losowanie ofert dla każdego z rzadkich ulepszeń (25% szansy)
@@ -89,6 +111,10 @@ namespace Core
                     currentHp = Mathf.Clamp(currentHp, 0f, maxHp);
                     PlayerDataManager.Instance.UpdateSavedShipHealth(currentHp);
                     UpdateUI();
+                    if (AudioManagerInstance != null)
+                    {
+                        AudioManagerInstance.PlaySFX(AudioManagerInstance.buy);
+                    }
                 }
             }
         }
@@ -100,6 +126,10 @@ namespace Core
             {
                 PlayerDataManager.Instance.BonusDamage += _DamageAmount;
                 UpdateUI();
+                if (AudioManagerInstance != null)
+                {
+                    AudioManagerInstance.PlaySFX(AudioManagerInstance.buy);
+                }
             }
         }
 
@@ -113,6 +143,10 @@ namespace Core
                 currentHp += _ArmorAmount;
                 PlayerDataManager.Instance.UpdateSavedShipHealth(currentHp);
                 UpdateUI();
+                if (AudioManagerInstance != null)
+                {
+                    AudioManagerInstance.PlaySFX(AudioManagerInstance.buy);
+                }
             }
         }
 
@@ -129,6 +163,10 @@ namespace Core
                 {
                     PlayerDataManager.Instance.TryAddRecruit("Standard_Hero", 100f, 5);
                     UpdateUI();
+                    if (AudioManagerInstance != null)
+                    {
+                        AudioManagerInstance.PlaySFX(AudioManagerInstance.buy);
+                    }
                 }
             }
         }
@@ -143,6 +181,10 @@ namespace Core
             {
                 PlayerDataManager.Instance.BonusEvasion += _evasionStep;
                 UpdateUI();
+                if (AudioManagerInstance != null)
+                {
+                    AudioManagerInstance.PlaySFX(AudioManagerInstance.buy);
+                }
             }
         }
 
@@ -153,6 +195,10 @@ namespace Core
             {
                 PlayerDataManager.Instance.BonusHitChance += _hitChanceStep;
                 UpdateUI();
+                if (AudioManagerInstance != null)
+                {
+                    AudioManagerInstance.PlaySFX(AudioManagerInstance.buy);
+                }
             }
         }
 
@@ -163,6 +209,10 @@ namespace Core
             {
                 PlayerDataManager.Instance.BonusShipSpeed += _shipSpeedStep;
                 UpdateUI();
+                if (AudioManagerInstance != null)
+                {
+                    AudioManagerInstance.PlaySFX(AudioManagerInstance.buy);
+                }
             }
         }
 
@@ -181,6 +231,10 @@ namespace Core
             {
                 PlayerDataManager.Instance.HealEntireCrew();
                 UpdateUI();
+                if (AudioManagerInstance != null)
+                {
+                    AudioManagerInstance.PlaySFX(AudioManagerInstance.buy);
+                }
             }
         }
 
@@ -191,16 +245,28 @@ namespace Core
             {
                 PlayerDataManager.Instance.BonusMeleeDamage += _meleeStep;
                 UpdateUI();
+                if (AudioManagerInstance != null)
+                {
+                    AudioManagerInstance.PlaySFX(AudioManagerInstance.buy);
+                }
             }
         }
 
         public void NextBattle()
         {
-                SceneManager.LoadScene("BattleScene");
+            if (AudioManagerInstance != null)
+            {
+                AudioManagerInstance.PlaySFX(AudioManagerInstance.button);
+            }
+            SceneManager.LoadScene("BattleScene");
         }
 
         public void Quit()
         {
+            if (AudioManagerInstance != null)
+            {
+                AudioManagerInstance.PlaySFX(AudioManagerInstance.button);
+            }
             Debug.Log("Zamykanie programu...");
             #if UNITY_EDITOR
                     UnityEditor.EditorApplication.isPlaying = false;
