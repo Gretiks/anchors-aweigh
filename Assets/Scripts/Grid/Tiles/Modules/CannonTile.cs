@@ -10,6 +10,13 @@ public class CannonTile : ShipModuleTile
     [SerializeField] public int damage = 20;
     [SerializeField] public string cannonDescription = "Standard cannon";
 
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     private int bonusDamege;
     
     public bool HasFired { get; private set; } = false;
@@ -40,7 +47,12 @@ public class CannonTile : ShipModuleTile
         if (hit)
         {
             targetShip.TakeDamange(damage + bonusDamege);
+            audioManager.PlaySFX(audioManager.fire);
             GameManager.Instance.CheckBattleConditions();
+        }
+        else
+        {
+            audioManager.PlaySFX(audioManager.miss);
         }
         HasFired = true;
         MenuManager.Instance.ShowHitPopup(hit);
@@ -58,7 +70,7 @@ public class CannonTile : ShipModuleTile
             BaseShip targetShip = (BaseShip)ShipManager.Instance.playerShip;
 
             bool hit = Random.value > targetShip.evasion;
-            if (hit) 
+            if (hit)
             {
                 float enemyBonusDmg = 0f;
                 if (PlayerDataManager.Instance != null)
@@ -66,9 +78,14 @@ public class CannonTile : ShipModuleTile
                     enemyBonusDmg = PlayerDataManager.Instance.GetBonusEnemyCannonDamage();
                 }
 
+                audioManager.PlaySFX(audioManager.fire);
                 targetShip.TakeDamange(damage + enemyBonusDmg);
             }
-        
+            else
+            {
+                audioManager.PlaySFX(audioManager.miss);
+            }
+
             HasFired = true;
             MenuManager.Instance.ShowHitPopup(hit);
         }

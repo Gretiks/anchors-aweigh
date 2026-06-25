@@ -18,6 +18,28 @@ public class Tile : MonoBehaviour
     public BaseUnit OccupiedUnit;
     public bool Walkable => _isWalkable && OccupiedUnit == null;
 
+    private AudioManager _audioManager;
+    private AudioManager AudioManagerInstance
+    {
+        get
+        {
+            // Jeœli referencja jest pusta, wyszukaj j¹
+            if (_audioManager == null)
+            {
+                GameObject audioObject = GameObject.FindGameObjectWithTag("Audio");
+                if (audioObject != null)
+                {
+                    _audioManager = audioObject.GetComponent<AudioManager>();
+                }
+                else
+                {
+                    Debug.LogWarning("Nie znaleziono obiektu z tagiem 'Audio' w scenie.");
+                }
+            }
+            return _audioManager;
+        }
+    }
+
     public void Init(bool isOffset)
     {
         if (_baseSprite != null)
@@ -94,6 +116,10 @@ public class Tile : MonoBehaviour
                     UnitManager.Instance.SetSelectedHero(null);
                     MenuManager.Instance.RefreshHeroList(UnitManager.Instance._heroes);
                     MenuManager.Instance.RefreshEnemyList(UnitManager.Instance._enemies);
+                    if (AudioManagerInstance != null)
+                    {
+                        AudioManagerInstance.PlaySFX(AudioManagerInstance.pawn);
+                    }
                 }
             }
         }

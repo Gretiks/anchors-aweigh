@@ -15,9 +15,12 @@ namespace Core
 
         private float _previousDistance = float.NaN;
 
+        AudioManager audioManager;
+
         void Awake()
         {
             Instance = this;
+            audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         }
 
         void Start()
@@ -63,10 +66,12 @@ namespace Core
                     ResetHeroMovement();
                     ResetCannonsFired();
                     MenuManager.Instance.ShowTurnIndicator(true);
+                    audioManager.PlaySFX(audioManager.coin);
                     break;
                 case GameState.EnemyTurn:
                     ResetEnemyMovment();
                     MenuManager.Instance.ShowTurnIndicator(false);
+                    audioManager.PlaySFX(audioManager.coin);
                     StartCoroutine(EnemyTurnRoutine());
                     break;
                 default:

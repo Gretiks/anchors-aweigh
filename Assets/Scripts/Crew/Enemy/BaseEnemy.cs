@@ -18,6 +18,29 @@ public class BaseEnemy : BaseUnit
     [Tooltip("Ile obrażeń zada wróg, gdy podejdzie do jednostki gracza")]
     [SerializeField] private float boardingAttackDamage = 25f;
 
+    private AudioManager _audioManager;
+    private AudioManager AudioManagerInstance
+    {
+        get
+        {
+            // Jeśli referencja jest pusta, wyszukaj ją
+            if (_audioManager == null)
+            {
+                GameObject audioObject = GameObject.FindGameObjectWithTag("Audio");
+                if (audioObject != null)
+                {
+                    _audioManager = audioObject.GetComponent<AudioManager>();
+                }
+                else
+                {
+                    Debug.LogWarning("Nie znaleziono obiektu z tagiem 'Audio' w scenie.");
+                }
+            }
+            return _audioManager;
+        }
+    }
+
+
     public void SetTargetModule(ShipModuleTile module)
     {
         assignedModule = module;
@@ -112,6 +135,10 @@ public class BaseEnemy : BaseUnit
                 Tile nextTile = bestPath[i];
                 nextTile.SetUnit(this);
                 UnitMovement -= 1;
+                if (AudioManagerInstance != null)
+                {
+                    AudioManagerInstance.PlaySFX(AudioManagerInstance.pawn);
+                }
                 yield return new WaitForSeconds(tileStepDelay);
             }
         }
@@ -183,6 +210,10 @@ public class BaseEnemy : BaseUnit
                         Tile nextTile = bestPath[i];
                         nextTile.SetUnit(this);
                         UnitMovement -= 1;
+                        if (AudioManagerInstance != null)
+                        {
+                            AudioManagerInstance.PlaySFX(AudioManagerInstance.pawn);
+                        }
                         yield return new WaitForSeconds(tileStepDelay);
                     }
                 }
