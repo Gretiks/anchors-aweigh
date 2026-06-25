@@ -152,7 +152,11 @@ public class BaseEnemy : BaseUnit
             if (victim != null)
             {
                 Debug.Log($"{unitName} wyprowadza cios wręcz w {victim.unitName} zadając {boardingAttackDamage} obrażeń!");
-                
+                if (AudioManagerInstance != null)
+                {
+                    AudioManagerInstance.PlaySFX(AudioManagerInstance.sword);
+                }
+
                 // Wywołanie Twojej natywnej metody odejmowania HP
                 victim.TakeDamage(boardingAttackDamage);
                 

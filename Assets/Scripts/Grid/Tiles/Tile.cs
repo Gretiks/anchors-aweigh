@@ -88,9 +88,13 @@ public class Tile : MonoBehaviour
                     var enemy = (BaseEnemy)OccupiedUnit;
                     //attack
                     if (SceneManager.GetActiveScene().name == "BoardingScene")
-                    {
+                    {                       
                         UnitManager.Instance.AttackEnemyWithSelectedHero(enemy);
                         UnitManager.Instance.SelectedHero.UnitMovement = 0;
+                        if (AudioManagerInstance != null)
+                        {
+                            AudioManagerInstance.PlaySFX(AudioManagerInstance.sword);
+                        }
                     }
                     
                     UnitManager.Instance.SetSelectedHero(null);

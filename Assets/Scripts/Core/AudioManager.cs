@@ -10,6 +10,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip miss;
     public AudioClip coin;
     public AudioClip pawn;
+    public AudioClip sword;
 
     private void Start()
     {

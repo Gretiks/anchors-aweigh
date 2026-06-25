@@ -1196,9 +1196,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.6766785
-    width: 0.3691983
-    height: 0.2966768
+    y: 0
+    width: 1
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -4631,6 +4631,7 @@ MonoBehaviour:
   miss: {fileID: 8300000, guid: c5a159036bedc214cba9d94ae4bb933d, type: 3}
   coin: {fileID: 8300000, guid: 72ebab3724343594984386558d17fd30, type: 3}
   pawn: {fileID: 8300000, guid: 52c2745f0c3261045be21a552ad69db0, type: 3}
+  sword: {fileID: 8300000, guid: 588fac5a667e317439dd8c8cc65050e7, type: 3}
 --- !u!4 &1963125082
 Transform:
   m_ObjectHideFlags: 0
