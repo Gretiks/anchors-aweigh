@@ -175,9 +175,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.6585789
-    width: 0.38626608
-    height: 0.2993358
+    y: 0.1490468
+    width: 0.6866953
+    height: 0.5321526
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -1309,7 +1309,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: 85}
+  m_AnchoredPosition: {x: -329, y: 65}
   m_SizeDelta: {x: 200, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &367617279
@@ -1956,7 +1956,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &775343407
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2404,7 +2404,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1119270784
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2865,8 +2865,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 40, y: 90.057}
-  m_SizeDelta: {x: 398.9994, y: 180.115}
+  m_AnchoredPosition: {x: 329.31, y: 48}
+  m_SizeDelta: {x: 485.3816, y: 318.3267}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1622212898
 MonoBehaviour:
@@ -2888,7 +2888,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Authors:\nMaciej Sztucki\nMateusz Bagi\u0144ki\n\nTester:\nMono"
+  m_text: 'Authors:
+
+    Maciej Sztucki
+
+    Mateusz Baginski
+
+
+    Tester:
+
+    Mono'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f3dc7efee90d2c742b64a3997a827dfd, type: 2}
   m_sharedMaterial: {fileID: 8429263278181023031, guid: f3dc7efee90d2c742b64a3997a827dfd, type: 2}
