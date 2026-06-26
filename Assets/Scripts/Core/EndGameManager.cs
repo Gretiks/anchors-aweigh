@@ -35,14 +35,14 @@ namespace Core
                     SceneManager.LoadScene("ShopScene");
                 else
                 {
-                    _resultText.text = "The enemy has been vanquished, and from their captured vessels, we have seized a fortune!We chart our course for home, wealthy beyond measure and unchallenged upon these waters.";
+                    _resultText.text = "The enemy has been vanquished and from their vessels we have seized a fortune! We chart our course for home, wealthy beyond measure and unchallenged upon these waters.";
                 }
                 
                 // SceneManager.LoadScene("ShopScene");
             }
             else
             {
-                _resultText.text = "The ship has been lost. Our adversaries have won this battle, but they failed to take my life. I can still return for vengeance.";
+                _resultText.text = "The ship has been irretrievably lost. Our adversaries have won this battle, yet they failed in attempt to take my life. I can still make my return for vengeance.";
                 _quitButton.SetActive(true);
                 _endButton.SetActive(true);
             }

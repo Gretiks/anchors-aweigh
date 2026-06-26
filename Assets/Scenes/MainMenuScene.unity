@@ -315,8 +315,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 405, y: 98}
-  m_SizeDelta: {x: 423.018, y: 374.1668}
+  m_AnchoredPosition: {x: 441, y: 48}
+  m_SizeDelta: {x: 671.1707, y: 479.6093}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &44073032
 MonoBehaviour:
@@ -338,13 +338,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Upon this day, a courier had delivered unto my hands a formal Letter of
-    Marque, bearing the official seal of His Majesty the King.
-
-    The ship is squared
-    away and the men stand ready.
-
-    Anchors Aweigh!'
+  m_text: "Upon this very day, a courier had delivered unto my hands a formal Letter
+    of Marque, bearing the official seal of His Majesty the King.\n\r\nThe ship is
+    indeed squared away and the men stand ready to wreck havoc on our foes. \nWe
+    shall all be returning wealthy beyond measure.\n\r\nAnchors Aweigh!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f3dc7efee90d2c742b64a3997a827dfd, type: 2}
   m_sharedMaterial: {fileID: 8429263278181023031, guid: f3dc7efee90d2c742b64a3997a827dfd, type: 2}
@@ -483,15 +480,16 @@ MonoBehaviour:
       m_Calls: []
   m_text: "How to Play\r\n\r\nUpon starting, you will see a map table with two ships:
     yours (left) and the enemy's (right). The pawns represent your crew. Click a
-    pawn to select and move it.\r\n\r\nPlacing a pawn directly next to a ship module
-    assigns that crew member to it.\r\nShip Modules\r\n\r\nThere are three color-coded
-    modules on your ship:\r\n\r\n    Cannon (Red): Requires 2 crew members to fire.\r\n\r\n   
-    Mast (Blue): Each assigned crew member increases your chance to evade enemy shots.\r\n\r\n   
-    Helm (Green): Requires 1 crew member to allow your ship to move across the battlefield.\r\n\r\nMovement
-    & Boarding\r\n\r\nShip positions are tracked by ship pawns at the top of the
-    map. When the ships meet, boarding begins. During boarding, place your crew member
-    next to an enemy and click on the enemy to attack.\r\nThe Shop\r\n\r\nA shop
-    will appear after each fight, allowing you to spend gold on ship and crew upgrades."
+    pawn to select it and move it.\r\n\r\nPlacing a pawn directly next to a ship
+    module assigns that crew member to it.\n\r\nShip Modules\r\n\r\nThere are three
+    color-coded modules on your ship:\r\n\r\n    Cannon (Red): Requires 2 crew members
+    to fire.\r\n\r\n    Mast (Blue): Each assigned crew member increases your chance
+    to evade enemy shots.\r\n\r\n    Helm (Green): Requires 1 crew member to allow
+    your ship to move across the battlefield.\r\n\r\nMovement & Boarding\r\n\r\nShip
+    positions are tracked by ship figures at the top of the map. When the ships meet,
+    boarding begins. During boarding, place your crew member next to an enemy and
+    click on the enemy to attack.\r\n\nThe Shop\r\n\r\nA shop will appear after each
+    fight, allowing you to spend gold on ship and crew upgrades."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f3dc7efee90d2c742b64a3997a827dfd, type: 2}
   m_sharedMaterial: {fileID: 8429263278181023031, guid: f3dc7efee90d2c742b64a3997a827dfd, type: 2}
@@ -1309,7 +1307,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -329, y: 65}
+  m_AnchoredPosition: {x: -389, y: 65}
   m_SizeDelta: {x: 200, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &367617279
@@ -1956,7 +1954,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &775343407
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2404,7 +2402,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1119270784
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2865,8 +2863,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 329.31, y: 48}
-  m_SizeDelta: {x: 485.3816, y: 318.3267}
+  m_AnchoredPosition: {x: 430, y: 40}
+  m_SizeDelta: {x: 521.5051, y: 360.7325}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1622212898
 MonoBehaviour:
@@ -2897,7 +2895,13 @@ MonoBehaviour:
 
     Tester:
 
-    Mono'
+    Mono
+
+
+    Language
+    consultation:
+
+    Ola Woryna'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f3dc7efee90d2c742b64a3997a827dfd, type: 2}
   m_sharedMaterial: {fileID: 8429263278181023031, guid: f3dc7efee90d2c742b64a3997a827dfd, type: 2}
