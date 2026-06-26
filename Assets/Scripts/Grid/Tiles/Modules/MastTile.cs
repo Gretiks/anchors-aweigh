@@ -14,6 +14,7 @@ public class MastTile : ShipModuleTile
 
     protected override void OnMouseDown()
     {
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "BoardingScene") return;
         if (GameManager.Instance.GameState != GameState.UserTurn) return;
         if (owner != Faction.User) return;
         MenuManager.Instance.ShowMastMenu(this);
